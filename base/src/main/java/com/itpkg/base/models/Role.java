@@ -5,5 +5,5 @@ import java.io.Serializable;
 /**
  * Created by flamen on 16-5-27.
  */
-public class Role  implements Serializable {
+public class Role implements Serializable {
 }

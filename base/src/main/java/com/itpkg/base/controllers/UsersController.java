@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UsersController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public User greeting(@RequestParam(value="name", defaultValue="World") String name) {
+    public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         return new User();
     }
 }

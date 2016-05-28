@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
@@ -25,6 +26,11 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-redis")
+
+    compile group: 'mysql', name: 'mysql-connector-java'//, version: '6.0.2'
+    compile group: 'org.postgresql', name: 'postgresql'//, version: '9.4.1208.jre7'
 
     testCompile("junit:junit")
 }
