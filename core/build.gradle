@@ -1,22 +1,30 @@
+ext {
+    springVerion = '1.3.5.RELEASE'
+    mysqlVersion = '6.0.2'
+    postgresqlVersion = '9.4.1208.jre7'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 
 jar {
     baseName = 'itpkg-core'
-    version =  '2016.05.27'
+    version = '2016.05.27'
 }
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    compile group:'org.springframework.boot', name:'spring-boot-starter-web', version:'1.3.5.RELEASE'
-    compile group:'org.springframework.boot', name:'spring-boot-starter-data-jpa', version:'1.3.5.RELEASE'
-    compile group:'org.springframework.boot', name:'spring-boot-starter-redis', version:'1.3.5.RELEASE'
 
-    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.2'
-    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1208.jre7'
+dependencies {
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVerion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springVerion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version: springVerion
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
+    compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
 
     testCompile("junit:junit")
 }

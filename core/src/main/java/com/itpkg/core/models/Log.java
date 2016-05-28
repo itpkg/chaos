@@ -2,6 +2,7 @@ package com.itpkg.core.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by flamen on 16-5-27.
@@ -19,6 +20,16 @@ public class Log implements Serializable {
     private String message;
     @Column(length = 8, nullable = false)
     private String type;
+    @Column(nullable = false)
+    private Date createdAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public long getId() {
         return id;

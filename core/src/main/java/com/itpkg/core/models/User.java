@@ -1,7 +1,6 @@
 package com.itpkg.core.models;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
                 @Index(columnList = "name")
         }
 )
-public class User implements Serializable {
+public class User extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -34,9 +33,20 @@ public class User implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private List<Log> logs;
+    @OneToMany(mappedBy = "user")
+    private List<Permission> permissions;
 
     public User() {
         this.logs = new ArrayList<>();
+        this.permissions = new ArrayList<>();
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     public List<Log> getLogs() {

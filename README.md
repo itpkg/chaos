@@ -9,7 +9,7 @@ IT-PACKAGE
     gradle projects
     gradle tasks
     gradle build
-    java -jar build/libs/itpkg-base-0.0.1.jar
+    cd app && java -jar build/libs/itpkg-*.jar
     
 ### Run
-    gradle bootRun
+    cd app && gradle bootRun

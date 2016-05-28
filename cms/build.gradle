@@ -3,7 +3,7 @@ apply plugin: 'idea'
 
 jar {
     baseName = 'itpkg-cms'
-    version =  '2016.05.27'
+    version = '2016.05.27'
 }
 
 repositories {

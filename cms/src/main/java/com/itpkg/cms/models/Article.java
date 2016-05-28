@@ -1,5 +1,7 @@
 package com.itpkg.cms.models;
 
+import com.itpkg.core.models.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,14 +24,25 @@ public class Article implements Serializable {
     @Column(nullable = false)
     @Lob
     private String body;
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "articles")
     private List<Tag> tags;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "article")
     private List<Comment> comments;
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
 
     public Article() {
         this.tags = new ArrayList<>();
         this.comments = new ArrayList<>();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Comment> getComments() {
