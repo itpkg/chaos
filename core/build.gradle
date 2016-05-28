@@ -26,6 +26,8 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
 
+    compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+
     testCompile("junit:junit")
 }
 

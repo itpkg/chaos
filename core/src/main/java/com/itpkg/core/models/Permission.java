@@ -1,6 +1,7 @@
 package com.itpkg.core.models;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by flamen on 16-5-27.
@@ -15,8 +16,38 @@ public class Permission extends Editable {
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+    @Column(nullable = false)
+    private String operation;
     private String resourceType;
     private Long resourceId;
+    @Column(nullable = false)
+    private Date begin;
+    @Column(nullable = false)
+    private Date end;
+
+    public Date getBegin() {
+        return begin;
+    }
+
+    public void setBegin(Date begin) {
+        this.begin = begin;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
     public long getId() {
         return id;
