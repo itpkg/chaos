@@ -1,28 +1,7 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
-    }
-}
-
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
-
 jar {
     baseName = 'itpkg-base'
-    version =  '0.0.1'
+    version =  '2016.05.27'
 }
-
-repositories {
-    mavenCentral()
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -35,6 +14,43 @@ dependencies {
     testCompile("junit:junit")
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
-}
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
+//    }
+//}
+//
+//apply plugin: 'java'
+//apply plugin: 'idea'
+//apply plugin: 'spring-boot'
+//
+//jar {
+//    baseName = 'itpkg-base'
+//    version =  '0.0.1'
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
+//
+//dependencies {
+//    compile("org.springframework.boot:spring-boot-starter-web")
+//    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+//    compile("org.springframework.boot:spring-boot-starter-redis")
+//
+//    compile group: 'mysql', name: 'mysql-connector-java'//, version: '6.0.2'
+//    compile group: 'org.postgresql', name: 'postgresql'//, version: '9.4.1208.jre7'
+//
+//    testCompile("junit:junit")
+//}
+//
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.13'
+//}

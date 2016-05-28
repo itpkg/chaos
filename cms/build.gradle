@@ -1,0 +1,32 @@
+jar {
+    baseName = 'itpkg-cms'
+    version =  '2016.05.27'
+}
+dependencies {
+    compile project(':base')
+}
+
+//
+//apply plugin: 'java'
+//apply plugin: 'idea'
+//apply plugin: 'spring-boot'
+//
+//jar {
+//    baseName = 'itpkg-cms'
+//    version =  '0.0.1'
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
+//
+//dependencies {
+//    compile project(':base')
+//}
+//
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.13'
+//}
