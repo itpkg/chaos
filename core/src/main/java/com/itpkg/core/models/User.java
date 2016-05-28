@@ -2,6 +2,7 @@ package com.itpkg.core.models;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,11 +31,29 @@ public class User extends Editable {
     private String providerId;
     @Column(nullable = false)
     private String providerType;
+    private Date confirmedAt;
+    private Date lockedAt;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.LAZY)
     private List<Log> logs;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Permission> permissions;
+
+    public Date getConfirmedAt() {
+        return confirmedAt;
+    }
+
+    public void setConfirmedAt(Date confirmedAt) {
+        this.confirmedAt = confirmedAt;
+    }
+
+    public Date getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(Date lockedAt) {
+        this.lockedAt = lockedAt;
+    }
 
     public User() {
         this.logs = new ArrayList<>();

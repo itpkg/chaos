@@ -13,7 +13,7 @@ public class Permission extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
     @Column(nullable = false)
@@ -24,6 +24,7 @@ public class Permission extends Editable {
     private Date begin;
     @Column(nullable = false, name = "_end")
     private Date end;
+
 
     public Date getBegin() {
         return begin;

@@ -22,13 +22,14 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVerion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springVerion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version: springVerion
-    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springVerion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springVerion
 
     compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
 
     compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.6.0'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 
     testCompile("junit:junit")
 }

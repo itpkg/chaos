@@ -15,6 +15,16 @@ public class Setting extends Editable {
     private String key;
     @Column(nullable = false)
     private String val;
+    @Column(nullable = false)
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public long getId() {
         return id;
