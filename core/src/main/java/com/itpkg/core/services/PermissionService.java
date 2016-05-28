@@ -11,7 +11,7 @@ import java.util.Date;
 @Service
 public class PermissionService {
     public void allow(long userId, String operation, Date begin, Date end) {
-        allow(userId, operation, "", null, begin, end);
+        allow(userId, operation, null, null, begin, end);
     }
 
     public void allow(long userId, String operation, String resourceType, Date begin, Date end) {
@@ -23,7 +23,7 @@ public class PermissionService {
     }
 
     public void deny(long userId, String operation) {
-        set(userId, operation, "", null, null, null, false);
+        set(userId, operation, null, null, null, null, false);
     }
 
     public void deny(long userId, String operation, String resourceType) {
@@ -35,7 +35,7 @@ public class PermissionService {
     }
 
     public boolean can(long userId, String operation) {
-        return can(userId, operation, "", null);
+        return can(userId, operation, null, null);
     }
 
     public boolean can(long userId, String operation, String resourceType) {

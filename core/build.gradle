@@ -22,6 +22,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springVerion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springVerion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-redis', version: springVerion
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springVerion
 
     compile group: 'mysql', name: 'mysql-connector-java', version: mysqlVersion
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
