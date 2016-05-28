@@ -17,13 +17,14 @@ import java.io.IOException;
 @RestController
 public class UsersController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException{
+    public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException {
         User u = new User();
         u.setName(secret);
         u.setName(encryptor.encode("hello"));
         u.setPassword(encryptor.sum("hello"));
         return u;
     }
+
     @Resource
     private Encryptor encryptor;
 

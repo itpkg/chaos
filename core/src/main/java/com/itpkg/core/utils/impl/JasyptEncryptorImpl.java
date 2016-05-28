@@ -1,6 +1,5 @@
 package com.itpkg.core.utils.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itpkg.core.utils.Encryptor;
 import org.jasypt.util.password.PasswordEncryptor;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -22,23 +20,34 @@ import java.io.Serializable;
 public class JasyptEncryptorImpl implements Encryptor {
 
     @Override
-    public String sum(Object obj) throws IOException{
+    public <T extends Serializable> String sum(T obj) throws IOException {
         return password.encryptPassword(obj2str(obj));
     }
 
     @Override
-    public boolean chk(Object obj, String code) throws IOException{
+    public <T extends Serializable> boolean chk(T obj, String code) throws IOException {
         return password.checkPassword(obj2str(obj), code);
     }
 
     @Override
-    public String encode(Object obj) throws IOException{
+    public <T extends Serializable> String encode(T obj) throws IOException {
         return text.encrypt(obj2str(obj));
     }
 
     @Override
-    public <T extends Serializable> T decode(String code, Class<T> clazz) throws IOException{
+    public <T extends Serializable> T decode(String code, Class<T> clazz) throws IOException {
         return str2obj(text.decrypt(code), clazz);
+    }
+
+
+    @Override
+    public <T extends Serializable> String obj2str(T obj) throws IOException {
+        return mapper.writeValueAsString(obj);
+    }
+
+    @Override
+    public <T extends Serializable> T str2obj(String code, Class<T> clazz) throws IOException {
+        return mapper.readValue(code, clazz);
     }
 
 
@@ -51,17 +60,9 @@ public class JasyptEncryptorImpl implements Encryptor {
         this.text = ste;
     }
 
-    private String obj2str(Object obj) throws JsonProcessingException {
-        return mapper.writeValueAsString(obj);
-    }
-
-    private <T extends Serializable> T str2obj(String code, Class<T> clazz) throws IOException {
-        return mapper.readValue(code, clazz);
-    }
-
     private ObjectMapper mapper;
 
-    private PasswordEncryptor password ;
+    private PasswordEncryptor password;
     private TextEncryptor text;
     @Value("${app.secret}")
     private String secret;

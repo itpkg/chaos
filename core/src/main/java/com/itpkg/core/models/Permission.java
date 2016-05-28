@@ -22,7 +22,7 @@ public class Permission extends Editable {
     private Long resourceId;
     @Column(nullable = false, name = "_begin")
     private Date begin;
-    @Column(nullable = false, name="_end")
+    @Column(nullable = false, name = "_end")
     private Date end;
 
     public Date getBegin() {
