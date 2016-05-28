@@ -4,6 +4,7 @@ IT-PACKAGE
 ## Install
     pacman -S jdk8-openjdk gradle
     archlinux-java set java-8-openjdk
+    echo 'org.gradle.daemon=true' > ~/.gradle/gradle.properties
 
 ## Build
     gradle projects

@@ -20,17 +20,17 @@ import java.io.Serializable;
 public class JasyptEncryptorImpl implements Encryptor {
 
     @Override
-    public <T extends Serializable> String sum(T obj) throws IOException {
+    public String sum(Serializable obj) throws IOException {
         return password.encryptPassword(obj2str(obj));
     }
 
     @Override
-    public <T extends Serializable> boolean chk(T obj, String code) throws IOException {
+    public boolean chk(Serializable obj, String code) throws IOException {
         return password.checkPassword(obj2str(obj), code);
     }
 
     @Override
-    public <T extends Serializable> String encode(T obj) throws IOException {
+    public String encode(Serializable obj) throws IOException {
         return text.encrypt(obj2str(obj));
     }
 
@@ -41,7 +41,7 @@ public class JasyptEncryptorImpl implements Encryptor {
 
 
     @Override
-    public <T extends Serializable> String obj2str(T obj) throws IOException {
+    public String obj2str(Serializable obj) throws IOException {
         return mapper.writeValueAsString(obj);
     }
 
@@ -56,7 +56,7 @@ public class JasyptEncryptorImpl implements Encryptor {
         mapper = new ObjectMapper();
         password = new StrongPasswordEncryptor();
         StrongTextEncryptor ste = new StrongTextEncryptor();
-        ste.setPassword(secret.substring(120, 184));
+        ste.setPassword(secret);
         this.text = ste;
     }
 

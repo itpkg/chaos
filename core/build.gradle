@@ -27,6 +27,7 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: postgresqlVersion
 
     compile group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.6.0'
 
     testCompile("junit:junit")
 }
