@@ -20,9 +20,9 @@ public class Permission extends Editable {
     private String operation;
     private String resourceType;
     private Long resourceId;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "_begin")
     private Date begin;
-    @Column(nullable = false)
+    @Column(nullable = false, name="_end")
     private Date end;
 
     public Date getBegin() {

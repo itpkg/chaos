@@ -11,7 +11,7 @@ public class Setting extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "_key")
     private String key;
     @Column(nullable = false)
     private String val;
