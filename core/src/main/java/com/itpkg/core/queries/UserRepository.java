@@ -1,6 +1,6 @@
-package com.itpkg.base.queries;
+package com.itpkg.core.queries;
 
-import com.itpkg.base.models.User;
+import com.itpkg.core.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

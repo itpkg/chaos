@@ -1,8 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'spring-boot'
 
 jar {
-    baseName = 'itpkg-cms'
+    baseName = 'itpkg'
     version =  '2016.05.27'
 }
 
@@ -12,4 +13,5 @@ repositories {
 
 dependencies {
     compile project(':core')
+    compile project(':cms')
 }

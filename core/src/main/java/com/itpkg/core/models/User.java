@@ -1,4 +1,4 @@
-package com.itpkg.base.models;
+package com.itpkg.core.models;
 
 import javax.persistence.*;
 import java.io.Serializable;

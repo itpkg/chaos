@@ -1,2 +1,1 @@
-include 'base'
-include 'cms'
+include 'core', 'cms', 'app'

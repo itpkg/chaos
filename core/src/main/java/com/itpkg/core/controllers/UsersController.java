@@ -1,6 +1,6 @@
-package com.itpkg.base.controllers;
+package com.itpkg.core.controllers;
 
-import com.itpkg.base.models.User;
+import com.itpkg.core.models.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;

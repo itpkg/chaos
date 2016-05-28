@@ -1,4 +1,4 @@
-package com.itpkg.base.models;
+package com.itpkg.core.models;
 
 import java.io.Serializable;
 
