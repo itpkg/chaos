@@ -1,23 +1,40 @@
 package com.itpkg.core.controllers;
 
-import com.itpkg.core.models.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import java.security.Principal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by flamen on 16-5-28.
  */
 @RestController
 public class HomeController {
-    @RequestMapping(value = "/site", method = RequestMethod.GET)
-    public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException {
 
-        User u = new User();
-        return u;
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public Map<String, Object> info() {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("title", "todo");
+        map.put("created", new Date());
+        return map;
+    }
+
+
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Object> status(Principal principal) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("principal", principal);
+        map.put("created", new Date());
+        return map;
     }
 
 }

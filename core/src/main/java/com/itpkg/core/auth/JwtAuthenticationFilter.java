@@ -27,19 +27,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public final static String BEARER = "Bearer ";
     public final static String UID = "uid";
 
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         String header = request.getHeader(AUTHORIZATION);
-        if (header == null || !header.startsWith(BEARER)) {
-            throw new IOException("No JWT token found in request headers");
-        }
-        String uid = jwtHandler.parse(header.substring(BEARER.length())).get(UID);
-        if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails user = userDetailsService.loadUserByUsername(uid);
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(token);
+        if (header != null && header.startsWith(BEARER)) {
+            String uid = jwtHandler.parse(header.substring(BEARER.length())).get(UID);
+            if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails user = userDetailsService.loadUserByUsername(uid);
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(token);
+            }
         }
         chain.doFilter(req, res);
 
