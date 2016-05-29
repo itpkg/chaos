@@ -34,7 +34,7 @@ public class HomeController {
     public Map<String, Object> info(Locale locale) {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("title", "todo");
+        map.put("title111", "todo");
         map.put("locale", locale);
         map.put("created", new Date());
         return map;
