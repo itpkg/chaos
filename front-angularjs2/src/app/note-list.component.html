@@ -1,0 +1,12 @@
+<main>
+  <div class="row">
+    <h3>{{title}}</h3>
+    <hr/>
+    <note-detail [note]="selectedNote"></note-detail>
+    <br/>
+    <blockquote *ngFor="let note of notes" (click)="onSelect(note)">
+      <p>{{note.content}}<p>
+      <footer>{{note.name}}<cite>{{note.id}}</cite></footer>
+    </blockquote>
+  </div>
+</main>

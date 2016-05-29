@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
 import '../../public/css/styles.css';
+
+import { NoteListComponent } from './note-list.component'
+
 @Component({
-    selector: 'my-app',
+    selector: 'root-app',
     template: require('./app.component.html'),
-    styles: [require('./app.component.css')]
+    directives: [NoteListComponent]
 })
-export class AppComponent { }
+
+export class AppComponent {
+
+}
