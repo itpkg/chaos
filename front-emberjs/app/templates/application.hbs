@@ -1,4 +1,7 @@
-<h2 id="title">Welcome to Ember</h2>
-{{#link-to "notes"}}Click here to notes.{{/link-to}}
-
-{{outlet}}
+{{nav-bar}}
+<div class="container-fluid">
+    {{#link-to "notes"}}Click here to notes.{{/link-to}}
+    {{outlet}}
+    <hr/>
+    {{footer-bar}}
+</div>
