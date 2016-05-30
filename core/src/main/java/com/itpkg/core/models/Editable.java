@@ -1,5 +1,9 @@
 package com.itpkg.core.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -16,6 +20,7 @@ public class Editable implements Serializable {
     private Date createdAt;
 
     @Column(nullable = false)
+    //@JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date updatedAt;
 
     @PrePersist

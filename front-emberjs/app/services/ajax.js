@@ -9,6 +9,5 @@ export default Ember.Service.extend({
   },
   get(url, data, success){
     $.getJSON(this.host+url, data).done(success);
-
   }
 });

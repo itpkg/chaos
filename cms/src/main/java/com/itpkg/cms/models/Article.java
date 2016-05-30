@@ -13,7 +13,11 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "cms_articles")
+@Table(
+        name = "cms_articles",
+        indexes = {
+        @Index(columnList = "lang")
+})
 public class Article extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +29,8 @@ public class Article extends Editable {
     @Column(nullable = false)
     @Lob
     private String body;
+    @Column(nullable = false, length = 5)
+    private String lang;
     @ManyToMany(mappedBy = "articles")
     private List<Tag> tags;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "article")
@@ -36,6 +42,14 @@ public class Article extends Editable {
     public Article() {
         this.tags = new ArrayList<>();
         this.comments = new ArrayList<>();
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 
     public User getUser() {
