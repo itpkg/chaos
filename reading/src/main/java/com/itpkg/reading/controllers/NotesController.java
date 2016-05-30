@@ -16,10 +16,10 @@ import java.util.List;
 @RequestMapping(value = "/reading")
 public class NotesController {
     @RequestMapping(value = "/notes", method = RequestMethod.GET)
-    public List<Note> index(){
+    public List<Note> index() {
         //todo
         List<Note> notes = new ArrayList<>();
-        for(long i=0; i<10; i++){
+        for (long i = 0; i < 10; i++) {
             Note n = new Note();
             n.setUpdatedAt(new Date());
             n.setId(i);

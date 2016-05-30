@@ -1,6 +1,8 @@
 package com.itpkg.core.controllers;
 
+import com.itpkg.core.models.*;
 import com.itpkg.core.repositories.LocaleRepository;
+import com.itpkg.core.web.Link;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,10 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by flamen on 16-5-28.
@@ -20,23 +20,20 @@ import java.util.Map;
 @RestController
 public class HomeController {
 
-    @RequestMapping(value = "/locales/{lang}.json", method = RequestMethod.GET)
-    public Map<String, String> locale(@PathVariable String lang) {
-        Map<String, String> map = new HashMap<>();
-        for (com.itpkg.core.models.Locale l : localeRepository.findByLang(lang)) {
-            map.put(l.getCode(), l.getMessage());
-        }
-
-        return map;
-    }
-
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Map<String, Object> info(Locale locale) {
         Map<String, Object> map = new HashMap<>();
+        for (String k : new String[]{"title", "subTitle", "keywords", "description", "copyright"}) {
+            com.itpkg.core.models.Locale l = localeRepository.findByCodeAndLang("site." + k, locale.toString());
+            map.put(k, l == null ? k : l.getMessage());
+        }
+        map.put("languages", new String[]{Locale.ENGLISH.toString(), Locale.SIMPLIFIED_CHINESE.toString()});
+        List<Link> links = new ArrayList<>();
+        //todo
+        links.add(new Link("index", "Home"));
+        links.add(new Link("reading.notes", "Notes"));
+        map.put("links", links);
 
-        map.put("title111", "todo");
-        map.put("locale", locale);
-        map.put("created", new Date());
         return map;
     }
 
