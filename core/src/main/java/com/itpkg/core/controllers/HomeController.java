@@ -23,6 +23,7 @@ public class HomeController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Map<String, Object> info(Locale locale) {
         Map<String, Object> map = new HashMap<>();
+        map.put("lang", locale.toString());
         for (String k : new String[]{"title", "subTitle", "keywords", "description", "copyright"}) {
             com.itpkg.core.models.Locale l = localeRepository.findByCodeAndLang("site." + k, locale.toString());
             map.put(k, l == null ? k : l.getMessage());
