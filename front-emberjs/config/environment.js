@@ -44,5 +44,9 @@ module.exports = function(environment) {
     ENV.APP.API_HOST = "http://api.change-me.com";
   }
 
+  ENV.i18n = {
+    defaultLocale: 'en-us'
+  };
+
   return ENV;
 };

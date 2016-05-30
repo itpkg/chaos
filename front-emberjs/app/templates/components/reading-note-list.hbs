@@ -1,10 +1,10 @@
 <div class="col-md-offset-1 col-md-10">
-    <h2>{{title}}</h2>
+    <h2>{{t "reading.note.index"}}</h2>
     <hr/>
     {{#each readingNotes.items as |n|}}
         <blockquote>
             <p>{{n.body}}</p>
-            <footer>{{n.title}} <cite title="Source Title">{{moment-to-now n.updatedAt}}</cite></footer>
+            <footer>{{n.title}} <cite>{{moment-to-now n.updatedAt}}</cite></footer>
         </blockquote>
     {{/each}}
 </div>

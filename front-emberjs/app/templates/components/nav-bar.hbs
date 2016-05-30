@@ -17,8 +17,8 @@
                 {{/each}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                {{#each siteInfo.item.languages as |l|}}
-                    <li>{{#link-to 'index'}} {{l}} {{/link-to}}</li>
+                {{#each i18n.locales as |l|}}
+                    <li>{{#double-clickable}} {{l}} {{/double-clickable}}</li>
                 {{/each}}
             </ul>
         </div>

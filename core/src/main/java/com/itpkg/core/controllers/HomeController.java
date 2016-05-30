@@ -28,7 +28,6 @@ public class HomeController {
             com.itpkg.core.models.Locale l = localeRepository.findByCodeAndLang("site." + k, locale.toString());
             map.put(k, l == null ? k : l.getMessage());
         }
-        map.put("languages", new String[]{Locale.ENGLISH.toString(), Locale.SIMPLIFIED_CHINESE.toString()});
         List<Link> links = new ArrayList<>();
         //todo
         links.add(new Link("index", "Home"));
