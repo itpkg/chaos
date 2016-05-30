@@ -4,8 +4,6 @@ export default Ember.Service.extend({
   item: null,
   ajax: Ember.inject.service(),
   init() {
-    this.get('ajax').get('/info', null, function(rst){
-      this.set('item', rst);
-    }.bind(this));
+    this.get('ajax').request('/info').then(function(rst){this.set('item', rst);}.bind(this));
   }
 });
