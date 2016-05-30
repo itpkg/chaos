@@ -1,4 +1,8 @@
 export default {
+  "lang":{
+    "en-us": "English",
+    "zh-cn": "简体中文"
+  },
   "reading":{
     "note":{
       "index": "Notes"
