@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+jar {
+    baseName = 'itpkg-reading'
+    version = '2016.05.30'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':core')
+}

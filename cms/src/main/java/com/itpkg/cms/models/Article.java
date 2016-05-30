@@ -1,5 +1,6 @@
 package com.itpkg.cms.models;
 
+import com.itpkg.core.models.Editable;
 import com.itpkg.core.models.User;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "cms_articles")
-public class Article implements Serializable {
+public class Article extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

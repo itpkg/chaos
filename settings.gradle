@@ -1,1 +1,1 @@
-include 'core', 'cms', 'app'
+include 'core', 'cms', 'reading', 'app'

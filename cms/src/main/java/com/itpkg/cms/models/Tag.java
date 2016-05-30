@@ -1,5 +1,7 @@
 package com.itpkg.cms.models;
 
+import com.itpkg.core.models.Editable;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,11 +13,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "cms_tags")
-public class Tag implements Serializable {
+public class Tag extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String name;
     @ManyToMany
     private List<Article> articles;

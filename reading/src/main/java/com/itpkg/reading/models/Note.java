@@ -1,37 +1,27 @@
-package com.itpkg.cms.models;
+package com.itpkg.reading.models;
 
 import com.itpkg.core.models.Editable;
 import com.itpkg.core.models.User;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
- * Created by flamen on 16-5-27.
+ * Created by flamen on 16-5-30.
  */
-
 @Entity
-@Table(name = "cms_comments")
-public class Comment extends Editable {
+@Table(name = "reading_notes")
+public class Note extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(nullable = false)
+    private String title;
+    @Column(nullable = false)
+    @Lob
     private String body;
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "article_id")
-    private Article article;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public long getId() {
         return id;
@@ -39,6 +29,14 @@ public class Comment extends Editable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getBody() {
@@ -49,11 +47,11 @@ public class Comment extends Editable {
         this.body = body;
     }
 
-    public Article getArticle() {
-        return article;
+    public User getUser() {
+        return user;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
