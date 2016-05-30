@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'it-package/config/environment';
 
 const key = "locale";
 
@@ -8,9 +9,11 @@ export default Ember.Component.extend({
   init(){
     this._super(...arguments);
     var lang = localStorage.getItem(key);
-    if(lang != null){
-      this.set('i18n.locale', lang);
+    if(lang == null){
+      lang = ENV.i18n.defaultLocale;
+      localStorage.setItem(key, lang);
     }
+    this.set('i18n.locale', lang);
   },
   actions: {
     switchLang(lang){

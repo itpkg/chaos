@@ -3,9 +3,10 @@ export default {
     "en-us": "English",
     "zh-cn": "简体中文"
   },
-  "reading":{
-    "note":{
-      "index": "笔记列表"
+  "pages":{
+    "index": "主页",
+    "reading":{
+      "notes":"笔记列表"
     }
   }
   // "some.translation.key": "Text for some.translation.key",

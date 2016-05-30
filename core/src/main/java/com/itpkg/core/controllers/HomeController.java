@@ -23,16 +23,14 @@ public class HomeController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public Map<String, Object> info(Locale locale) {
         Map<String, Object> map = new HashMap<>();
-        map.put("lang", locale.toString());
+        map.put("locale", locale.toString());
         for (String k : new String[]{"title", "subTitle", "keywords", "description", "copyright"}) {
             com.itpkg.core.models.Locale l = localeRepository.findByCodeAndLang("site." + k, locale.toString());
             map.put(k, l == null ? k : l.getMessage());
         }
-        List<Link> links = new ArrayList<>();
+
         //todo
-        links.add(new Link("index", "Home"));
-        links.add(new Link("reading.notes", "Notes"));
-        map.put("links", links);
+        map.put("links", new String[]{"index", "reading.notes"});
 
         return map;
     }

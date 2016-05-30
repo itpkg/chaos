@@ -3,9 +3,10 @@ export default {
     "en-us": "English",
     "zh-cn": "简体中文"
   },
-  "reading":{
-    "note":{
-      "index": "Notes"
+  "pages":{
+    "index": "Home",
+    "reading":{
+      "notes":"Notes"
     }
   }
   // "some.translation.key": "Text for some.translation.key",
