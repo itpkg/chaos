@@ -3,3 +3,5 @@ build
 .idea
 *.iml
 *.log
+*.swp
+/dist

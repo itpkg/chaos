@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'front-emberjs',
+    modulePrefix: 'it-package',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',

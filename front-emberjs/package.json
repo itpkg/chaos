@@ -1,7 +1,7 @@
 {
-  "name": "front-emberjs",
-  "version": "0.0.0",
-  "description": "Small description for front-emberjs goes here",
+  "name": "it-package",
+  "version": "2016.5.29",
+  "description": "front of it-package",
   "private": true,
   "directories": {
     "doc": "doc",
