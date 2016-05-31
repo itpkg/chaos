@@ -18,6 +18,7 @@ Router.map(function() {
     this.route('confirm');
     this.route('unlock');
     this.route('profile');
+    this.route('dashboard');
   });
 });
 

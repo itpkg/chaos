@@ -3,22 +3,23 @@ export default {
     "en-us": "English",
     "zh-cn": "简体中文"
   },
-  "pages":{
+  "pages": {
     "index": "Home",
-    "user": {
+    "personal": {
       "signIn": "Sign in",
       "signUp": "Sign up",
       "signInOrUp": "Sign in/up",
       "forgotPassword": "Forgot your password?",
       "resetPassword": "Reset your password",
       "confirm": "Active your account",
-      "unlock": "Unlock your accout",
+      "unlock": "Unlock your account",
       "welcome": "Welcome, {{name}}.",
       "profile": "Profile",
+      "dashboard": "Dashboard",
       "signOut": "Sign out"
     },
-    "reading":{
-      "notes":"Notes"
+    "reading": {
+      "notes": "Notes"
     }
   }
   // "some.translation.key": "Text for some.translation.key",

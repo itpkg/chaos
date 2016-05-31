@@ -22,8 +22,5 @@ export default Ember.Service.extend({
   signOut(){
     this.set('user', null);
     sessionStorage.removeItem(key);
-  },
-  isSignIn(){
-    return this.get('user') != null;
   }
 });

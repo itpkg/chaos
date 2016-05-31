@@ -1,13 +1,25 @@
 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-    {{t "pages.user.signInOrUp"}}
+    {{#if auth.user}}
+        {{t "pages.personal.welcome" name:user.name}}
+    {{else}}
+        {{t "pages.personal.signInOrUp"}}
+    {{/if}}
     <span class="caret"></span>
 </a>
 <ul class="dropdown-menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li role="separator" class="divider"></li>
-    <li class="dropdown-header">Nav header</li>
-    <li><a href="#">Separated link</a></li>
-    <li><a href="#">One more separated link</a></li>
+    {{#if auth.user}}
+        <li>{{#link-to "personal.profile"}} {{t "pages.personal.profile" }} {{/link-to}}</li>
+        {{#if auth.isAdmin}}
+            <li>{{#link-to "personal.dashboard"}} {{t "pages.personal.dashboard" }} {{/link-to}}</li>
+        {{/if}}
+        <li class="divider"></li>
+        <li><a>{{t "pages.personal.signOut" }}</a></li>
+    {{else}}
+        <li>{{#link-to "personal.sign-in"}} {{t "pages.personal.signIn" }} {{/link-to}}</li>
+        <li>{{#link-to "personal.sign-up"}} {{t "pages.personal.signUp" }} {{/link-to}}</li>
+        <li>{{#link-to "personal.forgot-password"}} {{t "pages.personal.forgotPassword" }} {{/link-to}}</li>
+        <li class="divider"></li>
+        <li>{{#link-to "personal.confirm"}} {{t "pages.personal.confirm" }} {{/link-to}}</li>
+        <li>{{#link-to "personal.unlock"}} {{t "pages.personal.unlock" }} {{/link-to}}</li>
+    {{/if}}
 </ul>
