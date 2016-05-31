@@ -15,12 +15,9 @@
                 {{#each siteInfo.item.links as |l|}}
                     <li>{{#link-to l}} {{t (concat "pages." l)}} {{/link-to}}</li>
                 {{/each}}
+                {{personal-bar}}
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {{#each i18n.locales as |l|}}
-                    <li><a {{action "switchLang" l}}>{{t (concat "lang." l)}}</a></li>
-                {{/each}}
-            </ul>
+            {{switch-lang}}
         </div>
     </div>
 </nav>
