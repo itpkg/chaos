@@ -7,7 +7,13 @@ import java.util.Map;
  * Created by flamen on 16-5-28.
  */
 public interface JwtHandler {
-    Map<String, String> parse(String token);
+     String UID = "uid";
+    String ROLES = "roles";
+     String AUTHORIZATION = "Authorization";
+     String BEARER = "Bearer ";
 
-    String generate(String subject, Map<String, String> data, long exp, TemporalUnit unit);
+
+    Map<String, Object> parse(String token);
+
+    String generate(String subject, Map<String, Object> data, long exp, TemporalUnit unit);
 }

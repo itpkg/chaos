@@ -27,25 +27,25 @@ public class JjwtJwtHandlerImpl implements JwtHandler {
 
 
     @Override
-    public Map<String, String> parse(String token) {
+    public Map<String, Object> parse(String token) {
         Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         Date now = new Date();
         if (now.before(body.getNotBefore()) || now.after(body.getExpiration())) {
             throw new JwtException("token invalid.");
         }
 
-        Map<String, String> map = new HashMap<>();
-        for (String k : body.keySet()) {
-            if (k.equals("nbf") || k.equals("exp")) {
-                continue;
-            }
-            map.put(k, body.get(k, String.class));
-        }
-        return map;
+//        Map<String, String> map = new HashMap<>();
+//        for (String k : body.keySet()) {
+//            if (k.equals("nbf") || k.equals("exp")) {
+//                continue;
+//            }
+//            map.put(k, body.get(k, String.class));
+//        }
+        return body;
     }
 
     @Override
-    public String generate(String subject, Map<String, String> data, long exp, TemporalUnit unit) {
+    public String generate(String subject, Map<String, Object> data, long exp, TemporalUnit unit) {
         Claims claims = Jwts.claims().setSubject(subject);
         claims.putAll(data);
         claims.setNotBefore(new Date());

@@ -1,7 +1,11 @@
 package com.itpkg.core.controllers;
 
+import com.itpkg.core.auth.JwtAuthenticationFilter;
+import com.itpkg.core.auth.JwtHandler;
 import com.itpkg.core.forms.SignInFm;
+import com.itpkg.core.models.Permission;
 import com.itpkg.core.models.User;
+import com.itpkg.core.repositories.PermissionRepository;
 import com.itpkg.core.repositories.UserRepository;
 import com.itpkg.core.utils.Encryptor;
 import com.itpkg.core.web.Response;
@@ -12,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Locale;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+
+import static com.itpkg.core.auth.JwtHandler.ROLES;
+import static com.itpkg.core.auth.JwtHandler.UID;
 
 /**
  * Created by flamen on 16-5-27.
@@ -20,30 +28,28 @@ import java.util.Locale;
 @RestController
 @RequestMapping(value = "/personal")
 public class PersonalController {
-//    public class SignInFm {
-//    }
-
-    public class SignUpFm {
-
-    }
 
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public Response signIn(@ModelAttribute SignInFm fm, Locale l) {
+    public String signIn(@ModelAttribute SignInFm fm, Locale l) {
         Response rst = new Response();
-        rst.setData(fm);
         User u = userRepository.findByEmail(fm.getEmail());
         if (u == null) {
-            rst.setError(messageSource.getMessage("core.errors.user.email_not_exist", null, l));
+            throw new IllegalArgumentException(messageSource.getMessage("core.errors.user.email_not_exist", null, l));
 
-        } else {
-            if (u.getProviderType() == User.Type.EMAIL && encryptor.chk(fm.getPassword(), u.getPassword())) {
-                rst.setOk(true);
-                //todo
-            } else {
-                rst.setError(messageSource.getMessage("core.errors.user.email_password_not_match", null, l));
-            }
         }
-        return rst;
+        if (u.getProviderType() != User.Type.EMAIL || !encryptor.chk(fm.getPassword(), u.getPassword())) {
+            throw new IllegalArgumentException(messageSource.getMessage("core.errors.user.email_password_not_match", null, l));
+        }
+        Map<String, Object> tkn = new HashMap<>();
+        tkn.put(UID, u.getUid());
+        List<String> roles = new ArrayList<>();
+        for(Permission p : permissionRepository.findRoles(u.getId())){
+            roles.add(p.getOperation());
+        }
+        tkn.put(ROLES, roles);
+
+        return jwtHandler.generate(u.getName(), tkn, 1, ChronoUnit.WEEKS);
+
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
@@ -82,5 +88,9 @@ public class PersonalController {
     MessageSource messageSource;
     @Resource
     Encryptor encryptor;
+    @Resource
+    JwtHandler jwtHandler;
+    @Resource
+    PermissionRepository permissionRepository;
 
 }

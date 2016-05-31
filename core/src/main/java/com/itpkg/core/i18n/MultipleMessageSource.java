@@ -1,5 +1,7 @@
 package com.itpkg.core.i18n;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -29,8 +31,11 @@ public class MultipleMessageSource extends ReloadableResourceBundleMessageSource
                     lastModified = resource.lastModified();
                 }
             }
-        } catch (IOException ignored) {
+        } catch (IOException ex) {
+            logger.error("load messages", ex);
         }
         return new PropertiesHolder(properties, lastModified);
     }
+
+    private final static Logger logger = LoggerFactory.getLogger(MultipleMessageSource.class);
 }

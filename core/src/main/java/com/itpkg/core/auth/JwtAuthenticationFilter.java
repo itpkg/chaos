@@ -18,22 +18,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+import static com.itpkg.core.auth.JwtHandler.AUTHORIZATION;
+import static com.itpkg.core.auth.JwtHandler.BEARER;
+import static com.itpkg.core.auth.JwtHandler.UID;
+
 /**
  * Created by flamen on 16-5-28.
  */
 @Component
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    public final static String AUTHORIZATION = "Authorization";
-    public final static String BEARER = "Bearer ";
-    public final static String UID = "uid";
-
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         String header = request.getHeader(AUTHORIZATION);
         if (header != null && header.startsWith(BEARER)) {
-            String uid = jwtHandler.parse(header.substring(BEARER.length())).get(UID);
+            String uid = (String)jwtHandler.parse(header.substring(BEARER.length())).get(UID);
             if (uid != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails user = userDetailsService.loadUserByUsername(uid);
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
