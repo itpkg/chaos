@@ -2,6 +2,8 @@ package com.itpkg.core.controllers;
 
 import com.itpkg.core.models.*;
 import com.itpkg.core.repositories.LocaleRepository;
+import com.itpkg.core.repositories.SettingRepository;
+import com.itpkg.core.services.SettingService;
 import com.itpkg.core.web.Link;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.Locale;
@@ -21,16 +24,16 @@ import java.util.Locale;
 public class HomeController {
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public Map<String, Object> info(Locale locale) {
+    public Map<String, Object> info(Locale locale) throws IOException{
         Map<String, Object> map = new HashMap<>();
         map.put("locale", locale.toString());
         for (String k : new String[]{"title", "subTitle", "keywords", "description", "copyright"}) {
             com.itpkg.core.models.Locale l = localeRepository.findByCodeAndLang("site." + k, locale.toString());
-            map.put(k, l == null ? k : l.getMessage());
+            map.put(k, l == null ? locale.toString()+"."+k : l.getMessage());
         }
 
-        //todo
-        map.put("links", new String[]{"index", "reading.notes"});
+        String links = settingService.get("top.links", String.class);
+        map.put("links", links == null ? new String[]{"index"} : links.split("\n"));
 
         return map;
     }
@@ -48,5 +51,7 @@ public class HomeController {
 
     @Resource
     LocaleRepository localeRepository;
+    @Resource
+    SettingService settingService;
 
 }

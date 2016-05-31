@@ -19,6 +19,7 @@ export default Ember.Component.extend({
     switchLang(lang){
       this.set('i18n.locale', lang);
       localStorage.setItem(key, lang);
+      this.get('siteInfo').refresh(lang);
     }
   }
 });
