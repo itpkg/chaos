@@ -1,21 +1,15 @@
 package com.itpkg.core.utils;
 
-import java.io.IOException;
-import java.io.Serializable;
-
 /**
  * Created by flamen on 16-5-27.
  */
 public interface Encryptor {
-    String sum(Serializable obj) throws IOException;
+    String sum(String plain);
 
-    boolean chk(Serializable obj, String code) throws IOException;
+    boolean chk(String plain, String code);
 
-    String encode(Serializable obj) throws IOException;
+    String encode(String plain);
 
-    <T extends Serializable> T decode(String code, Class<T> clazz) throws IOException;
+    String decode(String code);
 
-    String obj2str(Serializable obj) throws IOException;
-
-    <T extends Serializable> T str2obj(String code, Class<T> clazz) throws IOException;
 }

@@ -1,27 +1,17 @@
+import lang from '../languages';
+import buttons from './buttons';
+
+import cms from './cms';
+import reading from './reading';
+import core from './core';
+
 export default {
-  "lang":{
-    "en-us": "English",
-    "zh-cn": "简体中文"
-  },
-  "pages": {
-    "index": "主页",
-    "personal": {
-      "signIn": "用户登录",
-      "signUp": "新用户注册",
-      "signInOrUp": "登录/注册",
-      "forgotPassword": "忘记密码？",
-      "resetPassword": "重置密码",
-      "confirm": "没有收到激活邮件？",
-      "unlock": "没有收到解锁邮件？",
-      "welcome": "欢迎你，{{name}}。",
-      "profile": "个人信息",
-      "dashboard": "站点设置",
-      "signOut": "安全退出"
-    },
-    "reading": {
-      "notes": "笔记列表"
-    }
-  }
+  "lang": lang,
+  "buttons": buttons,
+  "core": core,
+  "cms": cms,
+  "reading": reading,
+
   // "some.translation.key": "Text for some.translation.key",
   //
   // "a": {
