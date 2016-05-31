@@ -17,6 +17,10 @@ import java.util.List;
         }
 )
 public class User extends Editable {
+    public enum Type {
+        EMAIL, GOOGLE, QQ, WE_CHAT, FACEBOOK
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -30,7 +34,8 @@ public class User extends Editable {
     @Column(nullable = false)
     private String providerId;
     @Column(nullable = false)
-    private String providerType;
+    @Enumerated(EnumType.STRING)
+    private Type providerType;
     private Date confirmedAt;
     private Date lockedAt;
 
@@ -84,11 +89,11 @@ public class User extends Editable {
         this.providerId = providerId;
     }
 
-    public String getProviderType() {
+    public Type getProviderType() {
         return providerType;
     }
 
-    public void setProviderType(String providerType) {
+    public void setProviderType(Type providerType) {
         this.providerType = providerType;
     }
 

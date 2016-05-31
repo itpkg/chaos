@@ -1,19 +1,19 @@
 <fieldset class="col-md-offset-2 col-md-8">
-    <legend>{{form.title}}</legend>
-    <form class="form-horizontal" action="{{form.action}}" method="{{form.method}}">
+    <legend>{{t form.title}}</legend>
+    <form class="form-horizontal">
     {{#each form.fields as |f|}}
         {{#if (is-equal f.type "email")}}
             <div class="form-group">
-                <label for="{{f.id}}" class="col-md-2 control-label">{{f.label}}</label>
+                <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
                 <div class="col-md-5">
-                    <input type="email" class="form-control" id="{{f.id}}" placeholder="{{f.placeholder}}">
+                    {{input type="email" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
                 </div>
             </div>
         {{else if (is-equal f.type "password")}}
             <div class="form-group">
-                <label for="{{f.id}}" class="col-md-2 control-label">{{f.label}}</label>
+                <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
                 <div class="col-md-6">
-                    <input type="password" class="form-control" id="{{f.id}}" placeholder="{{f.placeholder}}">
+                    {{input type="password" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
                 </div>
             </div>
         {{/if}}
@@ -22,11 +22,11 @@
         <div class="col-md-offset-2 col-md-10">
             {{#each form.buttons as |b|}}
                 {{#if (is-equal b.type "submit")}}
-                    <button type="submit" class="btn btn-primary">{{t "buttons.submit"}}</button>
+                    <button type="submit" class="btn btn-primary" {{action "submit"}}>{{t "buttons.submit"}}</button>
                 {{else if (is-equal b.type "reset")}}
                     <button type="reset" class="btn btn-default">{{t "buttons.reset"}}</button>
                 {{else}}
-                    <button class="btn btn-{{f.style}}">{{f.label}}</button>
+                    <button class="btn btn-{{b.style}}" {{action "click" b.id}}>{{t b.label}}</button>
                 {{/if}}
                 &nbsp;
             {{/each}}

@@ -18,10 +18,13 @@ public class Log implements Serializable {
     private User user;
     @Column(nullable = false)
     private String message;
-    @Column(length = 8, nullable = false)
-    private String type;
     @Column(nullable = false)
     private Date createdAt;
+
+    @PrePersist
+    void createdAt() {
+        this.createdAt = new Date();
+    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -55,11 +58,4 @@ public class Log implements Serializable {
         this.message = message;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }
