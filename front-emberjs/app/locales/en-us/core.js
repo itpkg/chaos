@@ -14,5 +14,11 @@ export default {
       "dashboard": "Dashboard",
       "signOut": "Sign out"
     },
+  },
+  "forms": {
+    "user":{
+      "label": {
+      }
+    }
   }
 };

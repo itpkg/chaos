@@ -1,6 +1,8 @@
 export default {
   "label": {
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "passwordConfirm": "Password confirm",
+    "username": "Username"
   }
 };

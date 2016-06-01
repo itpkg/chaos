@@ -2,7 +2,14 @@
     <legend>{{t form.title}}</legend>
     <form class="form-horizontal">
     {{#each form.fields as |f|}}
-        {{#if (is-equal f.type "email")}}
+        {{#if (is-equal f.type "text")}}
+                <div class="form-group">
+                    <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
+                    <div class="col-md-8">
+                        {{input type="text" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
+                    </div>
+                </div>
+        {{else if (is-equal f.type "email")}}
             <div class="form-group">
                 <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
                 <div class="col-md-5">

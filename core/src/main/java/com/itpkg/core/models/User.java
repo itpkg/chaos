@@ -1,9 +1,7 @@
 package com.itpkg.core.models;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by flamen on 16-5-27.
@@ -16,7 +14,16 @@ import java.util.List;
                 @Index(columnList = "name")
         }
 )
-public class User extends Editable {
+public class User extends Editable implements ToModel {
+    @Override
+    public Map<String, Object> toModel() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("name", name);
+        map.put("email", email);
+        return map;
+    }
+
     public enum Type {
         EMAIL, GOOGLE, QQ, WE_CHAT, FACEBOOK
     }
@@ -43,6 +50,8 @@ public class User extends Editable {
     private List<Log> logs;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Permission> permissions;
+
+
 
     public Date getConfirmedAt() {
         return confirmedAt;

@@ -14,5 +14,11 @@ export default {
       "dashboard": "站点设置",
       "signOut": "安全退出"
     },
+  },
+  "forms": {
+    "user":{
+      "label": {
+      }
+    }
   }
 };

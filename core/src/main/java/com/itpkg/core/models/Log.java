@@ -26,6 +26,7 @@ public class Log implements Serializable {
         this.createdAt = new Date();
     }
 
+
     public Date getCreatedAt() {
         return createdAt;
     }

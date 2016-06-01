@@ -23,6 +23,7 @@ public class LocaleConfig extends WebMvcConfigurerAdapter {
         MultipleMessageSource messageSource = new MultipleMessageSource();
         messageSource.setBasename("classpath*:/messages");
         messageSource.setDefaultEncoding("UTF-8");
+        //messageSource().setUseCodeAsDefaultMessage(true);
         return messageSource;
     }
 

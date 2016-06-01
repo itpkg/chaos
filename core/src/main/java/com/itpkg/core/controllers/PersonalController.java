@@ -1,12 +1,13 @@
 package com.itpkg.core.controllers;
 
-import com.itpkg.core.auth.JwtAuthenticationFilter;
 import com.itpkg.core.auth.JwtHandler;
 import com.itpkg.core.forms.SignInFm;
+import com.itpkg.core.forms.SignUpFm;
 import com.itpkg.core.models.Permission;
 import com.itpkg.core.models.User;
 import com.itpkg.core.repositories.PermissionRepository;
 import com.itpkg.core.repositories.UserRepository;
+import com.itpkg.core.services.UserService;
 import com.itpkg.core.utils.Encryptor;
 import com.itpkg.core.web.Response;
 import org.springframework.context.MessageSource;
@@ -31,7 +32,6 @@ public class PersonalController {
 
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
     public String signIn(@ModelAttribute SignInFm fm, Locale l) {
-        Response rst = new Response();
         User u = userRepository.findByEmail(fm.getEmail());
         if (u == null) {
             throw new IllegalArgumentException(messageSource.getMessage("core.errors.user.email_not_exist", null, l));
@@ -53,8 +53,14 @@ public class PersonalController {
     }
 
     @RequestMapping(value = "/signUp", method = RequestMethod.POST)
-    public void signUp() {
-        //todo
+    public Map<String, Object> signUp(@ModelAttribute SignUpFm fm, Locale l) {
+
+        if (userRepository.findByEmail(fm.getEmail()) != null) {
+            throw new IllegalArgumentException(messageSource.getMessage("core.errors.user.email_already_exist", null, l));
+        }
+        User u = userService.add(fm.getName(), fm.getEmail(), fm.getPassword());
+        userService.log(u, messageSource.getMessage("core.logs.user.signUp", null, l));
+        return u.toModel();
     }
 
     @RequestMapping(value = "/signOut", method = RequestMethod.POST)
@@ -92,5 +98,7 @@ public class PersonalController {
     JwtHandler jwtHandler;
     @Resource
     PermissionRepository permissionRepository;
+    @Resource
+    UserService userService;
 
 }
