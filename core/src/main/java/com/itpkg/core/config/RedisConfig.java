@@ -3,8 +3,10 @@ package com.itpkg.core.config;
 import com.itpkg.core.jobs.EmailReceiver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.DefaultRedisCachePrefix;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -21,10 +23,13 @@ import java.util.concurrent.CountDownLatch;
  */
 
 @Configuration
+@EnableCaching
 public class RedisConfig {
     @Bean
     CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager manager = new RedisCacheManager(redisTemplate);
+        manager.setCachePrefix(new DefaultRedisCachePrefix("@cache://"));
+        manager.setUsePrefix(true);
         manager.setDefaultExpiration(cacheExpiration);
         return manager;
     }
@@ -42,10 +47,8 @@ public class RedisConfig {
 
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
-
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-
         return container;
     }
 

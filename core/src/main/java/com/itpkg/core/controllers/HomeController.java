@@ -3,6 +3,7 @@ package com.itpkg.core.controllers;
 import com.itpkg.core.repositories.LocaleRepository;
 import com.itpkg.core.services.SettingService;
 import com.itpkg.core.web.Link;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import java.util.*;
 public class HomeController {
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @Cacheable(value = "root", key = "'site.info/' + #locale.toString()")
     public Map<String, Object> info(Locale locale) throws IOException {
         Map<String, Object> map = new HashMap<>();
         map.put("locale", locale.toString());
