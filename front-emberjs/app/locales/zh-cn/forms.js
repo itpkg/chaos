@@ -3,4 +3,4 @@ export default {
     "email": "邮箱",
     "password": "密码"
   }
-}
+};

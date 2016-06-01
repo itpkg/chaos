@@ -15,4 +15,4 @@ export default {
       "signOut": "安全退出"
     },
   }
-}
+};
