@@ -2,7 +2,6 @@ package com.itpkg.core.controllers;
 
 import com.itpkg.core.repositories.LocaleRepository;
 import com.itpkg.core.services.SettingService;
-import com.itpkg.core.utils.JsonHelper;
 import com.itpkg.core.web.Link;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +52,6 @@ public class HomeController {
     LocaleRepository localeRepository;
     @Resource
     SettingService settingService;
-    @Resource
-    JsonHelper jsonHelper;
+
 
 }

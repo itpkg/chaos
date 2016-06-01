@@ -1,4 +1,4 @@
-package com.itpkg.core.auth;
+package com.itpkg.core.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

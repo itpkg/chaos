@@ -1,5 +1,7 @@
-package com.itpkg.core.auth;
+package com.itpkg.core.config;
 
+import com.itpkg.core.auth.JwtAuthenticationEntryPoint;
+import com.itpkg.core.auth.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

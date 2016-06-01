@@ -31,7 +31,7 @@ public class UserService {
         return u;
     }
 
-    public void log(User user, String message){
+    public void log(User user, String message) {
         Log l = new Log();
         l.setUser(user);
         l.setMessage(message);

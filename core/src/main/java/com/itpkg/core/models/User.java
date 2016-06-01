@@ -52,7 +52,6 @@ public class User extends Editable implements ToModel {
     private List<Permission> permissions;
 
 
-
     public Date getConfirmedAt() {
         return confirmedAt;
     }

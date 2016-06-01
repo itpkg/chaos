@@ -1,6 +1,5 @@
 package com.itpkg.core.repositories;
 
-import com.itpkg.core.models.Locale;
 import com.itpkg.core.models.Log;
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,5 +1,6 @@
-package com.itpkg.core.i18n;
+package com.itpkg.core.config;
 
+import com.itpkg.core.i18n.MultipleMessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
