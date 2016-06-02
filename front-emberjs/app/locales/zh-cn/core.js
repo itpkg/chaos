@@ -12,7 +12,10 @@ export default {
       "welcome": "欢迎你，{{name}}。",
       "profile": "个人信息",
       "dashboard": "站点设置",
-      "signOut": "安全退出"
+      "signOut": "安全退出",
+      "oauth":{
+        "google": "使用Google账户登录"
+      }
     },
   },
   "forms": {

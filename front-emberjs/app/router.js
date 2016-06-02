@@ -19,6 +19,7 @@ Router.map(function() {
     this.route('unlock');
     this.route('profile');
     this.route('dashboard');
+    this.route('oauth');
   });
 });
 

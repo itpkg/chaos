@@ -12,7 +12,10 @@ export default {
       "welcome": "Welcome, {{name}}.",
       "profile": "Profile",
       "dashboard": "Dashboard",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "oauth":{
+        "google": "Sign in by google account"
+      }
     },
   },
   "forms": {
