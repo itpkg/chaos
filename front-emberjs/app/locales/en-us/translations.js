@@ -1,6 +1,7 @@
 import lang from '../languages';
 import buttons from './buttons';
 import forms from './forms';
+import messages from './messages';
 
 import cms from './cms';
 import reading from './reading';
@@ -10,6 +11,7 @@ export default {
   "lang":lang,
   "buttons": buttons,
   "forms": forms,
+  "messages": messages,
 
   "core": core,
   "cms": cms,

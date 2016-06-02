@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.security.SecureRandom;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -16,6 +18,34 @@ import java.util.UUID;
  */
 @Service
 public class UserService {
+    public boolean isEmailExist(String email) {
+        return userRepository.findByEmail(email) != null;
+    }
+
+    @Transactional
+    public void signIn(User u) {
+        u.setLastSignIn(new Date());
+        u.setSignInCount(u.getSignInCount() + 1);
+        userRepository.save(u);
+    }
+
+    @Transactional
+    public User add(User.Type type, String providerId, String name, String email) {
+
+        User u = new User();
+        u.setName(name);
+        u.setEmail(email);
+        u.setPassword(encryptor.sum("" + new SecureRandom().nextDouble()));
+
+        u.setUid(UUID.randomUUID().toString());
+        u.setProviderId(providerId);
+        u.setProviderType(type);
+
+        u.setConfirmedAt(new Date());
+        userRepository.save(u);
+        return u;
+    }
+
     @Transactional
     public User add(String name, String email, String password) {
         User u = new User();

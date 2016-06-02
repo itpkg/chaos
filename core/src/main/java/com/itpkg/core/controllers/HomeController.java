@@ -1,9 +1,9 @@
 package com.itpkg.core.controllers;
 
+import com.itpkg.core.oauth2.Oauth2GoogleHelper;
 import com.itpkg.core.repositories.LocaleRepository;
 import com.itpkg.core.services.SettingService;
 import com.itpkg.core.web.Link;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +38,9 @@ public class HomeController {
         }
         map.put("links", links);
 
-        Map<String,String> google = new HashMap<>();
-        google.put("redirectUrl", googleRedirectUrl);
-        map.put("google", google);
+        map.put("google", googleOauth2Helper.url());
         return map;
     }
-
 
     @RequestMapping(value = "/status", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
@@ -59,8 +56,7 @@ public class HomeController {
     LocaleRepository localeRepository;
     @Resource
     SettingService settingService;
-    @Value("${oauth.google.redirectUrl}")
-    String googleRedirectUrl;
-
+    @Resource
+    Oauth2GoogleHelper googleOauth2Helper;
 
 }

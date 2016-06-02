@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -15,8 +14,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalUnit;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by flamen on 16-5-28.
@@ -32,14 +33,6 @@ public class JjwtJwtHandlerImpl implements JwtHandler {
         if (now.before(body.getNotBefore()) || now.after(body.getExpiration())) {
             throw new JwtException("token invalid.");
         }
-
-//        Map<String, String> map = new HashMap<>();
-//        for (String k : body.keySet()) {
-//            if (k.equals("nbf") || k.equals("exp")) {
-//                continue;
-//            }
-//            map.put(k, body.get(k, String.class));
-//        }
         return body;
     }
 
@@ -60,9 +53,11 @@ public class JjwtJwtHandlerImpl implements JwtHandler {
     @PostConstruct
     void init() throws IOException {
 
-        secret = settingService.get(KEY, String.class);
-        if (secret == null) {
-            secret = RandomStringUtils.random(32);
+        String srt = settingService.get(KEY, String.class);
+        if (srt == null) {
+            byte[] buf = new byte[32];
+            new Random().nextBytes(buf);
+            secret = Base64.getEncoder().encodeToString(buf);
             settingService.set(KEY, secret, true);
         }
     }

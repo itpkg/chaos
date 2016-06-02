@@ -1,7 +1,10 @@
 package com.itpkg.core.models;
 
 import javax.persistence.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by flamen on 16-5-27.
@@ -14,15 +17,7 @@ import java.util.*;
                 @Index(columnList = "name")
         }
 )
-public class User extends Editable implements ToModel {
-    @Override
-    public Map<String, Object> toModel() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("uid", uid);
-        map.put("name", name);
-        map.put("email", email);
-        return map;
-    }
+public class User implements Serializable {
 
     public enum Type {
         EMAIL, GOOGLE, QQ, WE_CHAT, FACEBOOK
@@ -45,12 +40,46 @@ public class User extends Editable implements ToModel {
     private Type providerType;
     private Date confirmedAt;
     private Date lockedAt;
+    private Date lastSignIn;
+    @Column(nullable = false)
+    private long signInCount;
+    @Column(nullable = false)
+    private Date createdAt;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.LAZY)
     private List<Log> logs;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Permission> permissions;
 
+    @PrePersist
+    void createdAt() {
+        this.createdAt = new Date();
+    }
+
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getLastSignIn() {
+        return lastSignIn;
+    }
+
+    public void setLastSignIn(Date lastSignIn) {
+        this.lastSignIn = lastSignIn;
+    }
+
+    public long getSignInCount() {
+        return signInCount;
+    }
+
+    public void setSignInCount(long signInCount) {
+        this.signInCount = signInCount;
+    }
 
     public Date getConfirmedAt() {
         return confirmedAt;

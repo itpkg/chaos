@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:personal/oauth', 'Unit | Route | personal/oauth', {
+moduleFor('route:oauth2/callback', 'Unit | Route | oauth2/callback', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

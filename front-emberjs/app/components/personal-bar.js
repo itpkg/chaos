@@ -5,4 +5,5 @@ export default Ember.Component.extend({
   classNames:['dropdown'],
   i18n: Ember.inject.service(),
   auth: Ember.inject.service(),
+  siteInfo: Ember.inject.service(),
 });
