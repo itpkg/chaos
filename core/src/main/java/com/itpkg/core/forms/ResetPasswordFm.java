@@ -4,17 +4,21 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * Created by flamen on 16-5-31.
+ * Created by flamen on 16-6-2.
  */
-public class SignInFm implements Serializable {
+public class ResetPasswordFm implements Serializable {
     @NotEmpty
     @Email
     private String email;
     @NotNull
+    @Size(min = 8, max = 32)
     private String password;
+
+    private String passwordConfirm;
 
     public String getEmail() {
         return email;
@@ -30,5 +34,13 @@ public class SignInFm implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 }

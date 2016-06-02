@@ -1,4 +1,11 @@
-<div class="alert alert-{{style}} alert-dismissible" role="alert">
+{{#if item}}
+<div class="alert alert-{{item.style}} alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>{{createdAt}}：</strong> {{body}}
+    <strong>{{item.created}}：</strong>
+    <ol>
+    {{#each item.messages as |m|}}
+        <li>{{m}}</li>
+    {{/each}}
+    </ol>
 </div>
+{{/if}}

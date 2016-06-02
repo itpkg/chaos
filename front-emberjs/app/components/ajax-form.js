@@ -13,11 +13,27 @@ export default Ember.Component.extend({
       //console.log(data);
       this.get('ajax')
       .request(fm.action, {data:data, method:fm.method})
-      .then(function(rst){
-        //this.set('item', rst);
-        console.log(rst);
-      }.bind(this));
-
+      .then(
+        function(rst){
+          //console.log(rst);
+          if( typeof rst == 'string'){
+            this.set("alert", {style:"success", messages:[rst], created:new Date()});
+          }
+        }.bind(this),
+        function(xhr){
+          console.log(xhr);
+          var msg = xhr.errors.map(function(e){
+            if(e.detail){
+              return e.detail.message;
+            }
+            if(e.field && e.defaultMessage){
+              return e.field+" "+e.defaultMessage;
+            }
+            return e;
+          });
+          this.set("alert", {style:"danger", messages:msg, created:new Date()});
+        }.bind(this)
+      );
     }
   }
 });

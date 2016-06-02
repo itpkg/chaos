@@ -4,7 +4,7 @@
     {{#each readingNotes.items as |n|}}
         <blockquote>
             <p>{{n.body}}</p>
-            <footer>{{n.title}} <cite>{{moment-to-now n.updatedAt}}</cite></footer>
+            <footer>{{n.title}} <cite>{{moment-from-now n.updatedAt}}</cite></footer>
         </blockquote>
     {{/each}}
 </div>
