@@ -10,7 +10,10 @@ import com.itpkg.core.services.UserService;
 import com.itpkg.core.utils.Encryptor;
 import com.itpkg.core.utils.JwtHelper;
 import org.springframework.context.MessageSource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Locale;
