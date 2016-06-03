@@ -53,8 +53,8 @@ public class JjwtJwtHandlerImpl implements JwtHandler {
     @PostConstruct
     void init() throws IOException {
 
-        String srt = settingService.get(KEY, String.class);
-        if (srt == null) {
+        secret = settingService.get(KEY, String.class);
+        if (secret == null) {
             byte[] buf = new byte[32];
             new Random().nextBytes(buf);
             secret = Base64.getEncoder().encodeToString(buf);

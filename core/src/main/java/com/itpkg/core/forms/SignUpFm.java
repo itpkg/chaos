@@ -15,7 +15,7 @@ public class SignUpFm implements Serializable {
     @Email
     private String email;
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min = 2, max = 30)
     private String name;
     @NotNull
     @Size(min = 8, max = 32)
