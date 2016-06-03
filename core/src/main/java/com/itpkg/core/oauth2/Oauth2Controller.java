@@ -29,32 +29,31 @@ import java.util.Map;
 @RequestMapping(value = "/oauth2")
 public class Oauth2Controller {
     @RequestMapping(value = "/callback", method = RequestMethod.POST)
-    public String callback(@RequestParam(value = "href") String href, Locale l) throws URISyntaxException, IOException {
-        Map<String, String> params = new HashMap<>();
-
-        URLEncodedUtils.parse(new URI(href), "UTF-8").forEach(vp -> {
-            params.put(vp.getName(), vp.getValue());
-        });
-
-        logger.debug(href);
-        logger.debug("PARAMS: {}", params);
-
-        String state = params.get("state");
+    public String callback(
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "state", required = false) String state,
+            Locale l) throws URISyntaxException, IOException {
+        User u=null;
 
         if (state != null && state.startsWith(Oauth2GoogleHelper.ID)) {
             //google oauth2
-            Userinfoplus gu = googleHelper.getUser(params.get("code"));
-            User u = userRepository.findByEmail(gu.getEmail());
+            Userinfoplus gu = googleHelper.getUser(code);
+            u = userRepository.findByEmail(gu.getEmail());
             if (u == null) {
                 u = userService.add(User.Type.GOOGLE, (String) gu.get("sub"), gu.getName(), gu.getEmail());
                 userService.log(u, messageSource.getMessage("core.logs.user.signUp", null, l));
             }
+        }
+
+        if(u == null){
+            throw new IllegalArgumentException(messageSource.getMessage("core.errors.user.bad_token", null, l));
+        }else{
             userService.signIn(u);
             userService.log(u, messageSource.getMessage("core.logs.user.signIn", null, l));
             return jwtHelper.generate(u);
         }
 
-        throw new IllegalArgumentException();
+
     }
 
     @Resource

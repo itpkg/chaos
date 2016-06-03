@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import {parseXhr} from '../utils';
 
 export default Ember.Component.extend({
   ajax: Ember.inject.service(),
@@ -16,22 +17,12 @@ export default Ember.Component.extend({
       .then(
         function(rst){
           //console.log(rst);
-          if( typeof rst == 'string'){
+          if( typeof rst === 'string'){
             this.set("alert", {style:"success", messages:[rst], created:new Date()});
           }
         }.bind(this),
         function(xhr){
-          console.log(xhr);
-          var msg = xhr.errors.map(function(e){
-            if(e.detail){
-              return e.detail.message;
-            }
-            if(e.field && e.defaultMessage){
-              return e.field+" "+e.defaultMessage;
-            }
-            return e;
-          });
-          this.set("alert", {style:"danger", messages:msg, created:new Date()});
+          this.set("alert", {style:"danger", messages:parseXhr(xhr), created:new Date()});
         }.bind(this)
       );
     }
