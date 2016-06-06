@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
+	"github.com/ugorji/go/codec"
 )
 
 type Engine struct {
@@ -15,7 +16,20 @@ func (p *Engine) Map(inj *inject.Graph) error {
 	if err != nil {
 		return err
 	}
-	return inj.Provide(&inject.Object{Value: db}, &inject.Object{Value: OpenRedis()})
+
+	enc, err := NewAesHmacEncryptor(Secret(120, 32), Secret(210, 32))
+	if err != nil {
+		return err
+	}
+
+	var hnd codec.MsgpackHandle
+
+	return inj.Provide(
+		&inject.Object{Value: db},
+		&inject.Object{Value: OpenRedis()},
+		&inject.Object{Value: enc},
+		&inject.Object{Value: &Coder{Handle: &hnd}},
+	)
 
 }
 func (p *Engine) Mount(*gin.Engine) {
