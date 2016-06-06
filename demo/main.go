@@ -9,6 +9,9 @@ import (
 	_ "github.com/itpkg/chaos/engines/ops"
 	_ "github.com/itpkg/chaos/engines/reading"
 	"github.com/itpkg/chaos/web"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 func main() {
