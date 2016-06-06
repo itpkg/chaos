@@ -251,6 +251,12 @@
 			"revisionTime": "2016-06-05T22:03:07Z"
 		},
 		{
+			"checksumSHA1": "UADS3X1kxl+/qqeGcmTo0rBiXlQ=",
+			"path": "github.com/ugorji/go/codec",
+			"revision": "b94837a2404ab90efe9289e77a70694c355739cb",
+			"revisionTime": "2016-05-31T12:29:44Z"
+		},
+		{
 			"checksumSHA1": "AA29v7WFDYGHoK+NPArQ0rM33ws=",
 			"path": "github.com/urfave/cli",
 			"revision": "edb24d02aa3cea2319c33f2836d4a5133907fe4c",

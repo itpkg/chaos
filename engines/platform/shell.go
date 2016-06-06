@@ -1,4 +1,4 @@
-package auth
+package platform
 
 import (
 	"github.com/itpkg/chaos/web"
