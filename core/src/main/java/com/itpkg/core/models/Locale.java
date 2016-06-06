@@ -1,5 +1,8 @@
 package com.itpkg.core.models;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "locales")
+@DynamicUpdate
+@DynamicInsert
 public class Locale extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

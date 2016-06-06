@@ -1,5 +1,8 @@
 package com.itpkg.core.models;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,6 +12,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "permissions")
+@DynamicUpdate
+@DynamicInsert
 public class Permission extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

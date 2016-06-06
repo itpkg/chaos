@@ -1,5 +1,7 @@
 package com.itpkg.core.models;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "logs")
+@DynamicInsert
 public class Log implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

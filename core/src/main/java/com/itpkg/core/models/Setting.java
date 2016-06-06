@@ -1,5 +1,8 @@
 package com.itpkg.core.models;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +10,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "settings")
+@DynamicUpdate
+@DynamicInsert
 public class Setting extends Editable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,8 @@
 package com.itpkg.core.models;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.List;
                 @Index(columnList = "name")
         }
 )
+@DynamicUpdate
+@DynamicInsert
 public class User implements Serializable {
 
     public enum Type {
