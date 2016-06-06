@@ -221,6 +221,12 @@
 			"revisionTime": "2016-02-12T03:18:39Z"
 		},
 		{
+			"checksumSHA1": "BoXdUBWB8UnSlFlbnuTQaPqfCGk=",
+			"path": "github.com/op/go-logging",
+			"revision": "970db520ece77730c7e4724c61121037378659d9",
+			"revisionTime": "2016-03-15T20:05:05Z"
+		},
+		{
 			"checksumSHA1": "E1899TNqCHhCtr6+joW4YEldRuE=",
 			"path": "github.com/spf13/cast",
 			"revision": "27b586b42e29bec072fe7379259cc719e1289da6",

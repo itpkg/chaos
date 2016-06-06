@@ -6,9 +6,41 @@ import (
 	"os"
 
 	"github.com/BurntSushi/toml"
+	"github.com/facebookgo/inject"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli"
 )
+
+func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
+	return func(ctx *cli.Context) error {
+		var inj inject.Graph
+		logger := Logger()
+		if !IsProduction() {
+			inj.Logger = logger
+		}
+		inj.Provide(&inject.Object{Value: logger})
+		Loop(func(en Engine) error {
+			if e := en.Map(&inj); e != nil {
+				return e
+			}
+			return inj.Provide(&inject.Object{Value: en})
+		})
+		if err := inj.Populate(); err != nil {
+			return err
+		}
+		return fn(ctx, &inj)
+	}
+}
+
+func Action(f cli.ActionFunc) cli.ActionFunc {
+	return func(c *cli.Context) error {
+		if err := viper.ReadInConfig(); err != nil {
+			return err
+		}
+		return f(c)
+	}
+}
 
 func Run() error {
 	app := cli.NewApp()
@@ -41,6 +73,23 @@ func Run() error {
 
 			},
 		},
+
+		{
+			Name:    "server",
+			Aliases: []string{"s"},
+			Usage:   "start the server",
+			Action: IocAction(func(*cli.Context, *inject.Graph) error {
+				if IsProduction() {
+					gin.SetMode(gin.ReleaseMode)
+				}
+				rt := gin.Default()
+				Loop(func(en Engine) error {
+					en.Mount(rt)
+					return nil
+				})
+				return rt.Run(fmt.Sprintf(":%d", viper.GetInt("http.port")))
+			}),
+		},
 	}
 	for _, en := range engines {
 		cmd := en.Shell()
@@ -59,5 +108,6 @@ func init() {
 	viper.SetDefault("env", "development")
 
 	viper.SetConfigName("config")
+	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 }

@@ -17,7 +17,7 @@ func (p *Engine) Shell() []cli.Command {
 					Name:    "migrate",
 					Usage:   "migrate the database",
 					Aliases: []string{"m"},
-					Action: func(*cli.Context) error {
+					Action: web.Action(func(*cli.Context) error {
 						db, err := OpenDatabase()
 						if err != nil {
 							return err
@@ -26,7 +26,7 @@ func (p *Engine) Shell() []cli.Command {
 							en.Migrate(db)
 							return nil
 						})
-					},
+					}),
 				},
 			},
 		},
@@ -56,5 +56,5 @@ func init() {
 		"port": 6379,
 		"db":   2,
 	})
-	viper.SetDefault("secrets", web.RandomStr(512))
+	viper.SetDefault("secrets", RandomStr(512))
 }

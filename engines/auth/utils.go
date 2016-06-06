@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -9,6 +10,15 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
+
+func RandomStr(n int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
+	buf := make([]rune, n)
+	for i := range buf {
+		buf[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(buf)
+}
 
 func OpenDatabase() (*gorm.DB, error) {
 	//postgresql: "user=%s password=%s host=%s port=%d dbname=%s sslmode=%s"
@@ -34,7 +44,7 @@ func OpenDatabase() (*gorm.DB, error) {
 
 }
 
-func Redis() *redis.Pool {
+func OpenRedis() *redis.Pool {
 	return &redis.Pool{
 		MaxIdle:     3,
 		IdleTimeout: 240 * time.Second,
@@ -61,4 +71,8 @@ func Redis() *redis.Pool {
 			return err
 		},
 	}
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }

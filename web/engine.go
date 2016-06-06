@@ -1,12 +1,15 @@
 package web
 
 import (
+	"github.com/facebookgo/inject"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/urfave/cli"
 )
 
 type Engine interface {
-	Mount()
+	Map(*inject.Graph) error
+	Mount(*gin.Engine)
 	Migrate(*gorm.DB)
 	Seed()
 	Worker()
