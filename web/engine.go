@@ -1,6 +1,7 @@
 package web
 
 import (
+	machinery "github.com/RichardKnop/machinery/v1"
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -12,7 +13,7 @@ type Engine interface {
 	Mount(*gin.Engine)
 	Migrate(*gorm.DB)
 	Seed()
-	Worker()
+	Worker(*machinery.Server)
 	Shell() []cli.Command
 }
 

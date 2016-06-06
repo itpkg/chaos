@@ -1,6 +1,7 @@
 package platform
 
 import (
+	"github.com/RichardKnop/machinery/v1"
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
@@ -10,12 +11,13 @@ import (
 )
 
 type Engine struct {
-	Dao    *Dao            `inject:""`
-	Logger *logging.Logger `inject:""`
+	Dao        *Dao            `inject:""`
+	Logger     *logging.Logger `inject:""`
+	MailSender *MailSender     `inject:""`
 }
 
 func (p *Engine) Map(inj *inject.Graph) error {
-	db, err := OpenDatabase()
+	db, err := web.OpenDatabase()
 	if err != nil {
 		return err
 	}
@@ -29,7 +31,7 @@ func (p *Engine) Map(inj *inject.Graph) error {
 
 	return inj.Provide(
 		&inject.Object{Value: db},
-		&inject.Object{Value: OpenRedis()},
+		&inject.Object{Value: web.OpenRedis()},
 		&inject.Object{Value: enc},
 		&inject.Object{Value: &Coder{Handle: &hnd}},
 	)
@@ -49,8 +51,10 @@ func (p *Engine) Migrate(db *gorm.DB) {
 	db.Model(&Role{}).AddUniqueIndex("idx_roles_name_resource_type_id", "name", "resource_type", "resource_id")
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")
 }
-func (p *Engine) Seed()   {}
-func (p *Engine) Worker() {}
+func (p *Engine) Seed() {}
+func (p *Engine) Worker(srv *machinery.Server) {
+	srv.RegisterTask("email", p.MailSender.Send)
+}
 
 func init() {
 	web.Register(&Engine{})

@@ -73,11 +73,10 @@ func Run() error {
 
 			},
 		},
-
 		{
 			Name:    "server",
 			Aliases: []string{"s"},
-			Usage:   "start the server",
+			Usage:   "start the app server",
 			Action: IocAction(func(*cli.Context, *inject.Graph) error {
 				if IsProduction() {
 					gin.SetMode(gin.ReleaseMode)
@@ -88,6 +87,23 @@ func Run() error {
 					return nil
 				})
 				return rt.Run(fmt.Sprintf(":%d", viper.GetInt("http.port")))
+			}),
+		},
+		{
+			Name:    "worker",
+			Aliases: []string{"w"},
+			Usage:   "start the worker progress",
+			Action: IocAction(func(*cli.Context, *inject.Graph) error {
+				srv, err := NewMachinery()
+				if err != nil {
+					return err
+				}
+				Loop(func(en Engine) error {
+					en.Worker(srv)
+					return nil
+				})
+
+				return srv.NewWorker("worker").Launch()
 			}),
 		},
 	}
@@ -110,4 +126,10 @@ func init() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
+
+	viper.SetDefault("redis", map[string]interface{}{
+		"host": "localhost",
+		"port": 6379,
+		"db":   2,
+	})
 }
