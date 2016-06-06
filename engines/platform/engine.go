@@ -5,10 +5,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
+	"github.com/op/go-logging"
 	"github.com/ugorji/go/codec"
 )
 
 type Engine struct {
+	Dao    *Dao            `inject:""`
+	Logger *logging.Logger `inject:""`
 }
 
 func (p *Engine) Map(inj *inject.Graph) error {
