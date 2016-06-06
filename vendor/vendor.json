@@ -29,52 +29,16 @@
 			"revisionTime": "2016-04-26T10:16:13Z"
 		},
 		{
-			"checksumSHA1": "pJnjZ1hkZuCUizYTiyG7tyuTsec=",
-			"path": "github.com/RichardKnop/machinery",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "6htAyLRnpBVGeWLHK+WLGKBlNKs=",
-			"path": "github.com/RichardKnop/machinery/v1",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "B+s3KG6JUm+xDZ7U6SCS4zO5uyE=",
-			"path": "github.com/RichardKnop/machinery/v1/backends",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "iroG0nBWy5bVmO+UIwo/eP/J9UQ=",
-			"path": "github.com/RichardKnop/machinery/v1/brokers",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "TplRa4P9vtWm1hnLW6g3u9Jji5A=",
-			"path": "github.com/RichardKnop/machinery/v1/config",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "IjAH7gJXI01Mm0gdVQFEk+0Ldl8=",
-			"path": "github.com/RichardKnop/machinery/v1/signatures",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
-			"checksumSHA1": "cs9R/zjGHsT5cVMvaL+LlxRrDlA=",
-			"path": "github.com/RichardKnop/machinery/v1/utils",
-			"revision": "444781869b12a6c6a88c3759c231796e26f2d402",
-			"revisionTime": "2016-06-03T09:57:49Z"
-		},
-		{
 			"checksumSHA1": "AsVxXjY/R6lWNiQetN0xYrLJ3Nw=",
 			"path": "github.com/RichardKnop/uuid",
 			"revision": "dee7705ef7b324f27ceb85a121c61f2c2e8ce988",
 			"revisionTime": "2015-12-15T15:05:54Z"
+		},
+		{
+			"checksumSHA1": "4+wnUoVOdK9cHy7rqdQdweYKiOA=",
+			"path": "github.com/bitly/go-simplejson",
+			"revision": "aabad6e819789e569bd6aabf444c935aa9ba1e44",
+			"revisionTime": "2015-09-15T16:53:35Z"
 		},
 		{
 			"checksumSHA1": "fNAC4qgZDqF3kxq74/yyk3PWdy8=",
@@ -225,6 +189,12 @@
 			"path": "github.com/jinzhu/inflection",
 			"revision": "3272df6c21d04180007eb3349844c89a3856bc25",
 			"revisionTime": "2015-10-09T08:41:29Z"
+		},
+		{
+			"checksumSHA1": "YR/wYkkByHJp2IXiKo3YB+WELSI=",
+			"path": "github.com/jrallison/go-workers",
+			"revision": "287ed37cbdd72e67c1679ced0a12352a255abfe3",
+			"revisionTime": "2016-02-28T21:14:34Z"
 		},
 		{
 			"checksumSHA1": "84hbcb5NWMIW9jQf51+2uaNj/eY=",

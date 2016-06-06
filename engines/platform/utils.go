@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/jrallison/go-workers"
 	"github.com/spf13/viper"
 )
 
@@ -12,13 +13,8 @@ func Secret(i, l int) []byte {
 	return []byte(secret[i : i+l])
 }
 
-func RandomStr(n int) string {
-	letters := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
-	buf := make([]rune, n)
-	for i := range buf {
-		buf[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(buf)
+func SendMail(to, subject, body string, html bool, files ...string) {
+	workers.Enqueue("email", "send", []interface{}{to, subject, body, html, files})
 }
 
 func init() {

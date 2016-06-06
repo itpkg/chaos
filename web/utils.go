@@ -2,14 +2,22 @@ package web
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
-	"github.com/RichardKnop/machinery/v1"
-	"github.com/RichardKnop/machinery/v1/config"
 	"github.com/garyburd/redigo/redis"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
+
+func RandomStr(n int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
+	buf := make([]rune, n)
+	for i := range buf {
+		buf[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(buf)
+}
 
 func OpenDatabase() (*gorm.DB, error) {
 	//postgresql: "user=%s password=%s host=%s port=%d dbname=%s sslmode=%s"
@@ -62,19 +70,4 @@ func OpenRedis() *redis.Pool {
 			return err
 		},
 	}
-}
-
-func NewMachinery() (*machinery.Server, error) {
-	url := fmt.Sprintf(
-		"redis://%s:%d/%d",
-		viper.GetString("redis.host"),
-		viper.GetInt("redis.port"),
-		viper.GetInt("redis.db"),
-	)
-	return machinery.NewServer(&config.Config{
-		Broker:          url,
-		ResultBackend:   url,
-		ResultsExpireIn: 60 * 2,
-		DefaultQueue:    "tasks",
-	})
 }

@@ -51,5 +51,6 @@ func init() {
 			"max_idle": 6,
 		},
 	})
-	viper.SetDefault("secrets", RandomStr(512))
+	viper.SetDefault("secrets", web.RandomStr(512))
+	viper.SetDefault("workers.email", 5)
 }

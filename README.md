@@ -45,6 +45,6 @@ govendor fetch golang.org/x/oauth2 # Like "go get" but copies dependencies into 
 - <https://github.com/gin-gonic/gin>
 - <https://github.com/jinzhu/gorm>
 - <https://github.com/urfave/cli>
-- <https://github.com/RichardKnop/machinery>
 - <https://github.com/facebookgo/inject>
 - <https://github.com/spf13/viper>
+- <https://github.com/vmihailenco/msgpack>

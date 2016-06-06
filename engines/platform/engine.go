@@ -1,25 +1,21 @@
 package platform
 
 import (
-	"github.com/RichardKnop/machinery/v1"
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
+	"github.com/jrallison/go-workers"
 	"github.com/op/go-logging"
+	"github.com/spf13/viper"
 )
 
 type Engine struct {
-	Dao        *Dao            `inject:""`
-	Logger     *logging.Logger `inject:""`
-	MailSender *MailSender     `inject:""`
+	Dao    *Dao            `inject:""`
+	Logger *logging.Logger `inject:""`
 }
 
 func (p *Engine) Map(inj *inject.Graph) error {
-	db, err := web.OpenDatabase()
-	if err != nil {
-		return err
-	}
 
 	enc, err := NewAesHmacEncryptor(Secret(120, 32), Secret(210, 32))
 	if err != nil {
@@ -27,8 +23,6 @@ func (p *Engine) Map(inj *inject.Graph) error {
 	}
 
 	return inj.Provide(
-		&inject.Object{Value: db},
-		&inject.Object{Value: web.OpenRedis()},
 		&inject.Object{Value: enc},
 	)
 
@@ -48,8 +42,13 @@ func (p *Engine) Migrate(db *gorm.DB) {
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")
 }
 func (p *Engine) Seed() {}
-func (p *Engine) Worker(srv *machinery.Server) {
-	srv.RegisterTask("email", p.MailSender.Send)
+func (p *Engine) Worker() {
+	workers.Process("email", func(msg *workers.Msg) {
+
+		p.Logger.Infof("GET JOB %s@email", msg.Jid())
+		p.Logger.Debugf("ARGS: %+v", msg.Args())
+
+	}, viper.GetInt("workers.email"))
 }
 
 func init() {

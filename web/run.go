@@ -8,6 +8,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
+	"github.com/jrallison/go-workers"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli"
 )
@@ -19,7 +20,30 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 		if !IsProduction() {
 			inj.Logger = logger
 		}
-		inj.Provide(&inject.Object{Value: logger})
+
+		db, err := OpenDatabase()
+		if err != nil {
+			return err
+		}
+		rep := OpenRedis()
+
+		workers.Configure(map[string]string{
+			"server": fmt.Sprintf(
+				"%s:%d",
+				viper.GetString("redis.host"),
+				viper.GetInt("redis.port")),
+			"database": viper.GetString("redis.db"),
+			"pool":     viper.GetString("workers.pool"),
+			"process":  viper.GetString("workers.process"),
+		})
+
+		if err := inj.Provide(
+			&inject.Object{Value: logger},
+			&inject.Object{Value: db},
+			&inject.Object{Value: rep},
+		); err != nil {
+			return err
+		}
 		Loop(func(en Engine) error {
 			if e := en.Map(&inj); e != nil {
 				return e
@@ -94,16 +118,12 @@ func Run() error {
 			Aliases: []string{"w"},
 			Usage:   "start the worker progress",
 			Action: IocAction(func(*cli.Context, *inject.Graph) error {
-				srv, err := NewMachinery()
-				if err != nil {
-					return err
-				}
 				Loop(func(en Engine) error {
-					en.Worker(srv)
+					en.Worker()
 					return nil
 				})
-
-				return srv.NewWorker("worker").Launch()
+				workers.Run()
+				return nil
 			}),
 		},
 	}
@@ -132,4 +152,6 @@ func init() {
 		"port": 6379,
 		"db":   2,
 	})
+	viper.SetDefault("workers.pool", 30)
+	viper.SetDefault("workers.process", RandomStr(8))
 }

@@ -1,7 +1,6 @@
 package reading
 
 import (
-	machinery "github.com/RichardKnop/machinery/v1"
 	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
@@ -19,9 +18,9 @@ func (p *Engine) Mount(*gin.Engine) {
 
 }
 
-func (p *Engine) Migrate(*gorm.DB)         {}
-func (p *Engine) Seed()                    {}
-func (p *Engine) Worker(*machinery.Server) {}
+func (p *Engine) Migrate(*gorm.DB) {}
+func (p *Engine) Seed()            {}
+func (p *Engine) Worker()          {}
 func (p *Engine) Shell() []cli.Command {
 	return []cli.Command{}
 }
