@@ -305,12 +305,6 @@
 			"revisionTime": "2016-03-11T21:55:03Z"
 		},
 		{
-			"checksumSHA1": "UADS3X1kxl+/qqeGcmTo0rBiXlQ=",
-			"path": "github.com/ugorji/go/codec",
-			"revision": "b94837a2404ab90efe9289e77a70694c355739cb",
-			"revisionTime": "2016-05-31T12:29:44Z"
-		},
-		{
 			"checksumSHA1": "AA29v7WFDYGHoK+NPArQ0rM33ws=",
 			"path": "github.com/urfave/cli",
 			"revision": "edb24d02aa3cea2319c33f2836d4a5133907fe4c",
@@ -365,8 +359,26 @@
 			"revisionTime": "2016-06-01T07:51:46Z"
 		},
 		{
+			"checksumSHA1": "N3KZEuQ9O1QwJXcCJbe7Czwroo4=",
+			"path": "google.golang.org/appengine",
+			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
+			"revisionTime": "2016-05-16T20:30:09Z"
+		},
+		{
+			"checksumSHA1": "VvslAadlHQLVoBi7H2tAJFuIhPY=",
+			"path": "google.golang.org/appengine/datastore",
+			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
+			"revisionTime": "2016-05-16T20:30:09Z"
+		},
+		{
 			"checksumSHA1": "sX/mhkTnCygMMb8zew37wpSfnjQ=",
 			"path": "google.golang.org/appengine/internal",
+			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
+			"revisionTime": "2016-05-16T20:30:09Z"
+		},
+		{
+			"checksumSHA1": "x6Thdfyasqd68dWZWqzWWeIfAfI=",
+			"path": "google.golang.org/appengine/internal/app_identity",
 			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
 			"revisionTime": "2016-05-16T20:30:09Z"
 		},
@@ -379,6 +391,12 @@
 		{
 			"checksumSHA1": "5QsV5oLGSfKZqTCVXP6NRz5T4Tw=",
 			"path": "google.golang.org/appengine/internal/datastore",
+			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
+			"revisionTime": "2016-05-16T20:30:09Z"
+		},
+		{
+			"checksumSHA1": "eLZVX1EHLclFtQnjDIszsdyWRHo=",
+			"path": "google.golang.org/appengine/internal/modules",
 			"revision": "7f59a8c76b8594d06044bfe0bcbe475cb2020482",
 			"revisionTime": "2016-05-16T20:30:09Z"
 		},
@@ -429,6 +447,18 @@
 			"path": "gopkg.in/mgo.v2/internal/scram",
 			"revision": "b6e2fa371e64216a45e61072a96d4e3859f169da",
 			"revisionTime": "2016-02-23T13:38:14Z"
+		},
+		{
+			"checksumSHA1": "hBaNon5hsE3Kw8bl5NIhG9fxEQQ=",
+			"path": "gopkg.in/vmihailenco/msgpack.v2",
+			"revision": "851cd631b60599a692b136c60eb6eb2899b0e664",
+			"revisionTime": "2016-05-27T15:20:03Z"
+		},
+		{
+			"checksumSHA1": "AQ3X5WEp/tj8mFUc/FzMyKii2GE=",
+			"path": "gopkg.in/vmihailenco/msgpack.v2/codes",
+			"revision": "851cd631b60599a692b136c60eb6eb2899b0e664",
+			"revisionTime": "2016-05-27T15:20:03Z"
 		},
 		{
 			"checksumSHA1": "+OgOXBoiQ+X+C2dsAeiOHwBIEH0=",

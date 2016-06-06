@@ -3,6 +3,8 @@ package platform
 import (
 	"time"
 
+	"gopkg.in/vmihailenco/msgpack.v2"
+
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"golang.org/x/text/language"
@@ -11,12 +13,11 @@ import (
 type Dao struct {
 	Db        *gorm.DB        `inject:""`
 	Encryptor Encryptor       `inject:""`
-	Coder     *Coder          `inject:""`
 	Logger    *logging.Logger `inject:""`
 }
 
 func (p *Dao) Set(k string, v interface{}, f bool) error {
-	buf, err := p.Coder.To(v)
+	buf, err := msgpack.Marshal(v)
 	if err != nil {
 		return err
 	}
@@ -50,7 +51,7 @@ func (p *Dao) Get(k string, v interface{}) error {
 			return err
 		}
 	}
-	return p.Coder.From(m.Val, v)
+	return msgpack.Unmarshal(m.Val, v)
 }
 
 //-----------------------------------------------------------------------------
