@@ -1,11 +1,13 @@
 package web
 
+import "github.com/urfave/cli"
+
 type Engine interface {
 	Mount()
 	Migrate()
 	Seed()
 	Worker()
-	Shell()
+	Shell() []cli.Command
 }
 
 var engines []Engine
