@@ -3,12 +3,15 @@ package web
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/BurntSushi/toml"
 	"github.com/facebookgo/inject"
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"github.com/jrallison/go-workers"
+	"github.com/rs/cors"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli"
 )
@@ -104,11 +107,24 @@ func Run() error {
 					gin.SetMode(gin.ReleaseMode)
 				}
 				rt := gin.Default()
+
 				Loop(func(en Engine) error {
 					en.Mount(rt)
 					return nil
 				})
-				return rt.Run(fmt.Sprintf(":%d", viper.GetInt("http.port")))
+
+				adr := fmt.Sprintf(":%d", viper.GetInt("http.port"))
+				hnd := cors.New(cors.Options{
+					AllowCredentials: true,
+					AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
+					//Debug:            true,
+				}).Handler(rt)
+
+				if IsProduction() {
+					return endless.ListenAndServe(adr, hnd)
+				} else {
+					return http.ListenAndServe(adr, hnd)
+				}
 			}),
 		},
 		{

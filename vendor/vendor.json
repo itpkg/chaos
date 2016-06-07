@@ -89,6 +89,12 @@
 			"revisionTime": "2016-04-12T13:37:56Z"
 		},
 		{
+			"checksumSHA1": "RUYC2ZRD24htdxH7B1hE2EoaARI=",
+			"path": "github.com/fvbock/endless",
+			"revision": "2cdc20a776897c0f406853c048c33e2c1a9f0ebf",
+			"revisionTime": "2016-05-30T13:36:10Z"
+		},
+		{
 			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
 			"path": "github.com/garyburd/redigo/internal",
 			"revision": "b8dc90050f24c1a73a52f107f3f575be67b21b7c",
@@ -103,12 +109,6 @@
 		{
 			"checksumSHA1": "k5TeC/wCVFbzRUckb2WNJyNgI/k=",
 			"path": "github.com/gin-gonic/contrib/cache",
-			"revision": "120df5cf76f14a246b04f0e35d5ee029b14d8dfb",
-			"revisionTime": "2016-05-10T10:15:14Z"
-		},
-		{
-			"checksumSHA1": "2n/SVfW1YvPgEG+WYgCjIeeBRFE=",
-			"path": "github.com/gin-gonic/contrib/cors",
 			"revision": "120df5cf76f14a246b04f0e35d5ee029b14d8dfb",
 			"revisionTime": "2016-05-10T10:15:14Z"
 		},
@@ -285,6 +285,18 @@
 			"path": "github.com/robfig/go-cache",
 			"revision": "9fc39e0dbf62c034ec4e45e6120fc69433a3ec51",
 			"revisionTime": "2013-03-06T15:13:11Z"
+		},
+		{
+			"checksumSHA1": "g47ll7Q0GMnnXa5LE4TkrqEapM4=",
+			"path": "github.com/rs/cors",
+			"revision": "3ca2b550f6a4333b63c845850f760a7d00412cd6",
+			"revisionTime": "2016-03-21T23:10:48Z"
+		},
+		{
+			"checksumSHA1": "uEgHSdDVcceCTdH3WSC/p9QKm0k=",
+			"path": "github.com/rs/xhandler",
+			"revision": "d9d9599b6aaf6a058cb7b1f48291ded2cbd13390",
+			"revisionTime": "2015-12-24T01:29:56Z"
 		},
 		{
 			"checksumSHA1": "E1899TNqCHhCtr6+joW4YEldRuE=",

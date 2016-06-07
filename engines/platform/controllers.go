@@ -7,8 +7,16 @@ import (
 )
 
 func (p *Engine) Mount(r *gin.Engine) {
-	r.GET("/test", func(c *gin.Context) {
-		SendMail("aaa@aaa.com", "subject", "<h1>body</h1>", true, "/tmp/aaa.txt", "/tmp/bbb.txt")
-		c.JSON(http.StatusOK, "hello")
+	r.GET("/info", func(c *gin.Context) {
+		ifo := make(map[string]interface{})
+		for _, v := range []string{"title", "subTitle", "description", "copyright"} {
+			ifo[v] = "site." + v
+		}
+		ifo["author"] = map[string]string{
+			"name":  "username",
+			"email": "aaa@aaa.com",
+		}
+
+		c.JSON(http.StatusOK, ifo)
 	})
 }
