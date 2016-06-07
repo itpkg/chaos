@@ -1,0 +1,10 @@
+<div class="col-md-offset-1 col-md-10">
+    <h2>{{t "pages.reading.notes"}}</h2>
+    <hr/>
+    {{#each readingNotes.items as |n|}}
+        <blockquote>
+            <p>{{n.body}}</p>
+            <footer>{{n.title}} <cite>{{moment-from-now n.updatedAt}}</cite></footer>
+        </blockquote>
+    {{/each}}
+</div>

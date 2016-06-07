@@ -1,0 +1,46 @@
+<fieldset class="col-md-offset-2 col-md-8">
+    <legend>{{t form.title}}</legend>
+
+    {{alert-box item=alert}}
+
+    <form class="form-horizontal">
+    {{#each form.fields as |f|}}
+        {{#if (is-equal f.type "text")}}
+                <div class="form-group">
+                    <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
+                    <div class="col-md-8">
+                        {{input type="text" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
+                    </div>
+                </div>
+        {{else if (is-equal f.type "email")}}
+            <div class="form-group">
+                <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
+                <div class="col-md-5">
+                    {{input type="email" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
+                </div>
+            </div>
+        {{else if (is-equal f.type "password")}}
+            <div class="form-group">
+                <label for="{{f.id}}" class="col-md-2 control-label">{{t f.label}}</label>
+                <div class="col-md-6">
+                    {{input type="password" class="form-control" placeholder=f.placeholder value=(mut (get f 'value'))}}
+                </div>
+            </div>
+        {{/if}}
+    {{/each}}
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            {{#each form.buttons as |b|}}
+                {{#if (is-equal b.type "submit")}}
+                    <button type="submit" class="btn btn-primary" {{action "submit"}}>{{t "buttons.submit"}}</button>
+                {{else if (is-equal b.type "reset")}}
+                    <button type="reset" class="btn btn-default">{{t "buttons.reset"}}</button>
+                {{else}}
+                    <button class="btn btn-{{b.style}}" {{action "click" b.id}}>{{t b.label}}</button>
+                {{/if}}
+                &nbsp;
+            {{/each}}
+        </div>
+    </div>
+    </form>
+</fieldset>
