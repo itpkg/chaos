@@ -107,6 +107,7 @@ func Run() error {
 					gin.SetMode(gin.ReleaseMode)
 				}
 				rt := gin.Default()
+				rt.Use(LocaleHandler)
 
 				Loop(func(en Engine) error {
 					en.Mount(rt)
