@@ -2,12 +2,9 @@ package platform
 
 import (
 	"github.com/facebookgo/inject"
-	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
-	"github.com/jrallison/go-workers"
 	"github.com/op/go-logging"
-	"github.com/spf13/viper"
 )
 
 type Engine struct {
@@ -27,10 +24,6 @@ func (p *Engine) Map(inj *inject.Graph) error {
 	)
 
 }
-func (p *Engine) Mount(*gin.Engine) {
-
-}
-
 func (p *Engine) Migrate(db *gorm.DB) {
 	db.AutoMigrate(
 		&Setting{}, &Locale{}, &Notice{},
@@ -42,14 +35,6 @@ func (p *Engine) Migrate(db *gorm.DB) {
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")
 }
 func (p *Engine) Seed() {}
-func (p *Engine) Worker() {
-	workers.Process("email", func(msg *workers.Msg) {
-
-		p.Logger.Infof("GET JOB %s@email", msg.Jid())
-		p.Logger.Debugf("ARGS: %+v", msg.Args())
-
-	}, viper.GetInt("workers.email"))
-}
 
 func init() {
 	web.Register(&Engine{})
