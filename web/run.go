@@ -27,15 +27,13 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 		}
 		rep := OpenRedis()
 
-		workers.Configure(map[string]string{
-			"server": fmt.Sprintf(
-				"%s:%d",
-				viper.GetString("redis.host"),
-				viper.GetInt("redis.port")),
-			"database": viper.GetString("redis.db"),
-			"pool":     viper.GetString("workers.pool"),
-			"process":  viper.GetString("workers.process"),
-		})
+		wfg := viper.GetStringMapString("workers.config")
+		wfg["server"] = fmt.Sprintf(
+			"%s:%d",
+			viper.GetString("redis.host"),
+			viper.GetInt("redis.port"))
+		wfg["database"] = viper.GetString("redis.db")
+		workers.Configure(wfg)
 
 		if err := inj.Provide(
 			&inject.Object{Value: logger},
@@ -126,6 +124,29 @@ func Run() error {
 				return nil
 			}),
 		},
+
+		{
+			Name:    "database",
+			Aliases: []string{"db"},
+			Usage:   "database operations",
+			Subcommands: []cli.Command{
+				{
+					Name:    "migrate",
+					Usage:   "migrate the database",
+					Aliases: []string{"m"},
+					Action: Action(func(*cli.Context) error {
+						db, err := OpenDatabase()
+						if err != nil {
+							return err
+						}
+						return Loop(func(en Engine) error {
+							en.Migrate(db)
+							return nil
+						})
+					}),
+				},
+			},
+		},
 	}
 	for _, en := range engines {
 		cmd := en.Shell()
@@ -152,6 +173,9 @@ func init() {
 		"port": 6379,
 		"db":   2,
 	})
-	viper.SetDefault("workers.pool", 30)
-	viper.SetDefault("workers.process", RandomStr(8))
+	viper.SetDefault("workers.config", map[string]interface{}{
+		"pool":      30,
+		"namespace": "tasks",
+		"process":   RandomStr(8),
+	})
 }

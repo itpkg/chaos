@@ -35,6 +35,30 @@
 			"revisionTime": "2015-12-15T15:05:54Z"
 		},
 		{
+			"checksumSHA1": "GLW3fr4k1Ei7md0N04PVJCIFqOM=",
+			"path": "github.com/SermoDigital/jose",
+			"revision": "fa74c9f8b6a7bf513e12d9447b1669f68991198c",
+			"revisionTime": "2016-05-27T07:52:16Z"
+		},
+		{
+			"checksumSHA1": "u92C5yEz1FLBeoXp8jujn3tUNFI=",
+			"path": "github.com/SermoDigital/jose/crypto",
+			"revision": "fa74c9f8b6a7bf513e12d9447b1669f68991198c",
+			"revisionTime": "2016-05-27T07:52:16Z"
+		},
+		{
+			"checksumSHA1": "XOooA3lbT6hKW2UYb4ah6Cx8QOI=",
+			"path": "github.com/SermoDigital/jose/jws",
+			"revision": "fa74c9f8b6a7bf513e12d9447b1669f68991198c",
+			"revisionTime": "2016-05-27T07:52:16Z"
+		},
+		{
+			"checksumSHA1": "iQ3rw6jj3/vysexWgB5ovAOsZEo=",
+			"path": "github.com/SermoDigital/jose/jwt",
+			"revision": "fa74c9f8b6a7bf513e12d9447b1669f68991198c",
+			"revisionTime": "2016-05-27T07:52:16Z"
+		},
+		{
 			"checksumSHA1": "4+wnUoVOdK9cHy7rqdQdweYKiOA=",
 			"path": "github.com/bitly/go-simplejson",
 			"revision": "aabad6e819789e569bd6aabf444c935aa9ba1e44",
@@ -75,6 +99,18 @@
 			"path": "github.com/garyburd/redigo/redis",
 			"revision": "b8dc90050f24c1a73a52f107f3f575be67b21b7c",
 			"revisionTime": "2016-05-25T16:57:06Z"
+		},
+		{
+			"checksumSHA1": "k5TeC/wCVFbzRUckb2WNJyNgI/k=",
+			"path": "github.com/gin-gonic/contrib/cache",
+			"revision": "120df5cf76f14a246b04f0e35d5ee029b14d8dfb",
+			"revisionTime": "2016-05-10T10:15:14Z"
+		},
+		{
+			"checksumSHA1": "2n/SVfW1YvPgEG+WYgCjIeeBRFE=",
+			"path": "github.com/gin-gonic/contrib/cors",
+			"revision": "120df5cf76f14a246b04f0e35d5ee029b14d8dfb",
+			"revisionTime": "2016-05-10T10:15:14Z"
 		},
 		{
 			"checksumSHA1": "XxSDNaJf0LpjvMapDmmhNIlf+MQ=",
@@ -243,6 +279,12 @@
 			"path": "github.com/op/go-logging",
 			"revision": "970db520ece77730c7e4724c61121037378659d9",
 			"revisionTime": "2016-03-15T20:05:05Z"
+		},
+		{
+			"checksumSHA1": "XzHDmND/Rq9/RLKBP2fnAtBJu2M=",
+			"path": "github.com/robfig/go-cache",
+			"revision": "9fc39e0dbf62c034ec4e45e6120fc69433a3ec51",
+			"revisionTime": "2013-03-06T15:13:11Z"
 		},
 		{
 			"checksumSHA1": "E1899TNqCHhCtr6+joW4YEldRuE=",

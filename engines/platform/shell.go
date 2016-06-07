@@ -7,30 +7,7 @@ import (
 )
 
 func (p *Engine) Shell() []cli.Command {
-	return []cli.Command{
-		{
-			Name:    "database",
-			Aliases: []string{"db"},
-			Usage:   "database operations",
-			Subcommands: []cli.Command{
-				{
-					Name:    "migrate",
-					Usage:   "migrate the database",
-					Aliases: []string{"m"},
-					Action: web.Action(func(*cli.Context) error {
-						db, err := web.OpenDatabase()
-						if err != nil {
-							return err
-						}
-						return web.Loop(func(en web.Engine) error {
-							en.Migrate(db)
-							return nil
-						})
-					}),
-				},
-			},
-		},
-	}
+	return []cli.Command{}
 }
 
 func init() {
@@ -52,5 +29,5 @@ func init() {
 		},
 	})
 	viper.SetDefault("secrets", web.RandomStr(512))
-	viper.SetDefault("workers.email", 5)
+	viper.SetDefault("workers.queues.email", 5)
 }

@@ -1,6 +1,7 @@
 package platform
 
 import (
+	"github.com/SermoDigital/jose/crypto"
 	"github.com/facebookgo/inject"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
@@ -9,6 +10,7 @@ import (
 
 type Engine struct {
 	Dao    *Dao            `inject:""`
+	Jwt    *Jwt            `inject:""`
 	Logger *logging.Logger `inject:""`
 }
 
@@ -21,6 +23,8 @@ func (p *Engine) Map(inj *inject.Graph) error {
 
 	return inj.Provide(
 		&inject.Object{Value: enc},
+		&inject.Object{Value: Secret(320, 32), Name: "jwt.key"},
+		&inject.Object{Value: crypto.SigningMethodHS512, Name: "jwt.method"},
 	)
 
 }

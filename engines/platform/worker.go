@@ -15,5 +15,5 @@ func (p *Engine) Worker() {
 		// }
 		p.Logger.Debugf("ARGS: %+v", msg.Interface().(map[string]interface{}))
 
-	}, viper.GetInt("workers.email"))
+	}, viper.GetInt("workers.queues.email"))
 }
