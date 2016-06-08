@@ -182,10 +182,6 @@ func Run() error {
 	return app.Run(os.Args)
 }
 
-func IsProduction() bool {
-	return viper.GetString("env") == "production"
-}
-
 func init() {
 	viper.SetEnvPrefix("chaos")
 	viper.BindEnv("env")
@@ -200,6 +196,26 @@ func init() {
 		"port": 6379,
 		"db":   2,
 	})
+
+	viper.SetDefault("http", map[string]interface{}{
+		"port":   8080,
+		"domain": "localhost",
+		"ssl":    false,
+	})
+	viper.SetDefault("database", map[string]interface{}{
+		"driver": "postgres",
+		"args": map[string]interface{}{
+			"user":    "postgres",
+			"dbname":  "chaos",
+			"sslmode": "disable",
+		},
+		"pool": map[string]int{
+			"max_open": 180,
+			"max_idle": 6,
+		},
+	})
+	viper.SetDefault("secrets", RandomStr(512))
+
 	viper.SetDefault("workers.config", map[string]interface{}{
 		"pool":      30,
 		"namespace": "tasks",

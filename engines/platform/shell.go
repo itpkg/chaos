@@ -2,6 +2,8 @@ package platform
 
 import (
 	"fmt"
+	"os"
+	"text/template"
 
 	"github.com/facebookgo/inject"
 	"github.com/itpkg/chaos/web"
@@ -16,8 +18,94 @@ func (p *Engine) Shell() []cli.Command {
 			Aliases: []string{"ng"},
 			Usage:   "init nginx config file",
 			Action: func(*cli.Context) error {
-				return nil
+				const tpl = `
 
+server {
+  listen {{if .Ssl}}443{{- else}}80{{- end}};
+{{if .Ssl}}
+  ssl  on;
+  ssl_certificate  ssl/www.{{.Domain}}-cert.pem;
+  ssl_certificate_key  ssl/www.{{.Domain}}-key.pem;
+  ssl_session_timeout  5m;
+  ssl_protocols  SSLv2 SSLv3 TLSv1;
+  ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers  on;
+{{- end}}
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+
+  server_name www.{{.Domain}};
+
+  root {{.Root}}/public;
+  index index.html;
+
+  access_log log/www.{{.Domain}}.access.log;
+  error_log log/www.{{.Domain}}.error.log;
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+
+  location ^~ /assets/ {
+    gzip_static on;
+    expires max;
+    access_log off;
+    add_header Cache-Control public;
+  }
+}
+
+server {
+  listen {{if .Ssl}}443{{- else}}80{{- end}};
+{{if .Ssl}}
+  ssl  on;
+  ssl_certificate  ssl/api.{{.Domain}}-cert.pem;
+  ssl_certificate_key  ssl/api.{{.Domain}}-key.pem;
+  ssl_session_timeout  5m;
+  ssl_protocols  SSLv2 SSLv3 TLSv1;
+  ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers  on;
+{{- end}}
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+
+  server_name api.{{.Domain}};
+  access_log log/api.{{.Domain}}.access.log;
+  error_log log/api.{{.Domain}}.error.log;
+
+  location / {
+    {{if .Ssl}}proxy_set_header  X-Forwarded-Proto https;{{- end}}
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_redirect off;
+    proxy_pass http://localhost:{{.Port}};
+    # limit_req zone=one;
+  }
+
+}
+				`
+				t := template.Must(template.New("").Parse(tpl))
+				pwd, err := os.Getwd()
+				if err != nil {
+					return err
+				}
+				fd, err := os.OpenFile("nginx.conf", os.O_WRONLY|os.O_CREATE, 0600)
+				if err != nil {
+					return err
+				}
+				defer fd.Close()
+
+				return t.Execute(fd, struct {
+					Domain string
+					Port   int
+					Ssl    bool
+					Root   string
+				}{
+					Ssl:    viper.GetBool("http.ssl"),
+					Domain: viper.GetString("http.domain"),
+					Port:   viper.GetInt("http.port"),
+					Root:   pwd,
+				})
 			},
 		},
 		{
@@ -54,23 +142,5 @@ func (p *Engine) Shell() []cli.Command {
 }
 
 func init() {
-	viper.SetDefault("http", map[string]interface{}{
-		"port":   8080,
-		"domain": "localhost",
-		"ssl":    false,
-	})
-	viper.SetDefault("database", map[string]interface{}{
-		"driver": "postgres",
-		"args": map[string]interface{}{
-			"user":    "postgres",
-			"dbname":  "chaos",
-			"sslmode": "disable",
-		},
-		"pool": map[string]int{
-			"max_open": 180,
-			"max_idle": 6,
-		},
-	})
-	viper.SetDefault("secrets", web.RandomStr(512))
 	viper.SetDefault("workers.queues.email", 5)
 }

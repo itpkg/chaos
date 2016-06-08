@@ -10,6 +10,20 @@ import (
 	"github.com/spf13/viper"
 )
 
+func IsProduction() bool {
+	return viper.GetString("env") == "production"
+}
+
+func Host() string {
+	if IsProduction() {
+		if viper.GetBool("http.ssl") {
+			return fmt.Sprintf("https://www.%s", viper.GetString("http.domain"))
+		}
+		return fmt.Sprintf("http://www.%s", viper.GetString("http.domain"))
+	}
+	return fmt.Sprintf("http://localhost:%d", viper.GetInt("http.port"))
+}
+
 func RandomStr(n int) string {
 	letters := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
 	buf := make([]rune, n)
