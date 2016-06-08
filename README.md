@@ -1,5 +1,14 @@
 # CHAOS
 
+## Build
+
+```
+vi front-emberjs/config/environment.js # replace "http://api.CHANGE-ME.com";
+./build.sh
+cd dist
+./api
+```
+
 ## Devel
 
 ### Env

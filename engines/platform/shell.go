@@ -17,11 +17,12 @@ func (p *Engine) Shell() []cli.Command {
 			Name:    "nginx",
 			Aliases: []string{"ng"},
 			Usage:   "init nginx config file",
-			Action: func(*cli.Context) error {
+			Action: web.Action(func(*cli.Context) error {
 				const tpl = `
 
 server {
   listen {{if .Ssl}}443{{- else}}80{{- end}};
+	
 {{if .Ssl}}
   ssl  on;
   ssl_certificate  ssl/www.{{.Domain}}-cert.pem;
@@ -31,6 +32,7 @@ server {
   ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
   ssl_prefer_server_ciphers  on;
 {{- end}}
+
   client_max_body_size 4G;
   keepalive_timeout 10;
 
@@ -56,6 +58,7 @@ server {
 
 server {
   listen {{if .Ssl}}443{{- else}}80{{- end}};
+
 {{if .Ssl}}
   ssl  on;
   ssl_certificate  ssl/api.{{.Domain}}-cert.pem;
@@ -65,6 +68,7 @@ server {
   ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
   ssl_prefer_server_ciphers  on;
 {{- end}}
+
   client_max_body_size 4G;
   keepalive_timeout 10;
 
@@ -73,7 +77,7 @@ server {
   error_log log/api.{{.Domain}}.error.log;
 
   location / {
-    {{if .Ssl}}proxy_set_header  X-Forwarded-Proto https;{{- end}}
+    {{if .Ssl}}proxy_set_header X-Forwarded-Proto https;{{- end}}
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP $remote_addr;
@@ -106,7 +110,7 @@ server {
 					Port:   viper.GetInt("http.port"),
 					Root:   pwd,
 				})
-			},
+			}),
 		},
 		{
 			Name:    "cache",
