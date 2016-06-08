@@ -1,6 +1,8 @@
 package platform
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"text/template"
@@ -22,7 +24,7 @@ func (p *Engine) Shell() []cli.Command {
 
 server {
   listen {{if .Ssl}}443{{- else}}80{{- end}};
-	
+
 {{if .Ssl}}
   ssl  on;
   ssl_certificate  ssl/www.{{.Domain}}-cert.pem;
@@ -138,6 +140,79 @@ server {
 					Aliases: []string{"c"},
 					Action: web.IocAction(func(*cli.Context, *inject.Graph) error {
 						return p.Cache.Flush()
+					}),
+				},
+			},
+		},
+		{
+			Name:    "oauth",
+			Aliases: []string{"oa"},
+			Usage:   "oauth credentials.",
+			Subcommands: []cli.Command{
+				{
+					Name:    "google",
+					Usage:   "google oauth v2",
+					Aliases: []string{"g"},
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:  "file, f",
+							Value: "",
+							Usage: "google oauth2 json filename.",
+						},
+					},
+					Action: web.IocAction(func(c *cli.Context, g *inject.Graph) error {
+						fn := c.String("file")
+						if fn == "" {
+							return errors.New("filename mustn't empty")
+						}
+
+						fd, err := os.Open(fn)
+						if err != nil {
+							return err
+						}
+						defer fd.Close()
+
+						var gc GoogleCredential
+						dec := json.NewDecoder(fd)
+						if err := dec.Decode(&gc); err != nil {
+							return err
+						}
+						return p.Dao.Set("google.oauth", gc.To(), true)
+					}),
+				},
+			},
+		},
+		{
+			Name:    "users",
+			Aliases: []string{"us"},
+			Usage:   "users manager",
+			Subcommands: []cli.Command{
+				{
+					Name:    "list",
+					Usage:   "list all users",
+					Aliases: []string{"l"},
+					Action: web.IocAction(func(*cli.Context, *inject.Graph) error {
+						var us []User
+						if err := p.Dao.Db.
+							Select([]string{"uid", "name", "email"}).
+							Order("last_sign_in DESC").
+							Find(&us).Error; err != nil {
+							return err
+						}
+						fmt.Println("UID\tUSER")
+						for _, u := range us {
+							fmt.Printf("%s\t%s<%s>\n", u.UID, u.Name, u.Email)
+						}
+						return nil
+					}),
+				},
+				{
+					Name:    "permission",
+					Usage:   "set user's permission",
+					Aliases: []string{"p"},
+					Action: web.IocAction(func(*cli.Context, *inject.Graph) error {
+						//todo
+						return nil
 					}),
 				},
 			},

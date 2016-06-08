@@ -27,7 +27,7 @@ func (p *Cache) Flush() error {
 	c := p.Redis.Get()
 	defer c.Close()
 	keys, err := redis.Values(c.Do("KEYS", fmt.Sprintf("%s://*", p.Prefix)))
-	if err == nil {
+	if err == nil && len(keys) > 0 {
 		_, err = c.Do("DEL", keys...)
 	}
 	return err

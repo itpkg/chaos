@@ -35,7 +35,11 @@ func (p *Dao) Set(k string, v interface{}, f bool) error {
 	if null {
 		err = p.Db.Create(&m).Error
 	} else {
-		err = p.Db.Save(&m).Error
+		//err = p.Db.Save(&m).Error
+		err = p.Db.Model(&m).Updates(map[string]interface{}{
+			"flag": f,
+			"val":  buf,
+		}).Error
 	}
 	return err
 }
@@ -68,7 +72,7 @@ func (p *Dao) SetLocale(lng *language.Tag, code, message string) {
 		err = p.Db.Create(&l).Error
 	} else {
 		l.Message = message
-		err = p.Db.Save(&l).Error
+		err = p.Db.Model(&l).Update("message", message).Error
 	}
 	if err != nil {
 		p.Logger.Error(err)

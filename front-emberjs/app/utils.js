@@ -15,12 +15,6 @@ export function parseUrl() {
 export function parseXhr(xhr){
   //console.log(xhr);
   return xhr.errors.map(function(e){
-     if(e.detail){
-       return e.detail.message;
-     }
-     if(e.field && e.defaultMessage){
-       return e.field+" "+e.defaultMessage;
-     }
-     return e;
+     return e.detail;
    });
 }

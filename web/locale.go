@@ -6,6 +6,7 @@ import (
 )
 
 func LocaleHandler(c *gin.Context) {
+	written := false
 	// 1. Check URL arguments.
 	lng := c.Request.URL.Query().Get("locale")
 
@@ -14,6 +15,8 @@ func LocaleHandler(c *gin.Context) {
 		if ck, er := c.Request.Cookie("locale"); er == nil {
 			lng = ck.String()
 		}
+	} else {
+		written = true
 	}
 
 	// 3. Get language information from 'Accept-Language'.
@@ -25,7 +28,9 @@ func LocaleHandler(c *gin.Context) {
 	}
 
 	tag, _, _ := matcher.Match(language.Make(lng))
-	//c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
+	if written {
+		c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
+	}
 	c.Set("locale", &tag)
 }
 
