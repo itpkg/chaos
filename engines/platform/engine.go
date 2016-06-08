@@ -12,6 +12,7 @@ type Engine struct {
 	Dao    *Dao            `inject:""`
 	Jwt    *Jwt            `inject:""`
 	Logger *logging.Logger `inject:""`
+	Cache  *web.Cache      `inject:""`
 }
 
 func (p *Engine) Map(inj *inject.Graph) error {
@@ -25,6 +26,7 @@ func (p *Engine) Map(inj *inject.Graph) error {
 		&inject.Object{Value: enc},
 		&inject.Object{Value: Secret(320, 32), Name: "jwt.key"},
 		&inject.Object{Value: crypto.SigningMethodHS512, Name: "jwt.method"},
+		&inject.Object{Value: "cache", Name: "cache.prefix"},
 	)
 
 }
