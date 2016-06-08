@@ -17,16 +17,20 @@ type Cache struct {
 	Prefix string          `inject:"cache.prefix"`
 }
 
-func (p *Cache) Flush() {
+func (p *Cache) Keys() ([]string, error) {
+	c := p.Redis.Get()
+	defer c.Close()
+	return redis.Strings(c.Do("KEYS", fmt.Sprintf("%s://*", p.Prefix)))
+}
+
+func (p *Cache) Flush() error {
 	c := p.Redis.Get()
 	defer c.Close()
 	keys, err := redis.Values(c.Do("KEYS", fmt.Sprintf("%s://*", p.Prefix)))
 	if err == nil {
 		_, err = c.Do("DEL", keys...)
 	}
-	if err != nil {
-		p.Logger.Error(err)
-	}
+	return err
 }
 
 func (p *Cache) Page(exp time.Duration, fn gin.HandlerFunc) gin.HandlerFunc {

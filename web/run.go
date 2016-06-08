@@ -141,7 +141,6 @@ func Run() error {
 				return nil
 			}),
 		},
-
 		{
 			Name:    "database",
 			Aliases: []string{"db"},
@@ -158,6 +157,17 @@ func Run() error {
 						}
 						return Loop(func(en Engine) error {
 							en.Migrate(db)
+							return nil
+						})
+					}),
+				},
+				{
+					Name:    "seed",
+					Usage:   "load the seed data",
+					Aliases: []string{"s"},
+					Action: IocAction(func(*cli.Context, *inject.Graph) error {
+						return Loop(func(en Engine) error {
+							en.Seed()
 							return nil
 						})
 					}),
