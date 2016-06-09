@@ -82,7 +82,7 @@ func (p *Engine) oauthCallback(c *gin.Context) {
 		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u, 7))
 	}
 	if e == nil {
-		c.String(http.StatusOK, string(tk))
+		c.JSON(http.StatusOK, gin.H{"token": string(tk)})
 	} else {
 		c.String(http.StatusInternalServerError, e.Error())
 	}

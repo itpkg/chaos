@@ -4,6 +4,7 @@ import {parseUrl} from '../../utils';
 export default Ember.Route.extend({
   ajax: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  auth: Ember.inject.service(),
   alertBox: Ember.inject.service(),
   init(){
     this._super(...arguments);
@@ -11,9 +12,9 @@ export default Ember.Route.extend({
     this.get('ajax')
        .post('/oauth2/callback', {data: parseUrl()})
        .then(
-         function(data){
-           //this.set('item', rst);
-           console.log(data);
+         function(rst){
+           this.get('auth').signIn(rst.token);
+           this.transitionTo('index');
          }.bind(this),
          function(jqXHR){
            this.get('alertBox').error(jqXHR);

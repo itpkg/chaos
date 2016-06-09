@@ -3,7 +3,9 @@ export dst=dist
 
 rm -r $dst front-emberjs/dist
 
-go build -ldflags "-s" -o $dst/api demo/main.go
+go build -ldflags "-s" -o $dst/demo demo/main.go
+upx -o $dst/chaos $dst/demo
+rm -v $dst/demo
 cp -rv demo/locales $dst
 
 cd front-emberjs && ember build --env production && cd -

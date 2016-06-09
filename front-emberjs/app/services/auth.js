@@ -4,7 +4,7 @@ const key = "token";
 
 function parse(token){
   //todo
-  return {username: token, email:'bbb', roles:['admin']};
+  return {name: "aaa", email:'bbb', roles:['admin']};
 }
 
 export default Ember.Service.extend({

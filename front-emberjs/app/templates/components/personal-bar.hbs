@@ -1,6 +1,6 @@
 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
     {{#if auth.user}}
-        {{t "pages.personal.welcome" name:user.name}}
+        {{t "core.pages.personal.welcome" name=auth.user.name}}
     {{else}}
         {{t "core.pages.personal.signInOrUp"}}
     {{/if}}
