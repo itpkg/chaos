@@ -41,7 +41,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.API_HOST = "http://api.CHANGE-ME.com";
+    ENV.APP.API_HOST = "/api/v1";
   }
 
   ENV.i18n = {

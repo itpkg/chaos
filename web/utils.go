@@ -17,9 +17,9 @@ func IsProduction() bool {
 func Host() string {
 	if IsProduction() {
 		if viper.GetBool("http.ssl") {
-			return fmt.Sprintf("https://www.%s", viper.GetString("http.domain"))
+			return fmt.Sprintf("https://%s", viper.GetString("http.domain"))
 		}
-		return fmt.Sprintf("http://www.%s", viper.GetString("http.domain"))
+		return fmt.Sprintf("http://%s", viper.GetString("http.domain"))
 	}
 	return fmt.Sprintf("http://localhost:%d", viper.GetInt("http.port"))
 }

@@ -21,14 +21,17 @@ func (p *Engine) Shell() []cli.Command {
 			Usage:   "init nginx config file",
 			Action: web.Action(func(*cli.Context) error {
 				const tpl = `
+upstream {{.Domain}}_prod {
+  server localhost:{{.Port}} fail_timeout=0;
+}
 
 server {
   listen {{if .Ssl}}443{{- else}}80{{- end}};
 
 {{if .Ssl}}
   ssl  on;
-  ssl_certificate  ssl/www.{{.Domain}}-cert.pem;
-  ssl_certificate_key  ssl/www.{{.Domain}}-key.pem;
+  ssl_certificate  ssl/{{.Domain}}-cert.pem;
+  ssl_certificate_key  ssl/{{.Domain}}-key.pem;
   ssl_session_timeout  5m;
   ssl_protocols  SSLv2 SSLv3 TLSv1;
   ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
@@ -38,58 +41,46 @@ server {
   client_max_body_size 4G;
   keepalive_timeout 10;
 
-  server_name www.{{.Domain}};
+  proxy_buffers 16 64k;
+  proxy_buffer_size 128k;
+
+  server_name www.{{.Domain}} {{.Domain}};
 
   root {{.Root}}/public;
   index index.html;
 
-  access_log log/www.{{.Domain}}.access.log;
-  error_log log/www.{{.Domain}}.error.log;
+  access_log /var/log/nginx/{{.Domain}}.access.log;
+  error_log /var/log/nginx/{{.Domain}}.error.log;
 
   location / {
-    try_files $uri $uri/ /index.html;
+    try_files $uri $uri/ /index.html?/$request_uri;
   }
 
   location ^~ /assets/ {
     gzip_static on;
     expires max;
     access_log off;
-    add_header Cache-Control public;
+    add_header Cache-Control "public";
   }
-}
 
-server {
-  listen {{if .Ssl}}443{{- else}}80{{- end}};
+  location ~* \.(?:rss|atom)$ {
+    expires 12h;
+    add_header Cache-Control "public";
+  }
 
-{{if .Ssl}}
-  ssl  on;
-  ssl_certificate  ssl/api.{{.Domain}}-cert.pem;
-  ssl_certificate_key  ssl/api.{{.Domain}}-key.pem;
-  ssl_session_timeout  5m;
-  ssl_protocols  SSLv2 SSLv3 TLSv1;
-  ssl_ciphers  RC4:HIGH:!aNULL:!MD5;
-  ssl_prefer_server_ciphers  on;
-{{- end}}
-
-  client_max_body_size 4G;
-  keepalive_timeout 10;
-
-  server_name api.{{.Domain}};
-  access_log log/api.{{.Domain}}.access.log;
-  error_log log/api.{{.Domain}}.error.log;
-
-  location / {
+  location ~ ^/api/{{.Version}}(/?)(.*) {
     {{if .Ssl}}proxy_set_header X-Forwarded-Proto https;{{- end}}
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_redirect off;
-    proxy_pass http://localhost:{{.Port}};
+    proxy_pass http://{{.Domain}}_prod/$2$is_args$args;
     # limit_req zone=one;
   }
 
 }
-				`
+
+`
 				t := template.Must(template.New("").Parse(tpl))
 				pwd, err := os.Getwd()
 				if err != nil {
@@ -102,15 +93,17 @@ server {
 				defer fd.Close()
 
 				return t.Execute(fd, struct {
-					Domain string
-					Port   int
-					Ssl    bool
-					Root   string
+					Domain  string
+					Port    int
+					Ssl     bool
+					Root    string
+					Version string
 				}{
-					Ssl:    viper.GetBool("http.ssl"),
-					Domain: viper.GetString("http.domain"),
-					Port:   viper.GetInt("http.port"),
-					Root:   pwd,
+					Ssl:     viper.GetBool("http.ssl"),
+					Domain:  viper.GetString("http.domain"),
+					Port:    viper.GetInt("http.port"),
+					Root:    pwd,
+					Version: "v1",
 				})
 			}),
 		},
