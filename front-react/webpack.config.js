@@ -29,8 +29,9 @@ module.exports = function(options) {
     ];
 
     var plugins = [
-        new HtmlWebpackPlugin({
-            title: 'Webpack demo'
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ];
     var loaders = [{
