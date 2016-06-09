@@ -7,24 +7,24 @@ import platform from './platform'
 import reading from './reading'
 import team from './team'
 
-const engines = [
+const engines = {
   cms,
   hr,
   ops,
   reading,
   team,
   platform
-]
+}
 
 export default {
   routes(){
-    return engines.reduce(function(obj, en) {
-      return obj.concat(en.routes)
+    return CHAOS_ENV.engines.reduce(function(obj, en) {
+      return obj.concat(engines[en].routes)
     }, []);
   },
   reducers(){
-    return engines.reduce(function(obj, en) {
-      return combineReducers(...obj, en.reducers)
+    return CHAOS_ENV.engines.reduce(function(obj, en) {
+      return combineReducers(...obj, engines[en].reducers)
     }, {});
   }
 }

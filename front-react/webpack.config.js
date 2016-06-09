@@ -5,19 +5,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require("stats-webpack-plugin");
 
-// var entry = options.engines.reduce(function(obj, en) {
-//     obj[en] = path.join(__dirname, "app", "engines", en);
-//     return obj
-// }, {});
-// options.engines.forEach(function(en) {
-//     plugins.push(new HtmlWebpackPlugin(Object.assign({},
-//         htmlOptions, {
-//             title: en,
-//             filename: (en == 'platform' ? 'index' : en) + ".html",
-//             chunks: ['vendor', en]
-//         }
-//     )));
-// });
 module.exports = function(options) {
 
     var entry = {
@@ -67,7 +54,7 @@ module.exports = function(options) {
     };
     var htmlOptions = {
         inject: true,
-        template: 'app/index.html',
+        template: 'app/index.ejs',
         filename: 'index.html',
         favicon: path.join(__dirname, 'app', 'favicon.png'),
         title: 'IT-PACKAGE'
