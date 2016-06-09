@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/itpkg/chaos/web"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
 )
@@ -39,7 +40,7 @@ func (p *Engine) info(c *gin.Context) {
 	}
 	ifo["author"] = author
 
-	var links []Link
+	var links []web.Link
 	if err := p.Dao.Get("site/links", &links); err != nil {
 		p.Logger.Error(err)
 	}
@@ -61,11 +62,10 @@ type OauthFm struct {
 	State string `form:"state"`
 }
 
-func (p *Engine) oauthCallback(c *gin.Context) {
+func (p *Engine) oauthCallback(c *gin.Context) (interface{}, error) {
 	var fm OauthFm
 	if err := c.Bind(&fm); err != nil {
-		c.String(http.StatusInternalServerError, err.Error())
-		return
+		return nil, err
 	}
 	//p.Logger.Debugf("%+v", fm)
 	var u *User
@@ -81,11 +81,7 @@ func (p *Engine) oauthCallback(c *gin.Context) {
 	if e == nil {
 		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u, 7))
 	}
-	if e == nil {
-		c.JSON(http.StatusOK, gin.H{"token": string(tk)})
-	} else {
-		c.String(http.StatusInternalServerError, e.Error())
-	}
+	return gin.H{"token": string(tk)}, e
 
 }
 
@@ -117,5 +113,5 @@ func (p *Engine) google(code string) (*User, error) {
 
 func (p *Engine) Mount(r *gin.Engine) {
 	r.GET("/info", p.Cache.Page(time.Hour*24, p.info))
-	r.POST("/oauth2/callback", p.oauthCallback)
+	r.POST("/oauth2/callback", web.Rest(p.oauthCallback))
 }

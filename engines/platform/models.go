@@ -6,22 +6,18 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"github.com/itpkg/chaos/web"
 )
 
-type Model struct {
-	ID        uint `gorm:"primary_key"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
 type Notice struct {
-	Model
+	web.Model
 	Lang    string `gorm:"not null;type:varchar(8);index" json:"lang"`
 	Content string `gorm:"not null;type:text" json:"content"`
 }
 
 type Setting struct {
-	Model
+	web.Model
 
 	Key  string `gorm:"not null;unique;type:VARCHAR(255)"`
 	Val  []byte `gorm:"not null"`
@@ -29,14 +25,14 @@ type Setting struct {
 }
 
 type Locale struct {
-	Model
+	web.Model
 	Lang    string `gorm:"not null;type:varchar(8);index"`
 	Code    string `gorm:"not null;index;type:VARCHAR(255)"`
 	Message string `gorm:"not null;type:varchar(800)"`
 }
 
 type User struct {
-	Model
+	web.Model
 	Email    string `gorm:"not null;index;type:VARCHAR(255)" json:"email"`
 	UID      string `gorm:"not null;unique_index;type:char(36)" json:"uid"`
 	Home     string `gorm:"not null;type:VARCHAR(255)" json:"home"`
@@ -87,7 +83,7 @@ type Log struct {
 
 //Role role model
 type Role struct {
-	Model
+	web.Model
 
 	Name         string `gorm:"not null;index;type:VARCHAR(255)"`
 	ResourceType string `gorm:"not null;default:'-';index;type:VARCHAR(255)"`
@@ -99,7 +95,7 @@ func (p Role) String() string {
 }
 
 type Permission struct {
-	Model
+	web.Model
 	User   User
 	UserID uint `gorm:"not null"`
 	Role   Role
