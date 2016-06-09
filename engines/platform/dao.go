@@ -121,14 +121,7 @@ func (p *Dao) UserClaims(u *User, days int) jws.Claims {
 	cm.SetSubject(u.Name)
 	cm.Set("uid", u.UID)
 
-	var roles []string
-	for _, pm := range p.Authority(u.ID) {
-		r := pm.Role
-		if r.ResourceID == 0 && r.ResourceType == "-" && pm.Enable() {
-			roles = append(roles, r.Name)
-		}
-	}
-	cm.Set("roles", roles)
+	cm.Set("roles", p.Authority(u.ID, "-", 0))
 	return cm
 }
 
@@ -166,20 +159,28 @@ func (p *Dao) GetUser(uid string) (*User, error) {
 	return &u, err
 }
 
-func (p *Dao) Authority(user uint) []Permission {
-	var items []Permission
+func (p *Dao) Authority(user uint, rty string, rid uint) []string {
+	var items []Role
 	if err := p.Db.
-		Where("user_id = ?", user).
+		Where("resource_type = ? AND resource_id = ?", rty, rid).
 		Find(&items).Error; err != nil {
 		p.Logger.Error(err)
 	}
-	for _, pm := range items {
-		if err := p.Db.Model(&pm).Related(&pm.Role).Error; err != nil {
+	var roles []string
+	for _, r := range items {
+		var pm Permission
+		if err := p.Db.
+			Where("role_id = ? AND user_id = ? ", r.ID, user).
+			First(&pm).Error; err != nil {
 			p.Logger.Error(err)
+			continue
+		}
+		if pm.Enable() {
+			roles = append(roles, r.Name)
 		}
 	}
 
-	return items
+	return roles
 }
 
 func (p *Dao) Is(user uint, name string) bool {
