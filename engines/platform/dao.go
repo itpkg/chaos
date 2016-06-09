@@ -230,9 +230,9 @@ func (p *Dao) Deny(role uint, user uint) error {
 		Delete(Permission{}).Error
 }
 
-func (p *Dao) Allow(role uint, user uint, dur time.Duration) error {
+func (p *Dao) Allow(role uint, user uint, years, months, days int) error {
 	begin := time.Now()
-	end := begin.Add(dur)
+	end := begin.AddDate(years, months, days)
 	var count int
 	p.Db.
 		Model(&Permission{}).

@@ -207,12 +207,55 @@ server {
 					}),
 				},
 				{
-					Name:    "permission",
-					Usage:   "set user's permission",
-					Aliases: []string{"p"},
-					Action: web.IocAction(func(*cli.Context, *inject.Graph) error {
-						//todo
-						return nil
+					Name:    "role",
+					Usage:   "add/remove user's role",
+					Aliases: []string{"r"},
+					Flags: []cli.Flag{
+						cli.StringFlag{
+							Name:  "uid, u",
+							Value: "",
+							Usage: "user's uid",
+						},
+						cli.StringFlag{
+							Name:  "name, n",
+							Value: "",
+							Usage: "role's name",
+						},
+						cli.BoolFlag{
+							Name:  "deny, d",
+							Usage: "remove role from user",
+						},
+						cli.IntFlag{
+							Name:  "years, y",
+							Value: 10,
+							Usage: "years",
+						},
+					},
+					Action: web.IocAction(func(c *cli.Context, _ *inject.Graph) error {
+						uid := c.String("uid")
+						name := c.String("name")
+						deny := c.Bool("deny")
+						years := c.Int("years")
+						if uid == "" {
+							return errors.New("uid mustn't empty.")
+						}
+						if name == "" {
+							return errors.New("role's name mustn't empty.")
+						}
+						user, err := p.Dao.GetUser(uid)
+						if err != nil {
+							return err
+						}
+						role, err := p.Dao.Role(name, "-", 0)
+						if err != nil {
+							return err
+						}
+						if deny {
+							err = p.Dao.Deny(role.ID, user.ID)
+						} else {
+							err = p.Dao.Allow(role.ID, user.ID, years, 0, 0)
+						}
+						return err
 					}),
 				},
 			},
