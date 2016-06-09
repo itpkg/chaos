@@ -62,14 +62,15 @@ module.exports = function(options) {
       })
     };
     var output = {
-        path: path.join(__dirname, 'build')
+        path: path.join(__dirname, 'build'),
+        publicPath: '/'
     };
     var htmlOptions = {
         inject: true,
         template: 'app/index.html',
         filename: 'index.html',
-        title: 'IT-PACKAGE',
-        favicon: path.join(__dirname, 'app', 'favicon.png')
+        favicon: path.join(__dirname, 'app', 'favicon.png'),
+        title: 'IT-PACKAGE'
     };
 
     if (options.minify) {
