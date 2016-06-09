@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 function reading(state = {}, action){
   switch (action.type) {
     default:
@@ -7,5 +5,5 @@ function reading(state = {}, action){
   }
 }
 
-const reducers = combineReducers({reading})
+const reducers = {reading}
 export default reducers

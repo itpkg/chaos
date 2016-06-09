@@ -10,6 +10,6 @@ export function signOut(){
   return {type:AUTH_SIGN_OUT}
 }
 
-export function refresh(info){
+export function refresh(info){  
   return {type:SITE_REFRESH, info}
 }

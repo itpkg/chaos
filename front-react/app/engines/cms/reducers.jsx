@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 function cms(state = {}, action){
   switch (action.type) {
     default:
@@ -7,5 +5,5 @@ function cms(state = {}, action){
   }
 }
 
-const reducers = combineReducers({cms})
+const reducers = {cms}
 export default reducers

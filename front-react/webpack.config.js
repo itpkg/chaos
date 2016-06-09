@@ -23,7 +23,12 @@ module.exports = function(options) {
 
         'jwt-decode',
         'url-parse',
-        'marked'
+        'marked',
+
+        'i18next',
+        'i18next-xhr-backend',
+        'i18next-localstorage-cache',
+        'i18next-browser-languagedetector'
     ];
 
     var plugins = [

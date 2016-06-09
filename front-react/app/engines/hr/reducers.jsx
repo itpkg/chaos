@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 
 function hr(state = {}, action){
   switch (action.type) {
@@ -7,5 +6,5 @@ function hr(state = {}, action){
   }
 }
 
-const reducers = combineReducers({hr})
+const reducers = {hr}
 export default reducers

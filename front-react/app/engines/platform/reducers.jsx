@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 import {AUTH_SIGN_IN, AUTH_SIGN_OUT, SITE_REFRESH} from './actions'
 
 function currentUser(state = {}, action){
@@ -14,7 +12,7 @@ function currentUser(state = {}, action){
   }
 }
 
-function siteInfo(state = {}, action){
+function siteInfo(state = {links:[]}, action){
   switch (action.type) {
     case SITE_REFRESH:
       return action.info
@@ -23,5 +21,5 @@ function siteInfo(state = {}, action){
   }
 }
 
-const reducers = combineReducers({currentUser, siteInfo})
+const reducers = {currentUser, siteInfo}
 export default reducers

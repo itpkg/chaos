@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 function team(state = {}, action){
   switch (action.type) {
     default:
@@ -7,5 +5,5 @@ function team(state = {}, action){
   }
 }
 
-const reducers = combineReducers({team})
+const reducers = {team}
 export default reducers

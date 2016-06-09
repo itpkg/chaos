@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux'
-
 import cms from './cms'
 import hr from './hr'
 import ops from './ops'
@@ -24,7 +22,8 @@ export default {
   },
   reducers(){
     return CHAOS_ENV.engines.reduce(function(obj, en) {
-      return combineReducers(...obj, engines[en].reducers)
+      //return combineReducers(...obj, engines[en].reducers)
+      return Object.assign(obj, engines[en].reducers)
     }, {});
   }
 }
