@@ -5,13 +5,24 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require("stats-webpack-plugin");
 
-const VERSION = '2016.6.9';
-
+// var entry = options.engines.reduce(function(obj, en) {
+//     obj[en] = path.join(__dirname, "app", "engines", en);
+//     return obj
+// }, {});
+// options.engines.forEach(function(en) {
+//     plugins.push(new HtmlWebpackPlugin(Object.assign({},
+//         htmlOptions, {
+//             title: en,
+//             filename: (en == 'platform' ? 'index' : en) + ".html",
+//             chunks: ['vendor', en]
+//         }
+//     )));
+// });
 module.exports = function(options) {
-    var entry = options.engines.reduce(function(obj, en) {
-        obj[en] = path.join(__dirname, "app", "engines", en);
-        return obj
-    }, {});
+
+    var entry = {
+        app: path.join(__dirname, "app")
+    };
     entry.vendor = [
         'jquery',
         'bootstrap',
@@ -44,9 +55,11 @@ module.exports = function(options) {
     }];
 
     var env = {
-        'app.host': JSON.stringify(options.host),
-        'app.engines': JSON.stringify(options.engines),
-        'app.version': JSON.stringify(VERSION)
+      CHAOS_ENV: JSON.stringify({
+        backend:options.backend,
+        engines: options.engines,
+        version: '2016.6.9'
+      })
     };
     var output = {
         path: path.join(__dirname, 'build')
@@ -54,6 +67,8 @@ module.exports = function(options) {
     var htmlOptions = {
         inject: true,
         template: 'app/index.html',
+        filename: 'index.html',
+        title: 'IT-PACKAGE',
         favicon: path.join(__dirname, 'app', 'favicon.png')
     };
 
@@ -107,15 +122,7 @@ module.exports = function(options) {
     }
 
     plugins.push(new webpack.DefinePlugin(env));
-    options.engines.forEach(function(en) {
-        plugins.push(new HtmlWebpackPlugin(Object.assign({},
-            htmlOptions, {
-                title: en,
-                filename: (en == 'platform' ? 'index' : en) + ".html",
-                chunks: ['vendor', en]
-            }
-        )));
-    });
+    plugins.push(new HtmlWebpackPlugin(htmlOptions));
 
     return {
         entry: entry,
