@@ -56,15 +56,28 @@ server {
     try_files $uri $uri/ /index.html?/$request_uri;
   }
 
-  location ^~ /assets/ {
+#  location ^~ /assets/ {
+#    gzip_static on;
+#    expires max;
+#    access_log off;
+#    add_header Cache-Control "public";
+#  }
+
+  location ~* \.(?:css|js)$ {
     gzip_static on;
     expires max;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+  location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+    expires 1M;
     access_log off;
     add_header Cache-Control "public";
   }
 
   location ~* \.(?:rss|atom)$ {
     expires 12h;
+    access_log off;
     add_header Cache-Control "public";
   }
 

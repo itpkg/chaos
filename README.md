@@ -3,9 +3,9 @@
 ## Build
 
 ```
-./build.sh
+make
 cd dist
-./api
+./chaos
 ```
 
 ## Devel
