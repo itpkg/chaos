@@ -22,6 +22,7 @@ go get -u github.com/kardianos/govendor
 go get -u github.com/itpkg/chaos
 cd $GOPATH/src/github.com/itpkg/chaos
 govendor sync
+sudo npm install -g ember-cli@2.6
 ```
 
 ### Editor(Atom)

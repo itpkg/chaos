@@ -1,6 +1,6 @@
 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
     {{#if auth.user}}
-        {{t "core.pages.personal.welcome" name=auth.user.name}}
+        {{t "core.pages.personal.welcome" name=auth.user.sub}}
     {{else}}
         {{t "core.pages.personal.signInOrUp"}}
     {{/if}}
@@ -13,7 +13,7 @@
             <li>{{#link-to "personal.dashboard"}} {{t "core.pages.personal.dashboard" }} {{/link-to}}</li>
         {{/if}}
         <li class="divider"></li>
-        <li><a>{{t "core.pages.personal.signOut" }}</a></li>
+        <li><a {{action "signOut"}}>{{t "core.pages.personal.signOut" }}</a></li>
     {{else}}
         <li>{{#link-to "personal.sign-in"}} {{t "core.pages.personal.signIn" }} {{/link-to}}</li>
         <li>{{#link-to "personal.sign-up"}} {{t "core.pages.personal.signUp" }} {{/link-to}}</li>

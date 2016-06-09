@@ -24,8 +24,9 @@ module.exports = function(defaults) {
   app.import('bower_components/bootstrap/dist/css/bootstrap-theme.css');
 
   app.import('bower_components/jquery/dist/jquery.js');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
-  //app.import('vendor/url-parse/index.js');
+  app.import('bower_components/bootstrap/dist/js/bootstrap.js');  
+  app.import('bower_components/js-base64/base64.js');
+
 
   return app.toTree();
 };

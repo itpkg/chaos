@@ -6,4 +6,9 @@ export default Ember.Component.extend({
   i18n: Ember.inject.service(),
   auth: Ember.inject.service(),
   siteInfo: Ember.inject.service(),
+  actions: {
+    signOut(){      
+      this.get('auth').signOut();
+    }
+  }
 });

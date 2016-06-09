@@ -3,8 +3,12 @@ import Ember from 'ember';
 const key = "token";
 
 function parse(token){
-  //todo
-  return {name: "aaa", email:'bbb', roles:['admin']};
+  try{
+      return JSON.parse(Base64.decode(token.split('.')[1]));
+  }catch(e){
+    console.log(e);
+    return null;
+  }
 }
 
 export default Ember.Service.extend({
