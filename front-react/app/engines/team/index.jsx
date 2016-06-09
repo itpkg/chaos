@@ -1,1 +1,9 @@
-console.log("Hello, chaos-team");
+import reducers from './reducers'
+import routes from './routes'
+
+const engine = {
+  reducers: reducers,
+  routes: routes
+}
+
+export default engine

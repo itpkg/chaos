@@ -136,7 +136,7 @@ module.exports = function(options) {
             extensions: ['', '.js', '.jsx'],
         },
         devServer: {
-            //historyApiFallback: true,
+            historyApiFallback: true,
             port: 4200
         }
     };
