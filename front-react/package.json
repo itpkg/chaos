@@ -1,0 +1,43 @@
+{
+  "name": "front-react",
+  "version": "1.0.0",
+  "description": "front of chaos application(by react)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itpkg/chaos.git"
+  },
+  "keywords": [
+    "chaos"
+  ],
+  "author": "Jitang Zheng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itpkg/chaos/issues"
+  },
+  "homepage": "https://github.com/itpkg/chaos#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "i18next": "^3.1.0",
+    "i18next-browser-languagedetector": "^0.3.0",
+    "i18next-localstorage-cache": "^0.3.0",
+    "i18next-xhr-backend": "^0.5.5",
+    "jquery": "^2.2.4",
+    "moment": "^2.13.0",
+    "path": "^0.12.7",
+    "react": "^15.1.0",
+    "react-bootstrap": "^0.29.4",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^2.19.0",
+    "webpack": "^1.13.1"
+  }
+}
