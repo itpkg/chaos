@@ -3,12 +3,14 @@ package platform
 import (
 	"github.com/SermoDigital/jose/crypto"
 	"github.com/facebookgo/inject"
+	"github.com/itpkg/chaos/i18n"
 	"github.com/itpkg/chaos/web"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 )
 
 type Engine struct {
+	I18n              *i18n.I18n      `inject:""`
 	Dao               *Dao            `inject:""`
 	Jwt               *Jwt            `inject:""`
 	Logger            *logging.Logger `inject:""`
@@ -33,11 +35,13 @@ func (p *Engine) Map(inj *inject.Graph) error {
 
 }
 func (p *Engine) Migrate(db *gorm.DB) {
+	i18n.Migrate(db)
+
 	db.AutoMigrate(
-		&Setting{}, &Locale{}, &Notice{},
+		&Setting{}, &Notice{},
 		&User{}, &Role{}, &Permission{}, &Log{},
 	)
-	db.Model(&Locale{}).AddUniqueIndex("idx_locales_lang_code", "lang", "code")
+
 	db.Model(&User{}).AddUniqueIndex("idx_user_provider_type_id", "provider_type", "provider_id")
 	db.Model(&Role{}).AddUniqueIndex("idx_roles_name_resource_type_id", "name", "resource_type", "resource_id")
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")

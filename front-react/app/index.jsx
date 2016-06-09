@@ -1,39 +1,33 @@
-require("bootstrap/dist/css/bootstrap.css");
-require("bootstrap/dist/css/bootstrap-theme.css");
-require("./main.css");
+require("bootstrap/dist/css/bootstrap.css")
+require("bootstrap/dist/css/bootstrap-theme.css")
+require("./main.css")
 
-import $ from 'jquery';
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import { Router, Route, browserHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import i18next from 'i18next'
+import XHR from 'i18next-xhr-backend'
+import LanguageDetector from 'i18next-browser-languagedetector'
 
-console.log("jquery version: "+$().jquery);
-console.log("react version: "+React.version);
-console.log("chaos version: "+CHAOS_ENV.version);
+import main from './main'
 
-import root from './engines'
-import Layout from './components/Layout'
+i18next
+    .use(XHR)
+    .use(LanguageDetector)
+    .init({
+            backend: {
+                loadPath: CHAOS_ENV.backend + '/locales/{{lng}}',
+                crossDomain: true
+            },
+            detection: {
+                order: ['querystring', 'localStorage', 'cookie', 'navigator'],
+                lookupQuerystring: 'locale',
+                lookupCookie: 'locale',
+                lookupLocalStorage: 'locale',
 
-const reducers = root.reducers()
-const store = createStore(
-  combineReducers({
-    ...reducers,
-    routing: routerReducer
-  })
-)
-
-const history = syncHistoryWithStore(browserHistory, store)
-
-ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={Layout}>
-        {root.routes()}
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('root')
-)
+                caches: ['localStorage', 'cookie'],
+                cookieMinutes: 365 * 24 * 60
+            }
+        },
+        (err, t) => {
+            console.log("Lang: " + i18next.language)
+            main('root')
+        }
+    );

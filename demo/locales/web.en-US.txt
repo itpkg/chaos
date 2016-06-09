@@ -1,0 +1,38 @@
+cms.articles.index = Articles
+cms.tags.index = Tags
+notices.index = Notices
+pages.index = Pages
+epub.index = Epub books
+
+dict.index = Dict
+dict.notes.index = Words
+
+buttons.more = More
+buttons.view = View
+buttons.search = Search
+buttons.new = New
+buttons.edit = Edit
+buttons.save = Save
+buttons.remove = Remove
+buttons.delete = Delete
+
+models.dict.note.title = Keyword
+models.dict.note.body = Body
+
+form.keyword = Keyword
+
+locales.en_US = English
+locales.zh_Hans = 简体中文
+
+links.home = Home
+
+messages.please_sign_in = Please sign in before continue.
+messages.please_waiting = Please waiting.
+messages.no_match = No match.
+messages.build_using = Build using <a href="{{link}}" target="_blank">{{link}}</a>.
+
+users.welcome = Welcome, {{name}}.
+users.sign_in_or_up = Sign In/Up
+users.sign_in_with_google = Sign in with google account.
+users.dashboard = Dashboard
+users.sign_out = Sign out

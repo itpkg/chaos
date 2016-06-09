@@ -26,8 +26,7 @@ module.exports = function(options) {
         'marked',
 
         'i18next',
-        'i18next-xhr-backend',
-        'i18next-localstorage-cache',
+        'i18next-xhr-backend',        
         'i18next-browser-languagedetector'
     ];
 

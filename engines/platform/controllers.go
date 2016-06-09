@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/itpkg/chaos/i18n"
 	"github.com/itpkg/chaos/web"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
@@ -111,7 +112,13 @@ func (p *Engine) google(code string) (*User, error) {
 	return p.Dao.AddUser(gu.ID, "google", gu.Email, gu.Name, gu.Link, gu.Picture)
 }
 
+func (p *Engine) locale(c *gin.Context) {
+	lng := i18n.Match(c.Param("lang"))
+	c.JSON(http.StatusOK, p.I18n.Items(&lng))
+}
+
 func (p *Engine) Mount(r *gin.Engine) {
+	r.GET("/locales/:lang", p.Cache.Page(time.Hour*24, p.locale))
 	r.GET("/info", p.Cache.Page(time.Hour*24, p.info))
 	r.POST("/oauth2/callback", web.Rest(p.oauthCallback))
 }

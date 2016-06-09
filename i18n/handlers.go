@@ -1,4 +1,4 @@
-package web
+package i18n
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,7 +6,7 @@ import (
 )
 
 func LocaleHandler(c *gin.Context) {
-	written := false
+	// written := false
 	// 1. Check URL arguments.
 	lng := c.Request.URL.Query().Get("locale")
 
@@ -15,9 +15,10 @@ func LocaleHandler(c *gin.Context) {
 		if ck, er := c.Request.Cookie("locale"); er == nil {
 			lng = ck.String()
 		}
-	} else {
-		written = true
 	}
+	// else {
+	// 	written = true
+	// }
 
 	// 3. Get language information from 'Accept-Language'.
 	if len(lng) == 0 {
@@ -27,11 +28,16 @@ func LocaleHandler(c *gin.Context) {
 		}
 	}
 
-	tag, _, _ := matcher.Match(language.Make(lng))
-	if written {
-		c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
-	}
+	tag := Match(lng)
+	// if written {
+	// 	c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
+	// }
 	c.Set("locale", &tag)
+}
+
+func Match(lng string) language.Tag {
+	tag, _, _ := matcher.Match(language.Make(lng))
+	return tag
 }
 
 var matcher language.Matcher

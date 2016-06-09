@@ -24,13 +24,6 @@ type Setting struct {
 	Flag bool   `gorm:"not null"`
 }
 
-type Locale struct {
-	web.Model
-	Lang    string `gorm:"not null;type:varchar(8);index"`
-	Code    string `gorm:"not null;index;type:VARCHAR(255)"`
-	Message string `gorm:"not null;type:varchar(800)"`
-}
-
 type User struct {
 	web.Model
 	Email    string `gorm:"not null;index;type:VARCHAR(255)" json:"email"`

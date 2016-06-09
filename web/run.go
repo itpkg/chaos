@@ -10,6 +10,7 @@ import (
 	"github.com/facebookgo/inject"
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
+	"github.com/itpkg/chaos/i18n"
 	"github.com/jrallison/go-workers"
 	"github.com/rs/cors"
 	"github.com/spf13/viper"
@@ -38,10 +39,13 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 		wfg["database"] = viper.GetString("redis.db")
 		workers.Configure(wfg)
 
+		i1n := i18n.I18n{Locales: make(map[string]map[string]string)}
 		if err := inj.Provide(
 			&inject.Object{Value: logger},
 			&inject.Object{Value: db},
 			&inject.Object{Value: rep},
+			&inject.Object{Value: &i18n.DatabaseProvider{}},
+			&inject.Object{Value: &i1n},
 		); err != nil {
 			return err
 		}
@@ -52,6 +56,9 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 			return inj.Provide(&inject.Object{Value: en})
 		})
 		if err := inj.Populate(); err != nil {
+			return err
+		}
+		if err := i1n.Load("locales"); err != nil {
 			return err
 		}
 		return fn(ctx, &inj)
@@ -107,7 +114,7 @@ func Run() error {
 					gin.SetMode(gin.ReleaseMode)
 				}
 				rt := gin.Default()
-				rt.Use(LocaleHandler)
+				rt.Use(i18n.LocaleHandler)
 
 				Loop(func(en Engine) error {
 					en.Mount(rt)

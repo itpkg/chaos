@@ -9,7 +9,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/satori/go.uuid"
-	"golang.org/x/text/language"
 )
 
 type Dao struct {
@@ -58,57 +57,6 @@ func (p *Dao) Get(k string, v interface{}) error {
 		}
 	}
 	return msgpack.Unmarshal(m.Val, v)
-}
-
-//-----------------------------------------------------------------------------
-
-func (p *Dao) SetLocale(lng *language.Tag, code, message string) {
-	var l Locale
-	var err error
-	if p.Db.
-		Where("lang = ? AND code = ?", lng.String(), code).
-		First(&l).RecordNotFound() {
-		l.Lang = lng.String()
-		l.Code = code
-		l.Message = message
-		err = p.Db.Create(&l).Error
-	} else {
-		l.Message = message
-		err = p.Db.Model(&l).Update("message", message).Error
-	}
-	if err != nil {
-		p.Logger.Error(err)
-	}
-}
-
-func (p *Dao) T(lng *language.Tag, code string) string {
-	var l Locale
-	if err := p.Db.
-		Where("lang = ? AND code = ?", lng.String(), code).
-		First(&l).Error; err != nil {
-		p.Logger.Error(err)
-	}
-	return l.Message
-
-}
-
-func (p *Dao) DelLocale(lng *language.Tag, code string) {
-	if err := p.Db.
-		Where("lang = ? AND code = ?", lng.String(), code).
-		Delete(Locale{}).Error; err != nil {
-		p.Logger.Error(err)
-	}
-}
-
-func (p *Dao) GetLocaleKeys(lng *language.Tag) []string {
-	var keys []string
-	if err := p.Db.
-		Model(&Locale{}).
-		Where("lang = ?", lng.String()).
-		Pluck("code", &keys).Error; err != nil {
-		p.Logger.Error(err)
-	}
-	return keys
 }
 
 //-----------------------------------------------------------------------------
