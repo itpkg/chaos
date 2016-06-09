@@ -1,36 +1,23 @@
 import Ember from 'ember';
-import {parseUrl, parseXhr} from '../../utils';
-import { translationMacro as t } from "ember-i18n";
+import {parseUrl} from '../../utils';
 
 export default Ember.Route.extend({
   ajax: Ember.inject.service(),
   i18n: Ember.inject.service(),
-  alert: null,
-  // model(){
-  //   this.store.push({
-  //     data:{
-  //       id:"alert",
-  //         style:"info",
-  //         messages:[this.get('i18n').t("messages.please_waiting")],
-  //         created:new Date()
-  //     }
-  //   });
-  // },
+  alertBox: Ember.inject.service(),
   init(){
     this._super(...arguments);
+    this.get('alertBox').show("info", [this.get('i18n').t("messages.please_waiting")]);
+    this.get('ajax')
+       .post('/oauth2/callback', {data: parseUrl()})
+       .then(
+         function(data){
+           //this.set('item', rst);
+           console.log(data);
+         }.bind(this),
+         function(jqXHR){
+           this.get('alertBox').error(jqXHR);
+         }.bind(this));
 
-    this.set("alert", {style:"danger", messages:["aaa"], created:new Date()});
-    console.log(this.get('alert'));
-   this.get('ajax')
-     .post('/oauth2/callback', {data: parseUrl()})
-     .then(
-       function(data){
-         //this.set('item', rst);
-         console.log(data);
-       }.bind(this),
-       function(jqXHR){
-         this.set("alert", {style:"danger", messages:["aaa"], created:new Date()});
-       }.bind(this));
-
-  }
+    }
 });

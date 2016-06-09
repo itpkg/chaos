@@ -5,8 +5,10 @@ import (
 
 	"gopkg.in/vmihailenco/msgpack.v2"
 
+	"github.com/SermoDigital/jose/jws"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
+	"github.com/satori/go.uuid"
 	"golang.org/x/text/language"
 )
 
@@ -111,10 +113,73 @@ func (p *Dao) GetLocaleKeys(lng *language.Tag) []string {
 
 //-----------------------------------------------------------------------------
 
+func (p *Dao) UserClaims(u *User, days int) jws.Claims {
+	cm := jws.Claims{}
+	now := time.Now()
+	cm.SetNotBefore(now)
+	cm.SetExpiration(now.AddDate(0, 0, days))
+	cm.SetSubject(u.Name)
+	cm.Set("uid", u.UID)
+
+	var roles []string
+	for _, pm := range p.Authority(u.ID) {
+		r := pm.Role
+		if r.ResourceID == 0 && r.ResourceType == "-" && pm.Enable() {
+			roles = append(roles, r.Name)
+		}
+	}
+	cm.Set("roles", roles)
+	return cm
+}
+
+func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
+	var u User
+	var err error
+	if p.Db.Where("provider_id = ? AND provider_type = ?", pid, pty).First(&u).RecordNotFound() {
+		u.Email = email
+		u.Name = name
+		u.Logo = logo
+		u.Home = home
+		u.UID = uuid.NewV4().String()
+		u.ProviderID = pid
+		u.ProviderType = pty
+		now := time.Now()
+		u.ConfirmedAt = &now
+		u.SignInCount = 1
+		u.LastSignIn = &now
+		err = p.Db.Create(&u).Error
+	} else {
+		err = p.Db.Model(&u).Updates(map[string]interface{}{
+			"email":         email,
+			"name":          name,
+			"logo":          logo,
+			"home":          home,
+			"sign_in_count": u.SignInCount + 1,
+		}).Error
+	}
+	return &u, err
+}
+
 func (p *Dao) GetUser(uid string) (*User, error) {
 	var u User
 	err := p.Db.Where("uid = ?", uid).First(&u).Error
 	return &u, err
+}
+
+func (p *Dao) Authority(user uint) []Permission {
+	var items []Permission
+	if err := p.Db.
+		Where("user_id = ?", user).
+		Find(&items).Error; err != nil {
+		p.Logger.Error(err)
+	}
+	for _, pm := range items {
+		if err := p.Db.Model(&pm).Related(&pm.Role).Error; err != nil {
+			p.Logger.Error(err)
+		}
+	}
+
+	return items
 }
 
 func (p *Dao) Is(user uint, name string) bool {

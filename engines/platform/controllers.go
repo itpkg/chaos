@@ -1,6 +1,8 @@
 package platform
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -48,17 +50,72 @@ func (p *Engine) info(c *gin.Context) {
 		p.Logger.Error(err)
 	}
 	ifo["oauth"] = map[string]string{
-		"google": gcf.AuthCodeURL("ga2"),
+		"google": gcf.AuthCodeURL(p.Oauth2GoogleState),
 	}
 
 	c.JSON(http.StatusOK, ifo)
 }
 
-func (p *Engine) google(c *gin.Context) {
-	c.String(http.StatusInternalServerError, "fuck")
+type OauthFm struct {
+	Code  string `form:"code"`
+	State string `form:"state"`
+}
+
+func (p *Engine) oauthCallback(c *gin.Context) {
+	var fm OauthFm
+	if err := c.Bind(&fm); err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	//p.Logger.Debugf("%+v", fm)
+	var u *User
+	var e error
+	switch fm.State {
+	case p.Oauth2GoogleState:
+		u, e = p.google(fm.Code)
+	default:
+		e = errors.New("bad state")
+	}
+
+	var tk []byte
+	if e == nil {
+		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u, 7))
+	}
+	if e == nil {
+		c.String(http.StatusOK, string(tk))
+	} else {
+		c.String(http.StatusInternalServerError, e.Error())
+	}
+
+}
+
+func (p *Engine) google(code string) (*User, error) {
+	var cfg oauth2.Config
+	if err := p.Dao.Get("google.oauth", &cfg); err != nil {
+		return nil, err
+	}
+
+	tok, err := cfg.Exchange(oauth2.NoContext, code)
+	if err != nil {
+		return nil, err
+	}
+
+	cli := cfg.Client(oauth2.NoContext, tok)
+	res, err := cli.Get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json")
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	var gu GoogleUser
+	dec := json.NewDecoder(res.Body)
+	if err := dec.Decode(&gu); err != nil {
+		return nil, err
+	}
+	return p.Dao.AddUser(gu.ID, "google", gu.Email, gu.Name, gu.Link, gu.Picture)
 }
 
 func (p *Engine) Mount(r *gin.Engine) {
 	r.GET("/info", p.Cache.Page(time.Hour*24, p.info))
-	r.POST("/oauth2/callback", p.google)
+	r.POST("/oauth2/callback", p.oauthCallback)
 }

@@ -1,7 +1,6 @@
 package platform
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/SermoDigital/jose/crypto"
@@ -27,12 +26,12 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 func (p *Jwt) Handler(c *gin.Context) {
 	js, err := jws.ParseFromRequest(c.Request, jws.Flat)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.String(http.StatusInternalServerError, err.Error())
 	}
 	if !js.IsJWT() {
-		c.AbortWithError(
+		c.String(
 			http.StatusInternalServerError,
-			fmt.Errorf("http request header not have jwt"),
+			"http request header not have jwt",
 		)
 	}
 	//TODO

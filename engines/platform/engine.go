@@ -9,10 +9,11 @@ import (
 )
 
 type Engine struct {
-	Dao    *Dao            `inject:""`
-	Jwt    *Jwt            `inject:""`
-	Logger *logging.Logger `inject:""`
-	Cache  *web.Cache      `inject:""`
+	Dao               *Dao            `inject:""`
+	Jwt               *Jwt            `inject:""`
+	Logger            *logging.Logger `inject:""`
+	Cache             *web.Cache      `inject:""`
+	Oauth2GoogleState string          `inject:"oauth2.google.state"`
 }
 
 func (p *Engine) Map(inj *inject.Graph) error {
@@ -27,6 +28,7 @@ func (p *Engine) Map(inj *inject.Graph) error {
 		&inject.Object{Value: Secret(320, 32), Name: "jwt.key"},
 		&inject.Object{Value: crypto.SigningMethodHS512, Name: "jwt.method"},
 		&inject.Object{Value: "cache", Name: "cache.prefix"},
+		&inject.Object{Value: "ga2", Name: "oauth2.google.state"},
 	)
 
 }

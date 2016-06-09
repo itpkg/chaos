@@ -11,10 +11,3 @@ export function parseUrl() {
     }
     return params;
 }
-
-export function parseXhr(xhr){
-  //console.log(xhr);
-  return xhr.errors.map(function(e){
-     return e.detail;
-   });
-}
