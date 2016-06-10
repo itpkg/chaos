@@ -6,8 +6,7 @@ const Widget = React.createClass({
   render() {
     return (
       <Alert bsStyle="danger">
-          <strong>{new Date().toLocaleString()}:
-          </strong>{i18next.t('')}
+          <strong>{new Date().toLocaleString()}: </strong>{i18next.t('platform.no_match')}
       </Alert>
     )
   }

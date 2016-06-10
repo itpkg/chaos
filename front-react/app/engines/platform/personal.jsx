@@ -3,11 +3,11 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {Tabs, Tab, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 
-import {isSignIn, hasRole} from '../../utils'
+import {isSignIn, isAdmin} from '../../utils'
+import NoMatch from '../../components/NoMatch'
 
 const Profile =  React.createClass({
   render() {
-    console.log("profile")
     return (
       <div>
         <br/>
@@ -21,23 +21,33 @@ const Profile =  React.createClass({
 const DashboardW = React.createClass({
   getInitialState() {
     return {
-      key: "self"
+      key: "profile"
     };
   },
   handleSelect(key) {
-    event.preventDefault();
     this.setState({key});
-    console.log(key)
   },
   render() {
     const {user} = this.props
-    return (
-        <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="personal-dashboard">
-          <Tab eventKey={"self"} title="Profile"><Profile/></Tab>
-          <Tab eventKey={"siteInfo"} title="Site info">Tab 2 content</Tab>
-          <Tab eventKey={"logs"} title="Logs">Tab 3 content</Tab>
-        </Tabs>
-    )
+    if(isSignIn(user)){
+      var tabs = [
+        (<Tab key="profile" eventKey={"profile"} title="Profile">
+          <Profile/>
+        </Tab>)
+      ]
+      if( isAdmin(user)){
+        tabs.push(<Tab key="site.info" eventKey={"site.info"} title="Site info">
+          Tab 2 content
+        </Tab>)
+      }
+      tabs.push(<Tab key="logs" eventKey={"logs"} title="Logs">Tab 3 content</Tab>)
+      return (
+          <Tabs activeKey={this.state.key} onSelect={this.handleSelect} id="personal-dashboard">
+            {tabs}
+          </Tabs>
+      )
+    }
+    return <NoMatch />
   }
 })
 
