@@ -6,6 +6,7 @@ platform.sign_in_or_up = Sign In/Up
 platform.sign_in_with_google = Sign in with google account.
 platform.dashboard = Dashboard
 platform.sign_out = Sign out
+platform.no_match = Page not found.
 
 
 dict.pages.index = Dict

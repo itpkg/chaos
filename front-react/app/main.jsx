@@ -12,6 +12,7 @@ console.log("chaos version: "+CHAOS_ENV.version);
 
 import root from './engines'
 import Layout from './components/Layout'
+import NoMatch from './components/NoMatch'
 
 const reducers = root.reducers()
 const store = createStore(
@@ -29,6 +30,7 @@ export default function(id){
       <Router history={history}>
         <Route path="/" component={Layout}>
           {root.routes()}
+          <Route path="*" component={NoMatch}/>
         </Route>
       </Router>
     </Provider>,

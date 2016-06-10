@@ -16,10 +16,12 @@ const Widget = React.createClass({
     return (
       <div>
         <Header/>
-        <div className="container-fluid">
-            {this.props.children}
-            <hr/>
-            <Footer/>
+        <div className="container">
+          <div className="row">
+              {this.props.children}
+              <hr/>
+              <Footer/>            
+          </div>
         </div>
       </div>
     )

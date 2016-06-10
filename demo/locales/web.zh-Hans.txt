@@ -6,6 +6,7 @@ platform.sign_in_or_up = 登录/注册
 platform.sign_in_with_google = 使用Google账户登录。
 platform.dashboard = 控制面板
 platform.sign_out = 安全退出
+platform.no_match = 页面不存在。
 
 
 dict.pages.index = 字典

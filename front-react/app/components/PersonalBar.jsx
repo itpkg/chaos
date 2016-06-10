@@ -6,12 +6,13 @@ import $ from 'jquery'
 import {IndexLinkContainer} from 'react-router-bootstrap'
 
 import {signOut} from '../engines/platform/actions'
+import {isSignIn} from '../utils'
 
 const Widget = React.createClass({
     render() {
         const {user, info,onSignOut} = this.props
 
-        return $.isEmptyObject(user)
+        return isSignIn(user)
             ? (
                 <NavDropdown title={i18next.t('platform.sign_in_or_up')} id="personal-bar">
                     <MenuItem href={info.oauth2.google}>{i18next.t('platform.sign_in_with_google')}</MenuItem>
@@ -19,7 +20,7 @@ const Widget = React.createClass({
             )
             : (
                 <NavDropdown title={i18next.t('platform.welcome', {name: user.sub})} id="personal-bar">
-                    <IndexLinkContainer to='/personal/profile'>
+                    <IndexLinkContainer to='/personal/dashboard'>
                         <MenuItem>{i18next.t('platform.dashboard')}</MenuItem>
                     </IndexLinkContainer>
                     <MenuItem divider/>

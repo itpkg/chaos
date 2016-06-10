@@ -10,3 +10,12 @@ export function ajax(method, url, data, done, fail){
     }
   }).then(done, fail);
 }
+
+export function isSignIn(user){
+  var now = new Date().getTime()
+  return !$.isEmptyObject(user) && user.nbf < now && user.exp > now
+}
+
+export function hasRole(user, name){
+  return isSignIn(user) && $.inArray(name, user.roles)
+}

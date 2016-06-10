@@ -32,16 +32,11 @@ const CallbackW = React.createClass({
     },
     render() {
         var msg = this.state.alert;
-        return (
-            <div className="row">
-                <br/>
-                <div className="col-md-offset-1 col-md-10">
-                    <Alert bsStyle={msg.style}>
-                        <strong>{msg.created.toLocaleString()}:
-                        </strong>{msg.message}
-                    </Alert>
-                </div>
-            </div>
+        return (                
+          <Alert bsStyle={msg.style}>
+              <strong>{msg.created.toLocaleString()}:
+              </strong>{msg.message}
+          </Alert>
         )
     }
 })

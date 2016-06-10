@@ -12,7 +12,7 @@ const Widget = React.createClass({
   render() {
     const {info} = this.props
     return (
-      <Navbar inverse fixedTop fluid>
+      <Navbar inverse fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">{info.subTitle}</Link>
