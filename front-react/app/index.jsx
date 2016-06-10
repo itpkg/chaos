@@ -27,7 +27,7 @@ i18next
             }
         },
         (err, t) => {
-            console.log("Lang: " + i18next.language)
+            console.log("lang: " + i18next.language)
             main('root')
         }
     );

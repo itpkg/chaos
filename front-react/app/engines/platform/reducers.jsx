@@ -2,6 +2,8 @@ import jwtDecode from 'jwt-decode'
 
 import {AUTH_SIGN_IN, AUTH_SIGN_OUT, SITE_REFRESH} from './actions'
 
+const key='token'
+
 function parse(tkn) {
     try {
         return jwtDecode(tkn);
