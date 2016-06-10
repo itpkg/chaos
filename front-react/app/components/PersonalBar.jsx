@@ -7,7 +7,7 @@ import {IndexLinkContainer} from 'react-router-bootstrap'
 import {browserHistory} from 'react-router'
 
 import {signOut} from '../engines/platform/actions'
-import {isSignIn} from '../utils'
+import {isSignIn, ajax} from '../utils'
 
 const Widget = React.createClass({
     render() {
@@ -39,7 +39,9 @@ Widget.propTypes = {
 
 export default connect(state => ({user: state.currentUser, info: state.siteInfo}), dispatch => ({
     onSignOut: function() {
-        dispatch(signOut());
-        browserHistory.push('/');
+        ajax("delete", "/personal/signOut", null, function(){
+          dispatch(signOut());
+          browserHistory.push('/');
+        })
     }
 }))(Widget)

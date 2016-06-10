@@ -19,9 +19,9 @@ const Widget = React.createClass({
         <div className="container">
           <div className="row">
               {this.props.children}
-              <hr/>
-              <Footer/>            
-          </div>
+          </div>          
+          <hr/>
+          <Footer/>
         </div>
       </div>
     )

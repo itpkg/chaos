@@ -35,6 +35,12 @@ type OauthFm struct {
 	State string `form:"state"`
 }
 
+func (p *Engine) signOut(c *gin.Context) {
+	u := c.MustGet("user").(*User)
+	p.Dao.Log(u.ID, "sign out")
+	c.JSON(http.StatusOK, web.OK)
+}
+
 func (p *Engine) oauthCallback(c *gin.Context) (interface{}, error) {
 	var fm OauthFm
 	if err := c.Bind(&fm); err != nil {
@@ -52,7 +58,8 @@ func (p *Engine) oauthCallback(c *gin.Context) (interface{}, error) {
 
 	var tk []byte
 	if e == nil {
-		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u, 7))
+		p.Dao.Log(u.ID, "sign in")
+		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u), 7) //TODO days
 	}
 	return gin.H{"token": string(tk)}, e
 
@@ -137,7 +144,7 @@ func (p *Engine) dashboard(c *gin.Context) (interface{}, error) {
 	if err := p.Dao.Db.
 		Select([]string{"created_at", "message"}).
 		Where("user_id = ?", u.ID).
-		Order("ID DESC").
+		Order("ID DESC").Limit(200).
 		Find(&logs).Error; err != nil {
 		return nil, err
 	}
@@ -151,6 +158,7 @@ func (p *Engine) dashboard(c *gin.Context) (interface{}, error) {
 
 func (p *Engine) Mount(r *gin.Engine) {
 	r.GET("/personal/dashboard", p.Jwt.Handler, web.Rest(p.dashboard))
+	r.DELETE("/personal/signOut", p.Jwt.Handler, p.signOut)
 
 	r.GET("/locales/:lang", p.Cache.Page(time.Hour*24, p.locale))
 	r.GET("/info", p.Cache.Page(time.Hour*24, p.info))

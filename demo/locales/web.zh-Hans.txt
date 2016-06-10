@@ -7,6 +7,14 @@ platform.sign_in_with_google = 使用Google账户登录。
 platform.dashboard = 控制面板
 platform.sign_out = 安全退出
 platform.no_match = 页面不存在。
+platform.profile = 个人信息
+platform.site_info = 站点信息
+platform.logs = 日志列表
+platform.user.confirmed_at = 账户激活时间
+platform.user.email = 邮箱
+platform.user.provider = 来源
+platform.user.last_sign_in= 上次登录
+platform.user.sign_in_count = 登录次数
 
 
 dict.pages.index = 字典

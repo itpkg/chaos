@@ -29,12 +29,6 @@
 			"revisionTime": "2016-04-26T10:16:13Z"
 		},
 		{
-			"checksumSHA1": "AsVxXjY/R6lWNiQetN0xYrLJ3Nw=",
-			"path": "github.com/RichardKnop/uuid",
-			"revision": "dee7705ef7b324f27ceb85a121c61f2c2e8ce988",
-			"revisionTime": "2015-12-15T15:05:54Z"
-		},
-		{
 			"checksumSHA1": "GLW3fr4k1Ei7md0N04PVJCIFqOM=",
 			"path": "github.com/SermoDigital/jose",
 			"revision": "fa74c9f8b6a7bf513e12d9447b1669f68991198c",

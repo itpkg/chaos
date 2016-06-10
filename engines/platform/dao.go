@@ -60,12 +60,17 @@ func (p *Dao) Get(k string, v interface{}) error {
 }
 
 //-----------------------------------------------------------------------------
+func (p *Dao) Log(user uint, msg string) {
+	l := Log{UserID: user, Message: msg}
+	if err := p.Db.Create(&l).Error; err != nil {
+		p.Logger.Error(err)
+	}
+}
 
-func (p *Dao) UserClaims(u *User, days int) jws.Claims {
+//-----------------------------------------------------------------------------
+
+func (p *Dao) UserClaims(u *User) jws.Claims {
 	cm := jws.Claims{}
-	now := time.Now()
-	cm.SetNotBefore(now)
-	cm.SetExpiration(now.AddDate(0, 0, days))
 	cm.SetSubject(u.Name)
 	cm.Set("uid", u.UID)
 
@@ -76,6 +81,7 @@ func (p *Dao) UserClaims(u *User, days int) jws.Claims {
 func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
 	var u User
 	var err error
+	now := time.Now()
 	if p.Db.Where("provider_id = ? AND provider_type = ?", pid, pty).First(&u).RecordNotFound() {
 		u.Email = email
 		u.Name = name
@@ -84,7 +90,6 @@ func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
 		u.UID = uuid.NewV4().String()
 		u.ProviderID = pid
 		u.ProviderType = pty
-		now := time.Now()
 		u.ConfirmedAt = &now
 		u.SignInCount = 1
 		u.LastSignIn = &now
@@ -96,6 +101,7 @@ func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
 			"logo":          logo,
 			"home":          home,
 			"sign_in_count": u.SignInCount + 1,
+			"last_sign_in":  &now,
 		}).Error
 	}
 	return &u, err

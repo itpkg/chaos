@@ -3,6 +3,11 @@ import $ from 'jquery'
 import {TOKEN} from './constants'
 
 export function ajax(method, url, data, done, fail){
+  if(!fail){
+    fail= function(xhr){
+      alert(xhr.responseText)
+    }
+  }
   $.ajax({
     url: CHAOS_ENV.backend+url,
     method: method,

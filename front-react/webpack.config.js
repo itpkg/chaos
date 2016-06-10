@@ -21,6 +21,7 @@ module.exports = function(options) {
         'react-redux',
         'react-router-redux',
         'react-router-bootstrap',
+        'react-timeago',
 
         'jwt-decode',
         'url-parse',

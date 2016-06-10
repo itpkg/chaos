@@ -7,6 +7,14 @@ platform.sign_in_with_google = Sign in with google account.
 platform.dashboard = Dashboard
 platform.sign_out = Sign out
 platform.no_match = Page not found.
+platform.profile = Profile
+platform.site_info = Site info
+platform.logs = Logs
+platform.user.confirmed_at = Confirmed at
+platform.user.email = Email
+platform.user.provider = Provider
+platform.user.last_sign_in= Last sign in
+platform.user.sign_in_count = Sign in count
 
 
 dict.pages.index = Dict
