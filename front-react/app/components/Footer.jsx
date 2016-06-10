@@ -10,7 +10,7 @@ const Widget = React.createClass({
         <p>
           {info.copyright}
           &nbsp;
-          <span dangerouslySetInnerHTML={{__html:i18next.t('messages.build_using', {link:"https://github.com/itpkg/chaos"})}}/>
+          <span dangerouslySetInnerHTML={{__html:i18next.t('platform.build_using', {link:"https://github.com/itpkg/chaos"})}}/>
         </p>
       </footer>
     )

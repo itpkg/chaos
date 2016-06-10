@@ -46,8 +46,8 @@ func (p *Engine) info(c *gin.Context) {
 		p.Logger.Error(err)
 		links = append(
 			links,
-			web.Link{Label: "pages.home", Href: "/"},
-			web.Link{Label: "pages.about-us", Href: "/about-us"},
+			web.Link{Label: "platform.pages.home", Href: "/home"},
+			web.Link{Label: "platform.pages.about_us", Href: "/about-us"},
 		)
 	}
 	ifo["links"] = links

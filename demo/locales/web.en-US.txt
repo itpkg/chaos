@@ -1,11 +1,18 @@
-cms.articles.index = Articles
-cms.tags.index = Tags
-notices.index = Notices
-pages.index = Pages
-epub.index = Epub books
+platform.pages.home = Home
+platform.pages.about_us = About us
+platform.build_using = Build using <a href="{{link}}" target="_blank">{{link}}</a>.
+platform.welcome = Welcome, {{name}}.
+platform.sign_in_or_up = Sign In/Up
+platform.sign_in_with_google = Sign in with google account.
+platform.dashboard = Dashboard
+platform.sign_out = Sign out
 
-dict.index = Dict
-dict.notes.index = Words
+
+dict.pages.index = Dict
+dict.pages.notes.index = Words
+dict.models.note.title = Keyword
+dict.models.note.body = Body
+
 
 buttons.more = More
 buttons.view = View
@@ -16,23 +23,20 @@ buttons.save = Save
 buttons.remove = Remove
 buttons.delete = Delete
 
-models.dict.note.title = Keyword
-models.dict.note.body = Body
 
+form.id = ID
 form.keyword = Keyword
+form.username = Username
+form.email = Email
+form.password = Password
+form.re_password = Password confirm
+form.v_code = Verify code
+
 
 locales.en_US = English
 locales.zh_Hans = 简体中文
 
-links.home = Home
 
 messages.please_sign_in = Please sign in before continue.
 messages.please_waiting = Please waiting.
 messages.no_match = No match.
-messages.build_using = Build using <a href="{{link}}" target="_blank">{{link}}</a>.
-
-users.welcome = Welcome, {{name}}.
-users.sign_in_or_up = Sign In/Up
-users.sign_in_with_google = Sign in with google account.
-users.dashboard = Dashboard
-users.sign_out = Sign out

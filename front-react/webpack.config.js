@@ -20,13 +20,14 @@ module.exports = function(options) {
         'react-bootstrap',
         'react-redux',
         'react-router-redux',
+        'react-router-bootstrap',
 
         'jwt-decode',
         'url-parse',
         'marked',
 
         'i18next',
-        'i18next-xhr-backend',        
+        'i18next-xhr-backend',
         'i18next-browser-languagedetector'
     ];
 
