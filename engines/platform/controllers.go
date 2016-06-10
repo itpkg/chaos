@@ -56,7 +56,7 @@ func (p *Engine) info(c *gin.Context) {
 	if err := p.Dao.Get("google.oauth", &gcf); err != nil {
 		p.Logger.Error(err)
 	}
-	ifo["oauth"] = map[string]string{
+	ifo["oauth2"] = map[string]string{
 		"google": gcf.AuthCodeURL(p.Oauth2GoogleState),
 	}
 
