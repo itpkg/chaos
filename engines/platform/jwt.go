@@ -7,11 +7,15 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/jwt"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"github.com/op/go-logging"
 )
 
 type Jwt struct {
 	Key    []byte               `inject:"jwt.key"`
 	Method crypto.SigningMethod `inject:"jwt.method"`
+	Logger *logging.Logger      `inject:""`
+	Db     *gorm.DB             `inject:""`
 }
 
 func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
@@ -24,17 +28,31 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 }
 
 func (p *Jwt) Handler(c *gin.Context) {
-	js, err := jws.ParseFromRequest(c.Request, jws.Flat)
+	tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
+		c.Abort()
+		return
 	}
-	if !js.IsJWT() {
-		c.String(
-			http.StatusInternalServerError,
-			"http request header not have jwt",
-		)
+
+	if err := tkn.Verify(p.Key, p.Method); err != nil {
+		c.String(http.StatusUnauthorized, err.Error())
+		c.Abort()
+		return
 	}
-	//TODO
+	var user User
+	data := tkn.Payload().(map[string]interface{})
+	if err := p.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
+		c.String(http.StatusUnauthorized, err.Error())
+		c.Abort()
+		return
+	}
+	if !user.IsAvailable() {
+		c.String(http.StatusForbidden, "bad user status")
+		c.Abort()
+		return
+	}
+	c.Set("user", &user)
 }
 
 func (p *Jwt) Sum(cm jws.Claims) ([]byte, error) {

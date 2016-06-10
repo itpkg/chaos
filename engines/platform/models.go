@@ -33,8 +33,8 @@ type User struct {
 	Name     string `gorm:"not null;type:VARCHAR(255)" json:"name"`
 	Password string `gorm:"not null;default:'-';type:VARCHAR(500)" json:"-"`
 
-	ProviderType string `gorm:"not null;default:'unknown';index;type:VARCHAR(255)"`
-	ProviderID   string `gorm:"not null;index;type:VARCHAR(255)"`
+	ProviderType string `gorm:"not null;default:'unknown';index;type:VARCHAR(255)" json:"provider_type"`
+	ProviderID   string `gorm:"not null;index;type:VARCHAR(255)" json:"provider_id"`
 
 	LastSignIn  *time.Time `json:"last_sign_in"`
 	SignInCount uint       `gorm:"not null;default:0" json:"sign_in_count"`

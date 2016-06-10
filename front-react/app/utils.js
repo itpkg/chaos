@@ -1,12 +1,18 @@
 import $ from 'jquery'
 
+import {TOKEN} from './constants'
+
 export function ajax(method, url, data, done, fail){
   $.ajax({
     url: CHAOS_ENV.backend+url,
     method: method,
     data: data,
+    crossDomain : true,
     xhrFields: {
       withCredentials: true
+    },
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer '+sessionStorage.getItem(TOKEN));
     }
   }).then(done, fail);
 }

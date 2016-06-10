@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import {Tabs, Tab, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 
-import {isSignIn, isAdmin} from '../../utils'
+import {isSignIn, isAdmin, ajax} from '../../utils'
 import NoMatch from '../../components/NoMatch'
 
 const Profile =  React.createClass({
@@ -23,6 +23,22 @@ const DashboardW = React.createClass({
     return {
       key: "profile"
     };
+  },
+  componentDidMount: function(){
+    const {user} = this.props
+    if(isSignIn(user)){
+      ajax(
+        "get",
+        "/personal/dashboard",
+        null,
+        function(rst){
+          console.log(rst)
+        },
+        function(xhr){
+          alert(xhr.responseText)
+        }
+      )
+    }
   },
   handleSelect(key) {
     this.setState({key});

@@ -17,40 +17,7 @@ import (
 func (p *Engine) info(c *gin.Context) {
 
 	lng := c.MustGet("locale").(*language.Tag).String()
-	ifo := make(map[string]interface{})
-	ifo["lang"] = lng
-	for _, k := range []string{"title", "subTitle", "description", "copyright"} {
-		var v string
-		if e := p.Dao.Get(fmt.Sprintf("%s://site/%s", lng, k), &v); e == nil {
-			ifo[k] = v
-		} else {
-			p.Logger.Error(e)
-			ifo[k] = fmt.Sprintf("%s.site.%s", lng, k)
-		}
-	}
-
-	author := make(map[string]string)
-	for _, k := range []string{"name", "email"} {
-		var v string
-		if e := p.Dao.Get(fmt.Sprintf("site/author/%s", k), &v); e == nil {
-			author[k] = v
-		} else {
-			p.Logger.Error(e)
-			author[k] = fmt.Sprintf("site.author.%s", k)
-		}
-	}
-	ifo["author"] = author
-
-	var links []web.Link
-	if err := p.Dao.Get("site/links", &links); err != nil {
-		p.Logger.Error(err)
-		links = append(
-			links,
-			web.Link{Label: "platform.pages.home", Href: "/home"},
-			web.Link{Label: "platform.pages.about_us", Href: "/about-us"},
-		)
-	}
-	ifo["links"] = links
+	ifo := p.getSiteInfoMap(lng)
 
 	var gcf oauth2.Config
 	if err := p.Dao.Get("google.oauth", &gcf); err != nil {
@@ -122,7 +89,69 @@ func (p *Engine) locale(c *gin.Context) {
 	c.JSON(http.StatusOK, p.I18n.Items(&lng))
 }
 
+func (p *Engine) getSiteInfoMap(lng string) map[string]interface{} {
+	ifo := make(map[string]interface{})
+	for _, k := range []string{"title", "subTitle", "description", "copyright"} {
+		var v string
+		if e := p.Dao.Get(fmt.Sprintf("%s://site/%s", lng, k), &v); e == nil {
+			ifo[k] = v
+		} else {
+			p.Logger.Error(e)
+			ifo[k] = fmt.Sprintf("%s.site.%s", lng, k)
+		}
+	}
+
+	author := make(map[string]string)
+	for _, k := range []string{"name", "email"} {
+		var v string
+		if e := p.Dao.Get(fmt.Sprintf("site/author/%s", k), &v); e == nil {
+			author[k] = v
+		} else {
+			p.Logger.Error(e)
+			author[k] = fmt.Sprintf("site.author.%s", k)
+		}
+	}
+	ifo["author"] = author
+
+	var links []web.Link
+	if err := p.Dao.Get("site/links", &links); err != nil {
+		p.Logger.Error(err)
+		links = append(
+			links,
+			web.Link{Label: "platform.pages.home", Href: "/home"},
+			web.Link{Label: "platform.pages.about_us", Href: "/about-us"},
+		)
+	}
+	ifo["links"] = links
+
+	return ifo
+}
+
+func (p *Engine) dashboard(c *gin.Context) (interface{}, error) {
+	lng := c.MustGet("locale").(*language.Tag).String()
+	u := c.MustGet("user").(*User)
+	rst := make(map[string]interface{})
+	rst["user"] = u
+
+	var logs []Log
+	if err := p.Dao.Db.
+		Select([]string{"created_at", "message"}).
+		Where("user_id = ?", u.ID).
+		Order("ID DESC").
+		Find(&logs).Error; err != nil {
+		return nil, err
+	}
+	rst["logs"] = logs
+
+	if p.Dao.Is(u.ID, "admin") {
+		rst["site"] = p.getSiteInfoMap(lng)
+	}
+	return rst, nil
+}
+
 func (p *Engine) Mount(r *gin.Engine) {
+	r.GET("/personal/dashboard", p.Jwt.Handler, web.Rest(p.dashboard))
+
 	r.GET("/locales/:lang", p.Cache.Page(time.Hour*24, p.locale))
 	r.GET("/info", p.Cache.Page(time.Hour*24, p.info))
 	r.POST("/oauth2/callback", web.Rest(p.oauthCallback))

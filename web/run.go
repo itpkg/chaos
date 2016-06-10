@@ -125,7 +125,8 @@ func Run() error {
 				hnd := cors.New(cors.Options{
 					AllowCredentials: true,
 					AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
-					//Debug:            true,
+					AllowedHeaders:   []string{"*"},
+					//Debug:          true,
 				}).Handler(rt)
 
 				if IsProduction() {
