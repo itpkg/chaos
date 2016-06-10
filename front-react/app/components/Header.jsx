@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {Link} from 'react-router'
 import { connect } from 'react-redux'
 import i18next from 'i18next'
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
@@ -11,12 +12,15 @@ const Widget = React.createClass({
       <Navbar inverse fixedTop fluid>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">{info.subTitle}</a>
+            <Link to="/">{info.subTitle}</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
+            {info.links.map((l,i) =>{
+              return <NavItem key={i} href="#">{l.label}</NavItem>
+            })}
             <NavItem eventKey={1} href="#">Link</NavItem>
             <NavItem eventKey={2} href="#">Link</NavItem>
             <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
@@ -28,8 +32,8 @@ const Widget = React.createClass({
             </NavDropdown>
           </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#">English</NavItem>
-            <NavItem eventKey={2} href="#">简体中文</NavItem>
+            <NavItem href="/?locale=en-US" target="_blank">English</NavItem>
+            <NavItem href="/?locale=zh-CN" target="_blank">简体中文</NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

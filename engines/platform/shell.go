@@ -121,6 +121,118 @@ server {
 			}),
 		},
 		{
+			Name:    "redis",
+			Aliases: []string{"re"},
+			Usage:   "open redis connection",
+			Action: web.Action(func(*cli.Context) error {
+				return Shell(
+					"redis-cli",
+					"-h", viper.GetString("redis.host"),
+					"-p", viper.GetString("redis.port"),
+					"-n", viper.GetString("redis.db"),
+				)
+			}),
+		},
+		{
+			Name:    "database",
+			Aliases: []string{"db"},
+			Usage:   "database operations",
+			Subcommands: []cli.Command{
+				{
+					Name:    "migrate",
+					Usage:   "migrate the database",
+					Aliases: []string{"m"},
+					Action: web.Action(func(*cli.Context) error {
+						db, err := web.OpenDatabase()
+						if err != nil {
+							return err
+						}
+						return web.Loop(func(en web.Engine) error {
+							en.Migrate(db)
+							return nil
+						})
+					}),
+				},
+				{
+					Name:    "seed",
+					Usage:   "load the seed data",
+					Aliases: []string{"s"},
+					Action: web.IocAction(func(*cli.Context, *inject.Graph) error {
+						return web.Loop(func(en web.Engine) error {
+							en.Seed()
+							return nil
+						})
+					}),
+				},
+				{
+					Name:    "connect",
+					Usage:   "connect database",
+					Aliases: []string{"c"},
+					Action: web.Action(func(*cli.Context) error {
+						drv := viper.GetString("database.driver")
+						args := viper.GetStringMapString("database.args")
+						var err error
+						switch drv {
+						case "postgres":
+							err = Shell("psql",
+								"-h", args["host"],
+								"-p", args["port"],
+								"-U", args["user"],
+								args["dbname"],
+							)
+						default:
+							err = fmt.Errorf("unknown driver %s", drv)
+						}
+						return err
+					}),
+				},
+				{
+					Name:    "create",
+					Usage:   "create database",
+					Aliases: []string{"n"},
+					Action: web.Action(func(*cli.Context) error {
+						drv := viper.GetString("database.driver")
+						args := viper.GetStringMapString("database.args")
+						var err error
+						switch drv {
+						case "postgres":
+							err = Shell("psql",
+								"-h", args["host"],
+								"-p", args["port"],
+								"-U", args["user"],
+								"-c", fmt.Sprintf("create database %s WITH ENCODING=UTF8", args["dbname"]),
+							)
+						default:
+							err = fmt.Errorf("unknown driver %s", drv)
+						}
+						return err
+					}),
+				},
+				{
+					Name:    "drop",
+					Usage:   "drop database",
+					Aliases: []string{"d"},
+					Action: web.Action(func(*cli.Context) error {
+						drv := viper.GetString("database.driver")
+						args := viper.GetStringMapString("database.args")
+						var err error
+						switch drv {
+						case "postgres":
+							err = Shell("psql",
+								"-h", args["host"],
+								"-p", args["port"],
+								"-U", args["user"],
+								"-c", fmt.Sprintf("drop database %s", args["dbname"]),
+							)
+						default:
+							err = fmt.Errorf("unknown driver %s", drv)
+						}
+						return err
+					}),
+				},
+			},
+		},
+		{
 			Name:    "cache",
 			Aliases: []string{"c"},
 			Usage:   "cache operations",

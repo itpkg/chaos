@@ -13,7 +13,7 @@ func LocaleHandler(c *gin.Context) {
 	// 2. Get language information from cookies.
 	if len(lng) == 0 {
 		if ck, er := c.Request.Cookie("locale"); er == nil {
-			lng = ck.String()
+			lng = ck.Value
 		}
 	}
 	// else {
@@ -29,6 +29,7 @@ func LocaleHandler(c *gin.Context) {
 	}
 
 	tag := Match(lng)
+
 	// if written {
 	// 	c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
 	// }

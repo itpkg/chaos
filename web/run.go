@@ -148,39 +148,6 @@ func Run() error {
 				return nil
 			}),
 		},
-		{
-			Name:    "database",
-			Aliases: []string{"db"},
-			Usage:   "database operations",
-			Subcommands: []cli.Command{
-				{
-					Name:    "migrate",
-					Usage:   "migrate the database",
-					Aliases: []string{"m"},
-					Action: Action(func(*cli.Context) error {
-						db, err := OpenDatabase()
-						if err != nil {
-							return err
-						}
-						return Loop(func(en Engine) error {
-							en.Migrate(db)
-							return nil
-						})
-					}),
-				},
-				{
-					Name:    "seed",
-					Usage:   "load the seed data",
-					Aliases: []string{"s"},
-					Action: IocAction(func(*cli.Context, *inject.Graph) error {
-						return Loop(func(en Engine) error {
-							en.Seed()
-							return nil
-						})
-					}),
-				},
-			},
-		},
 	}
 	for _, en := range engines {
 		cmd := en.Shell()
@@ -212,6 +179,8 @@ func init() {
 	viper.SetDefault("database", map[string]interface{}{
 		"driver": "postgres",
 		"args": map[string]interface{}{
+			"host":    "localhost",
+			"port":    5432,
 			"user":    "postgres",
 			"dbname":  "chaos",
 			"sslmode": "disable",

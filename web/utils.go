@@ -36,7 +36,7 @@ func RandomStr(n int) string {
 func OpenDatabase() (*gorm.DB, error) {
 	//postgresql: "user=%s password=%s host=%s port=%d dbname=%s sslmode=%s"
 	args := ""
-	for k, v := range viper.GetStringMap("database.args") {
+	for k, v := range viper.GetStringMapString("database.args") {
 		args += fmt.Sprintf(" %s=%s ", k, v)
 	}
 	db, err := gorm.Open(viper.GetString("database.driver"), args)
@@ -84,4 +84,8 @@ func OpenRedis() *redis.Pool {
 			return err
 		},
 	}
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }

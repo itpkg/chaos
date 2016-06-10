@@ -1,8 +1,9 @@
 package platform
 
 import (
-	"math/rand"
-	"time"
+	"os"
+	"os/exec"
+	"syscall"
 
 	"github.com/jrallison/go-workers"
 	"github.com/spf13/viper"
@@ -16,7 +17,10 @@ func Secret(i, l int) []byte {
 func SendMail(to, subject, body string, html bool, files ...string) {
 	workers.Enqueue("email", "send", []interface{}{to, subject, body, html, files})
 }
-
-func init() {
-	rand.Seed(time.Now().UnixNano())
+func Shell(cmd string, args ...string) error {
+	bin, err := exec.LookPath(cmd)
+	if err != nil {
+		return err
+	}
+	return syscall.Exec(bin, append([]string{cmd}, args...), os.Environ())
 }

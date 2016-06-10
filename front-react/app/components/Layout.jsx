@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import i18next from 'i18next'
 
 import Header from './Header'
 import Footer from './Footer'
 import {refresh} from '../engines/platform/actions'
+import {ajax} from '../utils'
 
 const Widget = React.createClass({
   componentDidMount: function(){
@@ -32,13 +34,11 @@ export default connect(
   state=>({info:state.siteInfo}),
   dispatch => ({
     onRefresh: function(){
-      //TODO
-      dispatch(refresh({title:'aaa', subTitle:'sub title', copyright:'ccc'}))
-      // ajax("get", "/site/info", null, function(ifo){
-      //   dispatch(refresh(ifo));
-      //   document.documentElement.lang = ifo.lang;
-      //   document.title = ifo.title;
-      // });
+      ajax("get", "/info", null, function(ifo){
+        dispatch(refresh(ifo));
+        document.documentElement.lang = ifo.lang;
+        document.title = ifo.title;
+      });
     }
   })
 )(Widget);

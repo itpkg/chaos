@@ -44,6 +44,11 @@ func (p *Engine) info(c *gin.Context) {
 	var links []web.Link
 	if err := p.Dao.Get("site/links", &links); err != nil {
 		p.Logger.Error(err)
+		links = append(
+			links,
+			web.Link{Label: "pages.home", Href: "/"},
+			web.Link{Label: "pages.about-us", Href: "/about-us"},
+		)
 	}
 	ifo["links"] = links
 
