@@ -15,7 +15,15 @@ platform.user.email = Email
 platform.user.provider = Provider
 platform.user.last_sign_in= Last sign in
 platform.user.sign_in_count = Sign in count
-
+platform.site.title = Title
+platform.site.subTitle = Sub title
+platform.site.keywords = Keywords
+platform.site.description = Description
+platform.site.author.email = Author's email
+platform.site.author.name = Author's name
+platform.site.aboutUs = About us
+platform.site.copyright = Copyright
+platform.site.navLinks = Top nav-links(json)
 
 dict.pages.index = Dict
 dict.pages.notes.index = Words

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
+import { connect } from 'react-redux'
 import {Link} from 'react-router'
+import ReactMarkdown from 'react-markdown'
 
 export const Index = React.createClass({
   render() {
@@ -17,12 +19,20 @@ export const Index = React.createClass({
   }
 })
 
-export const AboutUs = React.createClass({
+const AboutUsW = React.createClass({
   render() {
-    return (
-      <div>
-        about us
-      </div>
+    const {info} = this.props
+    return (      
+        <ReactMarkdown source={info.aboutUs} />
     )
   }
 })
+
+
+AboutUsW.propTypes = {
+    info: PropTypes.object.isRequired
+}
+
+export const AboutUs = connect(
+  state => ({ info: state.siteInfo })
+)(AboutUsW)

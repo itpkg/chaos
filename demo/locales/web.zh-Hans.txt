@@ -15,6 +15,15 @@ platform.user.email = 邮箱
 platform.user.provider = 来源
 platform.user.last_sign_in= 上次登录
 platform.user.sign_in_count = 登录次数
+platform.site.title = 标题
+platform.site.subTitle = 副标题
+platform.site.keywords = 关键字
+platform.site.description = 简述
+platform.site.author.email = 作者邮箱
+platform.site.author.name = 作者名字
+platform.site.aboutUs = 关于我们
+platform.site.copyright = 版权信息
+platform.site.navLinks = 顶部导航链接（json格式）
 
 
 dict.pages.index = 字典

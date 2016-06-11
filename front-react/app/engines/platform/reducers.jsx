@@ -32,7 +32,7 @@ function currentUser(state = initCurrentUserState, action){
   }
 }
 
-function siteInfo(state = {navLinks:[], oauth2:[]}, action){
+function siteInfo(state = {aboutUs:'',navLinks:[], oauth2:[]}, action){
   switch (action.type) {
     case SITE_REFRESH:
       return action.info

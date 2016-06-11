@@ -22,10 +22,11 @@ module.exports = function(options) {
         'react-router-redux',
         'react-router-bootstrap',
         'react-timeago',
+        'react-markdown',
 
         'jwt-decode',
         'url-parse',
-        'marked',
+        //'marked',
 
         'i18next',
         'i18next-xhr-backend',
@@ -45,14 +46,17 @@ module.exports = function(options) {
     }, {
         test: /\.(png|jpg|jpeg|gif|ico|svg|ttf|woff|woff2|eot)$/,
         loader: "file"
+    }, {
+        test: /\.json$/,
+        loader: 'json'
     }];
 
     var env = {
-      CHAOS_ENV: JSON.stringify({
-        backend:options.backend,
-        engines: options.engines,
-        version: '2016.6.9'
-      })
+        CHAOS_ENV: JSON.stringify({
+            backend: options.backend,
+            engines: options.engines,
+            version: '2016.6.9'
+        })
     };
     var output = {
         path: path.join(__dirname, 'build'),
