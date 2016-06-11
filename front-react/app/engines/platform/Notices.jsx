@@ -11,7 +11,7 @@ import {
 import TimeAgo from 'react-timeago'
 import i18next from 'i18next'
 
-import {addNotice, delNotice} from './actions'
+import {addNotice, delNotice, listNotice} from './actions'
 import {isSignIn, isAdmin, ajax, onDelete} from '../../utils'
 import NoMatch from '../../components/NoMatch'
 
@@ -20,6 +20,10 @@ const IndexW = React.createClass({
     return {
       content: ''
     }
+  },
+  componentDidMount: function() {
+    const {onListNotice} = this.props
+    onListNotice()
   },
   handleChange: function(e) {
         var o = {}
@@ -80,6 +84,7 @@ const IndexW = React.createClass({
 IndexW.propTypes = {
     notices: PropTypes.array.isRequired,
     onAddNotice: PropTypes.func.isRequired,
+    onListNotice: PropTypes.func.isRequired,
     onDelNotice: PropTypes.func.isRequired
 }
 
@@ -89,6 +94,9 @@ const Index = connect(state => ({notices: state.notices}), dispatch => ({
   },
   onDelNotice: function(i){
     dispatch(delNotice(i))
+  },
+  onListNotice: function(){
+    ajax('get', '/admin/notices', null, function(rst){dispatch(listNotice(rst))})
   }
 }))(IndexW);
 export default Index

@@ -5,18 +5,23 @@ import ReactMarkdown from 'react-markdown'
 import TimeAgo from 'react-timeago'
 import i18next from 'i18next'
 
-import {listNotice} from './actions'
 import {ajax} from '../../utils'
 
-const IndexW = React.createClass({
+export const Index = React.createClass({
+  getInitialState: function() {
+    return {
+      notices: []
+    }
+  },
   componentDidMount: function() {
-    const {onListNotice} = this.props
-    onListNotice()
+    ajax('get', '/notices', null, function(rst){
+      this.setState({notices:rst})
+    }.bind(this))
   },
   render() {
-    const {notices} = this.props
+    const {notices} = this.state
     return (
-      <div className="col-md-10 col-md-offset-1">        
+      <div className="col-md-10 col-md-offset-1">
         <h3>{i18next.t("platform.notices")}</h3>
         <hr/>
         {notices.map((n,i)=>{
@@ -30,16 +35,6 @@ const IndexW = React.createClass({
   }
 })
 
-IndexW.propTypes = {
-    notices: PropTypes.array.isRequired,
-    onListNotice: PropTypes.func.isRequired
-}
-
-export const Index = connect(state => ({notices: state.notices}), dispatch => ({
-  onListNotice: function(){
-    ajax('get', '/notices', null, function(rst){dispatch(listNotice(rst))})
-  }
-}))(IndexW);
 
 //-----------------------------------------------------------------------------
 
