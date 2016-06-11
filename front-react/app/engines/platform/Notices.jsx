@@ -46,8 +46,7 @@ const IndexW = React.createClass({
   handleRemove: function(id){
     const {onDelNotice} = this.props
     onDelete('/admin/notices/'+id, function(){
-      onDelNotice(id)
-      this.forceUpdate() //FIXME
+      onDelNotice(id)      
     }.bind(this)
     );
   },
@@ -70,7 +69,7 @@ const IndexW = React.createClass({
           {notices.map((n,i)=>{
             return (<ListGroupItem key={i}>
               {n.created_at}: &nbsp;
-              <Button bsStyle="danger" onClick={()=>this.handleRemove(n.id)} bsSize="small">{i18next.t("buttons.remove")}</Button>
+              <Button bsStyle="danger" onClick={this.handleRemove.bind(this, n.id)} bsSize="small">{i18next.t("buttons.remove")}</Button>
               <br/>
               {n.content}
             </ListGroupItem>)
