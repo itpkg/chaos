@@ -1,6 +1,11 @@
 import jwtDecode from 'jwt-decode'
 
-import {AUTH_SIGN_IN, AUTH_SIGN_OUT, DASHBOARD, SITE_REFRESH} from './actions'
+import {
+  AUTH_SIGN_IN, AUTH_SIGN_OUT,
+  SITE_REFRESH,
+  USER_INFO, USER_LOGS,
+  ADMIN_SITE_INFO
+} from './actions'
 
 import {TOKEN} from '../../constants'
 
@@ -27,7 +32,7 @@ function currentUser(state = initCurrentUserState, action){
   }
 }
 
-function siteInfo(state = {links:[], oauth2:[]}, action){
+function siteInfo(state = {navLinks:[], oauth2:[]}, action){
   switch (action.type) {
     case SITE_REFRESH:
       return action.info
@@ -36,10 +41,14 @@ function siteInfo(state = {links:[], oauth2:[]}, action){
   }
 }
 
-function dashboard(state = {site:{author:{}, links:[]}, logs:[], user:{}}, action){
+function dashboard(state = {site:{author:{}, navLinks:[]}, logs:[], user:{}}, action){
   switch (action.type) {
-    case DASHBOARD:      
-      return action.info
+    case ADMIN_SITE_INFO:
+      return Object.assign({}, state, {site:action.info})
+    case USER_INFO:
+      return Object.assign({}, state, {user: action.info})
+    case USER_LOGS:
+      return Object.assign({}, state, {logs: action.logs})
     default:
       return state
   }

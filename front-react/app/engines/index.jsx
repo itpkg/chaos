@@ -22,7 +22,6 @@ export default {
   },
   reducers(){
     return CHAOS_ENV.engines.reduce(function(obj, en) {
-      //return combineReducers(...obj, engines[en].reducers)
       return Object.assign(obj, engines[en].reducers)
     }, {});
   }

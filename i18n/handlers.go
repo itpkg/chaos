@@ -33,7 +33,7 @@ func LocaleHandler(c *gin.Context) {
 	// if written {
 	// 	c.SetCookie("locale", tag.String(), 1<<31-1, "/", "", false, false)
 	// }
-	c.Set("locale", &tag)
+	c.Set("locale", tag.String())
 }
 
 func Match(lng string) language.Tag {

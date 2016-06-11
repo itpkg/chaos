@@ -28,9 +28,9 @@ type I18n struct {
 }
 
 //Items list all items
-func (p *I18n) Items(lng *language.Tag) map[string]interface{} {
+func (p *I18n) Items(lng string) map[string]interface{} {
 	rt := make(map[string]interface{})
-	if items, ok := p.Locales[lng.String()]; ok {
+	if items, ok := p.Locales[lng]; ok {
 		for k, v := range items {
 			if strings.HasPrefix(k, "web.") {
 				k = k[4:]

@@ -17,7 +17,7 @@ import {
 import TimeAgo from 'react-timeago'
 import i18next from 'i18next'
 
-import {setDashboard} from './actions'
+import {userInfo, userLogs, adminSiteInfo} from './actions'
 import {isSignIn, isAdmin, ajax} from '../../utils'
 import NoMatch from '../../components/NoMatch'
 
@@ -73,53 +73,89 @@ LogsW.propTypes = {
 
 const Logs = connect(state => ({items: state.dashboard.logs}), dispatch => ({}))(LogsW);
 //-----------------------------------------------------------------------------
-const SiteInfoFm = React.createClass({
-    render() {
-        return (
-            <div>
-                site info
-            </div>
-        )
-    }
-})
-//-----------------------------------------------------------------------------
-const AboutUsFm = React.createClass({
-    render() {
-        return (
-            <div>
-                abort info
-            </div>
-        )
-    }
-})
-//-----------------------------------------------------------------------------
-const NavLinksFmW = React.createClass({
+const SiteInfoFmW = React.createClass({
     getInitialState: function() {
-        const {value} = this.props
-        return {value: value};
+      return {
+        title:'',
+        subTitle: '',
+        keywords: '',
+        description: '',
+        aboutUs:'',
+        copyright: '',
+        author:{},
+        navLinks:[],
+
+        links: '{}',
+        authorName: '',
+        authorEmail:''
+      }
     },
     componentWillReceiveProps(props){
-        const {value} = props
-        this.setState({value: value});
+        const {info} = props
+        info.links = JSON.stringify(info.navLinks, null, 2)
+        info.authorEmail = info.author.email
+        info.authorName = info.author.name
+        this.setState(info);
     },
     handleChange: function(e) {
-        this.setState({value: e.target.value});
+          var o = {}
+          o[e.target.id]=e.target.value
+          this.setState(o);
     },
+
     handleSubmit: function(e) {
       e.preventDefault();
+      var data = Object.assign({}, this.state)
+      data.navLinks = data.links
+      delete data.links;
+      delete data.author
+      //console.log(data)
       ajax(
         "post",
-        "/admin/site/navLinks",
-        {value:this.state.value}
+        "/admin/site/info",
+        data
       )
     },
-    render() {
+    render: function() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <ControlLabel>{i18next.t("platform.site.links")}</ControlLabel>
-                    <FormControl rows={12} componentClass="textarea" value={this.state.value} onChange={this.handleChange}/>
+                    <ControlLabel>{i18next.t("platform.site.title")}</ControlLabel>
+                    <FormControl id="title" type="text" value={this.state.title} onChange={this.handleChange}/>
                 </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.subTitle")}</ControlLabel>
+                    <FormControl id="subTitle" type="text" value={this.state.subTitle} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.author.name")}</ControlLabel>
+                    <FormControl id="authorName" type="text" value={this.state.authorName} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.author.email")}</ControlLabel>
+                    <FormControl id="authorEmail" type="text" value={this.state.authorEmail} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.keywords")}</ControlLabel>
+                    <FormControl id="keywords" type="text" value={this.state.keywords} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.description")}</ControlLabel>
+                    <FormControl id="description" rows={12} componentClass="textarea" value={this.state.description} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.aboutUs")}</ControlLabel>
+                    <FormControl id="aboutUs" rows={12} componentClass="textarea" value={this.state.aboutUs} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.copyright")}</ControlLabel>
+                    <FormControl id="copyright" type="text" value={this.state.copyright} onChange={this.handleChange}/>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{i18next.t("platform.site.navLinks")}</ControlLabel>
+                    <FormControl id="links" rows={12} componentClass="textarea" value={this.state.links} onChange={this.handleChange}/>
+                </FormGroup>
+
                 <Button type="submit" bsStyle="primary">
                     {i18next.t("buttons.save")}
                 </Button>
@@ -127,13 +163,13 @@ const NavLinksFmW = React.createClass({
         )
     }
 })
-NavLinksFmW.propTypesW = {
-    value: PropTypes.string.isRequired
+SiteInfoFmW.propTypesW = {
+    info: PropTypes.object.isRequired
 }
 
-const NavLinksFm = connect(state => ({
-    value: JSON.stringify(state.dashboard.site.links, null, 2)//state.dashboard.site.links.map(l => (l.href + ": " + l.label)).join("\n")
-}), dispatch => ({}))(NavLinksFmW);
+const SiteInfoFm = connect(state => ({
+    info: state.dashboard.site
+}), dispatch => ({}))(SiteInfoFmW);
 //-----------------------------------------------------------------------------
 const DashboardW = React.createClass({
     getInitialState() {
@@ -141,9 +177,7 @@ const DashboardW = React.createClass({
     },
     componentDidMount: function() {
         const {onRefresh, user} = this.props
-        if (isSignIn(user)) {
-            onRefresh()
-        }
+        onRefresh(user)
     },
     handleSelect(key) {
         this.setState({key});
@@ -162,10 +196,6 @@ const DashboardW = React.createClass({
                         <div className="col-md-offset-1 col-md-10">
                             <br/>
                             <SiteInfoFm/>
-                            <br/>
-                            <NavLinksFm/>
-                            <br/>
-                            <AboutUsFm/>
                         </div>
                     </Tab>
                 )
@@ -191,9 +221,20 @@ DashboardW.propTypes = {
 }
 
 export const Dashboard = connect(state => ({user: state.currentUser}), dispatch => ({
-    onRefresh: function() {
-        ajax("get", "/personal/dashboard", null, function(rst) {
-            dispatch(setDashboard(rst));
+    onRefresh: function(user) {
+        if (!isSignIn(user)) {
+          return
+        }
+        ajax("get", "/personal/self", null, function(rst) {
+            dispatch(userInfo(rst));
         })
+        ajax("get", "/personal/logs", null, function(rst) {
+            dispatch(userLogs(rst));
+        })
+        if(isAdmin(user)){
+          ajax("get", "/admin/site/info", null, function(rst) {
+              dispatch(adminSiteInfo(rst));
+          })
+        }
     }
 }))(DashboardW);

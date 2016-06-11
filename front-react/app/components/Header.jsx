@@ -21,7 +21,7 @@ const Widget = React.createClass({
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            {info.links.map((l,i) =>{
+            {info.navLinks.map((l,i) =>{
               return <IndexLinkContainer key={i} to={l.href}>
                       <NavItem>{i18next.t(l.label)}</NavItem>
                      </IndexLinkContainer>

@@ -19,7 +19,7 @@ const Widget = React.createClass({
         <div className="container">
           <div className="row">
               {this.props.children}
-          </div>          
+          </div>
           <hr/>
           <Footer/>
         </div>
@@ -36,7 +36,7 @@ export default connect(
   state=>({info:state.siteInfo}),
   dispatch => ({
     onRefresh: function(){
-      ajax("get", "/info", null, function(ifo){
+      ajax("get", "/site/info", null, function(ifo){
         dispatch(refresh(ifo));
         document.documentElement.lang = ifo.lang;
         document.title = ifo.title;

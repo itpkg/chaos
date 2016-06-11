@@ -7,7 +7,6 @@ import (
 	"github.com/garyburd/redigo/redis"
 	"github.com/gin-gonic/gin"
 	"github.com/op/go-logging"
-	"golang.org/x/text/language"
 	"gopkg.in/vmihailenco/msgpack.v2"
 )
 
@@ -68,7 +67,7 @@ func (p *Cache) key(c *gin.Context) string {
 	return fmt.Sprintf(
 		"%s://%s%s",
 		p.Prefix,
-		c.MustGet("locale").(*language.Tag).String(),
+		c.MustGet("locale").(string),
 		c.Request.URL.RequestURI(),
 	)
 }

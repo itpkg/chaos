@@ -10,7 +10,6 @@ import (
 	"github.com/SermoDigital/jose/jwt"
 	"github.com/garyburd/redigo/redis"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/satori/go.uuid"
 )
@@ -19,8 +18,8 @@ type Jwt struct {
 	Key    []byte               `inject:"jwt.key"`
 	Method crypto.SigningMethod `inject:"jwt.method"`
 	Logger *logging.Logger      `inject:""`
-	Db     *gorm.DB             `inject:""`
 	Redis  *redis.Pool          `inject:""`
+	Dao    *Dao                 `inject:""`
 }
 
 func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
@@ -32,7 +31,25 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 	return tk.Claims(), err
 }
 
-func (p *Jwt) Handler(c *gin.Context) {
+func (p *Jwt) MustAdminInHandler() gin.HandlerFunc {
+	return p.MustRolesInHandler("admin")
+}
+
+func (p *Jwt) MustRolesInHandler(roles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		u := c.MustGet("user").(*User)
+		for _, a := range p.Dao.Authority(u.ID, "-", 0) {
+			for _, r := range roles {
+				if a == r {
+					return
+				}
+			}
+		}
+		c.String(http.StatusForbidden, "don't have roles %s", roles)
+	}
+}
+
+func (p *Jwt) MustSignInHandler(c *gin.Context) {
 	tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
@@ -47,7 +64,7 @@ func (p *Jwt) Handler(c *gin.Context) {
 	}
 	var user User
 	data := tkn.Payload().(map[string]interface{})
-	if err := p.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
+	if err := p.Dao.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
 		c.String(http.StatusUnauthorized, err.Error())
 		c.Abort()
 		return

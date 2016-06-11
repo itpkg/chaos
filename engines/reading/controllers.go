@@ -69,7 +69,7 @@ func (p *Engine) delete(c *gin.Context) (interface{}, error) {
 }
 
 func (p *Engine) Mount(r *gin.Engine) {
-	g := r.Group("/reading", p.Jwt.Handler)
+	g := r.Group("/reading", p.Jwt.MustSignInHandler)
 	g.GET("/notes", web.Rest(p.index))
 	g.POST("/notes", web.Rest(p.create))
 	g.GET("/notes/:id", web.Rest(p.show))
