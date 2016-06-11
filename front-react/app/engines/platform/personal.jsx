@@ -18,7 +18,7 @@ import TimeAgo from 'react-timeago'
 import i18next from 'i18next'
 
 import {userInfo, userLogs, adminSiteInfo} from './actions'
-import {isSignIn, isAdmin, ajax} from '../../utils'
+import {isSignIn, isAdmin, onDelete, ajax} from '../../utils'
 import NoMatch from '../../components/NoMatch'
 import Notices from './Notices'
 
@@ -172,6 +172,22 @@ const SiteInfoFm = connect(state => ({
     info: state.dashboard.site
 }), dispatch => ({}))(SiteInfoFmW);
 //-----------------------------------------------------------------------------
+const StatusPane = React.createClass({
+  handleClearCache(){
+    onDelete("/admin/cache")
+  },
+  render(){
+    return <div className="col-md-offset-1 col-md-10">
+      <br/>
+      <div className="row">
+        <div className="col-ms-3">
+          <Button bsStyle="danger" onClick={this.handleClearCache}>{i18next.t("platform.clear_cache")}</Button>
+        </div>
+      </div>
+    </div>
+  }
+})
+//-----------------------------------------------------------------------------
 const DashboardW = React.createClass({
     getInitialState() {
         return {key: "profile"};
@@ -203,6 +219,11 @@ const DashboardW = React.createClass({
                 tabs.push(
                     <Tab key="site.notices" eventKey={"site.notices"} title={i18next.t('platform.notices')}>
                         <Notices/>
+                    </Tab>
+                )
+                tabs.push(
+                    <Tab key="site.status" eventKey={"site.status"} title={i18next.t('platform.site_status')}>
+                        <StatusPane/>
                     </Tab>
                 )
             }

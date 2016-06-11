@@ -40,7 +40,7 @@ func (p *Engine) postAdminSiteInfo(c *gin.Context) (interface{}, error) {
 	return web.OK, nil
 }
 
-func (p *Engine) deleteAdminSiteCache(c *gin.Context) (interface{}, error) {
+func (p *Engine) deleteAdminCache(c *gin.Context) (interface{}, error) {
 	err := p.Cache.Flush()
 	return web.OK, err
 }
