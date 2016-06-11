@@ -8,7 +8,7 @@ import (
 )
 
 func (p *Engine) Mount(r *gin.Engine) {
-	ag := r.Group("/admin", p.Jwt.MustSignInHandler, p.Jwt.MustAdminInHandler())
+	ag := r.Group("/admin", p.Jwt.CurrentUserHandler(true), p.Jwt.MustAdminHandler())
 	ag.GET("/site/info", p.getAdminSiteInfo)
 	ag.POST("/site/info", web.Rest(p.postAdminSiteInfo))
 	ag.DELETE("/cache", web.Rest(p.deleteAdminCache))
@@ -18,9 +18,9 @@ func (p *Engine) Mount(r *gin.Engine) {
 
 	r.GET("/notices", p.Cache.Page(time.Hour*24, web.Rest(p.getNotices)))
 
-	r.GET("/personal/self", p.Jwt.MustSignInHandler, web.Rest(p.getPersonalSelf))
-	r.GET("/personal/logs", p.Jwt.MustSignInHandler, web.Rest(p.getPersonalLogs))
-	r.DELETE("/personal/signOut", p.Jwt.MustSignInHandler, p.deleteSignOut)
+	r.GET("/personal/self", p.Jwt.CurrentUserHandler(true), web.Rest(p.getPersonalSelf))
+	r.GET("/personal/logs", p.Jwt.CurrentUserHandler(true), web.Rest(p.getPersonalLogs))
+	r.DELETE("/personal/signOut", p.Jwt.CurrentUserHandler(true), p.deleteSignOut)
 
 	r.GET("/locales/:lang", p.Cache.Page(time.Hour*24, p.getLocale))
 	r.GET("/site/info", p.Cache.Page(time.Hour*24, p.getSiteInfo))

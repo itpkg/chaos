@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require("stats-webpack-plugin");
+const SriPlugin = require('webpack-subresource-integrity');
 
 module.exports = function(options) {
 
@@ -100,6 +101,7 @@ module.exports = function(options) {
         plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
         plugins.push(new webpack.NoErrorsPlugin());
         plugins.push(new ExtractTextPlugin('[id]-[chunkhash].css'));
+        plugins.push(new SriPlugin(['sha256', 'sha512']));
 
         loaders.push({
             test: /\.css$/,

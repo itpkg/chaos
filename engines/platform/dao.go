@@ -73,6 +73,7 @@ func (p *Dao) UserClaims(u *User) jws.Claims {
 	cm := jws.Claims{}
 	cm.SetSubject(u.Name)
 	cm.Set("uid", u.UID)
+	cm.Set("id", u.ID)
 
 	cm.Set("roles", p.Authority(u.ID, "-", 0))
 	return cm

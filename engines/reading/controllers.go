@@ -7,14 +7,15 @@ import (
 )
 
 func (p *Engine) index(c *gin.Context) (interface{}, error) {
-	u := c.MustGet("user").(*platform.User)
 	var notes []Note
-	err := p.Db.
-		Select([]string{"id", "updated_at", "title"}).
-		Where("user_id = ?", u.ID).
-		Order("updated_at DESC").Find(&notes).Error
+	db := p.Db.Select([]string{"id", "user_id", "updated_at", "title"})
+	if o, ok := c.Get("user"); ok {
+		db = db.Where("user_id = ? or share", o.(*platform.User).ID)
+	} else {
+		db = db.Where("share")
+	}
+	err := db.Order("updated_at DESC").Find(&notes).Error
 	return notes, err
-
 }
 
 type NoteFm struct {
@@ -69,8 +70,8 @@ func (p *Engine) delete(c *gin.Context) (interface{}, error) {
 }
 
 func (p *Engine) Mount(r *gin.Engine) {
-	g := r.Group("/reading", p.Jwt.MustSignInHandler)
-	g.GET("/notes", web.Rest(p.index))
+	r.GET("/reading/notes", p.Jwt.CurrentUserHandler(false), web.Rest(p.index))
+	g := r.Group("/reading", p.Jwt.CurrentUserHandler(true))
 	g.POST("/notes", web.Rest(p.create))
 	g.GET("/notes/:id", web.Rest(p.show))
 	g.POST("/notes/:id", web.Rest(p.update))

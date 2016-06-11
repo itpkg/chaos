@@ -53,13 +53,14 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
-    "html-webpack-plugin": "^2.19.0",
+    "html-webpack-plugin": "^2.20.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "stats-webpack-plugin": "^0.3.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-subresource-integrity": "^0.3.2"
   }
 }

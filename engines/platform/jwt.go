@@ -31,11 +31,11 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 	return tk.Claims(), err
 }
 
-func (p *Jwt) MustAdminInHandler() gin.HandlerFunc {
-	return p.MustRolesInHandler("admin")
+func (p *Jwt) MustAdminHandler() gin.HandlerFunc {
+	return p.MustRolesHandler("admin")
 }
 
-func (p *Jwt) MustRolesInHandler(roles ...string) gin.HandlerFunc {
+func (p *Jwt) MustRolesHandler(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		u := c.MustGet("user").(*User)
 		for _, a := range p.Dao.Authority(u.ID, "-", 0) {
@@ -49,32 +49,42 @@ func (p *Jwt) MustRolesInHandler(roles ...string) gin.HandlerFunc {
 	}
 }
 
-func (p *Jwt) MustSignInHandler(c *gin.Context) {
-	tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
-	if err != nil {
-		c.String(http.StatusInternalServerError, err.Error())
-		c.Abort()
-		return
-	}
+func (p *Jwt) CurrentUserHandler(must bool) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
+		if err != nil {
+			if must {
+				c.String(http.StatusInternalServerError, err.Error())
+				c.Abort()
+			}
+			return
+		}
 
-	if err := tkn.Verify(p.Key, p.Method); err != nil {
-		c.String(http.StatusUnauthorized, err.Error())
-		c.Abort()
-		return
+		if err := tkn.Verify(p.Key, p.Method); err != nil {
+			if must {
+				c.String(http.StatusUnauthorized, err.Error())
+				c.Abort()
+			}
+			return
+		}
+		var user User
+		data := tkn.Payload().(map[string]interface{})
+		if err := p.Dao.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
+			if must {
+				c.String(http.StatusUnauthorized, err.Error())
+				c.Abort()
+			}
+			return
+		}
+		if !user.IsAvailable() {
+			if must {
+				c.String(http.StatusForbidden, "bad user status")
+				c.Abort()
+			}
+			return
+		}
+		c.Set("user", &user)
 	}
-	var user User
-	data := tkn.Payload().(map[string]interface{})
-	if err := p.Dao.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
-		c.String(http.StatusUnauthorized, err.Error())
-		c.Abort()
-		return
-	}
-	if !user.IsAvailable() {
-		c.String(http.StatusForbidden, "bad user status")
-		c.Abort()
-		return
-	}
-	c.Set("user", &user)
 }
 
 func (p *Jwt) key(kid string) string {
