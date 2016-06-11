@@ -12,10 +12,10 @@ func (p *Engine) Mount(r *gin.Engine) {
 	ag.GET("/site/info", p.getAdminSiteInfo)
 	ag.POST("/site/info", web.Rest(p.postAdminSiteInfo))
 	ag.DELETE("/site/cache", web.Rest(p.deleteAdminSiteCache))
-
-	ag.GET("/notices", web.Rest(p.getNotices))
 	ag.POST("/notices", web.Rest(p.postNotices))
 	ag.DELETE("/notices/:id", web.Rest(p.deleteNotice))
+
+	r.GET("/notices", web.Rest(p.getNotices))
 
 	r.GET("/personal/self", p.Jwt.MustSignInHandler, web.Rest(p.getPersonalSelf))
 	r.GET("/personal/logs", p.Jwt.MustSignInHandler, web.Rest(p.getPersonalLogs))

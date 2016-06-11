@@ -21,9 +21,11 @@ platform.site.keywords = 关键字
 platform.site.description = 简述
 platform.site.author.email = 作者邮箱
 platform.site.author.name = 作者名字
-platform.site.aboutUs = 关于我们
+platform.site.aboutUs = 关于我们(markdown)
 platform.site.copyright = 版权信息
 platform.site.navLinks = 顶部导航链接（json格式）
+platform.notices = 通知列表
+platform.notice.content = 内容(markdown)
 
 
 dict.pages.index = 字典
@@ -61,3 +63,4 @@ messages.please_sign_in = 您需要登录才能继续。
 messages.please_waiting = 请耐心等待。
 messages.no_match = 页面不存在。
 messages.success = 操作成功。
+messages.are_you_sure = 你确定么？

@@ -8,6 +8,10 @@ export const USER_LOGS = "platform.user_logs"
 
 export const ADMIN_SITE_INFO = "platform.admin_site_info"
 
+export const NOTICE_LIST = "platform.notices.list"
+export const NOTICE_ADD = "platform.notices.add"
+export const NOTICE_DEL = "platform.notices.del"
+
 export function signIn(token){
   return {type:AUTH_SIGN_IN, token}
 }
@@ -29,4 +33,17 @@ export function userLogs(logs){
 
 export function adminSiteInfo(info){
   return {type:ADMIN_SITE_INFO, info}
+}
+
+
+export function listNotice(notices){
+  return {type:NOTICE_LIST, notices}
+}
+
+export function addNotice(notice){
+  return {type:NOTICE_ADD, notice}
+}
+
+export function delNotice(id){
+  return {type:NOTICE_DEL, id}
 }

@@ -4,7 +4,8 @@ import {
   AUTH_SIGN_IN, AUTH_SIGN_OUT,
   SITE_REFRESH,
   USER_INFO, USER_LOGS,
-  ADMIN_SITE_INFO
+  ADMIN_SITE_INFO,
+  NOTICE_LIST, NOTICE_ADD, NOTICE_DEL
 } from './actions'
 
 import {TOKEN} from '../../constants'
@@ -54,5 +55,27 @@ function dashboard(state = {site:{author:{}, navLinks:[]}, logs:[], user:{}}, ac
   }
 }
 
-const reducers = {currentUser, siteInfo, dashboard}
+function notices(state=[], action){
+  switch (action.type) {
+    case NOTICE_LIST:
+      return action.notices
+    case NOTICE_ADD:
+      state.unshift(action.notice)
+      return state
+    case NOTICE_DEL:
+      for(var i=0; i<state.length; i++){
+        if(state[i].id===action.id){
+          //state.splice(i, 1);
+          delete state[i]
+          break
+        }
+      }
+      return state;
+    default:
+      return state
+
+  }
+}
+
+const reducers = {currentUser, siteInfo, dashboard, notices}
 export default reducers

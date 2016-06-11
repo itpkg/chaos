@@ -21,9 +21,12 @@ platform.site.keywords = Keywords
 platform.site.description = Description
 platform.site.author.email = Author's email
 platform.site.author.name = Author's name
-platform.site.aboutUs = About us
+platform.site.aboutUs = About us(markdown)
 platform.site.copyright = Copyright
 platform.site.navLinks = Top nav-links(json)
+platform.notices = Notices
+platform.notice.content = Content(markdown)
+
 
 dict.pages.index = Dict
 dict.pages.notes.index = Words
@@ -60,3 +63,4 @@ messages.please_sign_in = Please sign in before continue.
 messages.please_waiting = Please waiting.
 messages.no_match = No match.
 messages.success = Success.
+messages.are_you_sure = Are you sure?

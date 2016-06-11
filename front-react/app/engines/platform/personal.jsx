@@ -20,6 +20,7 @@ import i18next from 'i18next'
 import {userInfo, userLogs, adminSiteInfo} from './actions'
 import {isSignIn, isAdmin, ajax} from '../../utils'
 import NoMatch from '../../components/NoMatch'
+import Notices from './Notices'
 
 const ProfileW = React.createClass({
     render() {
@@ -197,6 +198,11 @@ const DashboardW = React.createClass({
                             <br/>
                             <SiteInfoFm/>
                         </div>
+                    </Tab>
+                )
+                tabs.push(
+                    <Tab key="site.notices" eventKey={"site.notices"} title={i18next.t('platform.notices')}>
+                        <Notices/>
                     </Tab>
                 )
             }

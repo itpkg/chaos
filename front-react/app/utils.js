@@ -3,6 +3,12 @@ import i18next from 'i18next'
 
 import {TOKEN} from './constants'
 
+export function onDelete(url, done){
+  if(confirm(i18next.t('messages.are_your_sure'))){
+      ajax('delete', url, null, done)
+  }
+}
+
 export function ajax(method, url, data, done, fail){
   if(!done){
     done = function(rst){
