@@ -1,8 +1,14 @@
 import $ from 'jquery'
+import i18next from 'i18next'
 
 import {TOKEN} from './constants'
 
 export function ajax(method, url, data, done, fail){
+  if(!done){
+    done = function(rst){
+      alert(i18next.t("messages.success"))
+    }
+  }
   if(!fail){
     fail= function(xhr){
       alert(xhr.responseText)

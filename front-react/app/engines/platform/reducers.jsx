@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode'
 
-import {AUTH_SIGN_IN, AUTH_SIGN_OUT, SITE_REFRESH} from './actions'
+import {AUTH_SIGN_IN, AUTH_SIGN_OUT, DASHBOARD, SITE_REFRESH} from './actions'
 
 import {TOKEN} from '../../constants'
 
@@ -36,5 +36,14 @@ function siteInfo(state = {links:[], oauth2:[]}, action){
   }
 }
 
-const reducers = {currentUser, siteInfo}
+function dashboard(state = {site:{author:{}, links:[]}, logs:[], user:{}}, action){
+  switch (action.type) {
+    case DASHBOARD:      
+      return action.info
+    default:
+      return state
+  }
+}
+
+const reducers = {currentUser, siteInfo, dashboard}
 export default reducers

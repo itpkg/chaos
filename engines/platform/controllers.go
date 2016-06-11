@@ -151,7 +151,14 @@ func (p *Engine) dashboard(c *gin.Context) (interface{}, error) {
 	rst["logs"] = logs
 
 	if p.Dao.Is(u.ID, "admin") {
-		rst["site"] = p.getSiteInfoMap(lng)
+		ifo := p.getSiteInfoMap(lng)
+		var abu string
+		if err := p.Dao.Get(fmt.Sprintf("%s://site.about-us", lng), &abu); err != nil {
+			p.Logger.Error(err)
+			abu = "## About us"
+		}
+		ifo["aboutUs"] = abu
+		rst["site"] = ifo
 	}
 	return rst, nil
 }
