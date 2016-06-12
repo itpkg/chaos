@@ -72,7 +72,7 @@ module.exports = function(options) {
     };
 
     if (options.minify) {
-        env['process.env.NODE_ENV'] = 'production';
+        env['process.env.NODE_ENV'] = JSON.stringify('production');
         output.filename = '[id]-[chunkhash].js';
         htmlOptions.minify = {
             collapseWhitespace: true,

@@ -19,7 +19,7 @@ import (
 
 //IocAction ioc action
 func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
-	return func(ctx *cli.Context) error {
+	return Action(func(ctx *cli.Context) error {
 		var inj inject.Graph
 		logger := Logger()
 		if !IsProduction() {
@@ -63,7 +63,7 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 			return err
 		}
 		return fn(ctx, &inj)
-	}
+	})
 }
 
 //Action cfg action

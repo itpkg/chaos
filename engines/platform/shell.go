@@ -150,8 +150,8 @@ server {
 						switch drv {
 						case "postgres":
 							fmt.Printf("CREATE USER %s WITH PASSWORD '%s';\n", args["user"], args["password"])
-							fmt.Printf("CREATE DATABASE %s WITH ENCODING=UTF8;\n", args["dbname"])
-							fmt.Printf("GRANT ALL PRIVILEGES ON DATABASE %s to %s;\n", args["user"], args["dbname"])
+							fmt.Printf("CREATE DATABASE %s WITH ENCODING='UTF8';\n", args["dbname"])
+							fmt.Printf("GRANT ALL PRIVILEGES ON DATABASE %s TO %s;\n", args["dbname"], args["user"])
 						default:
 							err = fmt.Errorf("unknown driver %s", drv)
 						}
@@ -220,7 +220,7 @@ server {
 								"-h", args["host"],
 								"-p", args["port"],
 								"-U", args["user"],
-								"-c", fmt.Sprintf("create database %s WITH ENCODING=UTF8", args["dbname"]),
+								"-c", fmt.Sprintf("create database %s WITH ENCODING='UTF8'", args["dbname"]),
 							)
 						default:
 							err = fmt.Errorf("unknown driver %s", drv)
