@@ -5,7 +5,8 @@ function readingNotes(state = [], action) {
         case NOTE_LIST:
             return action.notes
         case NOTE_ADD:
-            state.unshift(action.note)return state.slice(0)
+            state.unshift(action.note);
+            return state.slice(0)
         case NOTE_CHG:
             var i = 0;
             for (; i < state.length; i++) {
