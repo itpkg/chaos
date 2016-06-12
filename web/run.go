@@ -17,6 +17,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+//IocAction ioc action
 func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 	return func(ctx *cli.Context) error {
 		var inj inject.Graph
@@ -65,6 +66,7 @@ func IocAction(fn func(*cli.Context, *inject.Graph) error) cli.ActionFunc {
 	}
 }
 
+//Action cfg action
 func Action(f cli.ActionFunc) cli.ActionFunc {
 	return func(c *cli.Context) error {
 		if err := viper.ReadInConfig(); err != nil {
@@ -74,6 +76,7 @@ func Action(f cli.ActionFunc) cli.ActionFunc {
 	}
 }
 
+//Run main entry
 func Run() error {
 	app := cli.NewApp()
 	app.Name = "chaos"
@@ -88,7 +91,7 @@ func Run() error {
 			Action: func(*cli.Context) error {
 				const fn = "config.toml"
 				if _, err := os.Stat(fn); err == nil {
-					return fmt.Errorf("file %s already exists!", fn)
+					return fmt.Errorf("file %s already exists", fn)
 				}
 
 				args := viper.AllSettings()
@@ -131,9 +134,9 @@ func Run() error {
 
 				if IsProduction() {
 					return endless.ListenAndServe(adr, hnd)
-				} else {
-					return http.ListenAndServe(adr, hnd)
 				}
+				return http.ListenAndServe(adr, hnd)
+
 			}),
 		},
 		{

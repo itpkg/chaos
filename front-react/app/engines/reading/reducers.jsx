@@ -1,6 +1,6 @@
 
 import {
-  NOTE_LIST, NOTE_ADD, NOTE_DEL
+  NOTE_LIST, NOTE_ADD, NOTE_DEL, NOTE_CHG
 } from './actions'
 
 
@@ -10,6 +10,15 @@ function readingNotes(state=[], action){
       return action.notes
     case NOTE_ADD:
       state.unshift(action.note)
+      return state.slice(0)
+    case NOTE_CHG:
+      var i=0;
+      for(; i<state.length; i++){
+        if(action.note.id == state[i].id){
+          break
+        }
+      }
+      state[i] = action.note
       return state.slice(0)
     case NOTE_DEL:
       for(var i=0; i<state.length; i++){

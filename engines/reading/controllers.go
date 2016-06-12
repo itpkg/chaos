@@ -8,7 +8,7 @@ import (
 
 func (p *Engine) index(c *gin.Context) (interface{}, error) {
 	var notes []Note
-	db := p.Db.Select([]string{"id", "user_id", "updated_at", "title"})
+	db := p.Db
 	if o, ok := c.Get("user"); ok {
 		db = db.Where("user_id = ? or share", o.(*platform.User).ID)
 	} else {
@@ -18,6 +18,7 @@ func (p *Engine) index(c *gin.Context) (interface{}, error) {
 	return notes, err
 }
 
+//NoteFm note form model
 type NoteFm struct {
 	ID    uint   `form:"id"`
 	Title string `form:"title" binding:"required"`
@@ -69,6 +70,7 @@ func (p *Engine) delete(c *gin.Context) (interface{}, error) {
 	return web.OK, err
 }
 
+//Mount mount router
 func (p *Engine) Mount(r *gin.Engine) {
 	r.GET("/reading/notes", p.Jwt.CurrentUserHandler(false), web.Rest(p.index))
 	g := r.Group("/reading", p.Jwt.CurrentUserHandler(true))

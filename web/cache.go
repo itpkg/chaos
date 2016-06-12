@@ -10,18 +10,21 @@ import (
 	"gopkg.in/vmihailenco/msgpack.v2"
 )
 
+//Cache cache model
 type Cache struct {
 	Redis  *redis.Pool     `inject:""`
 	Logger *logging.Logger `inject:""`
 	Prefix string          `inject:"cache.prefix"`
 }
 
+//Keys cache items
 func (p *Cache) Keys() ([]string, error) {
 	c := p.Redis.Get()
 	defer c.Close()
 	return redis.Strings(c.Do("KEYS", fmt.Sprintf("%s://*", p.Prefix)))
 }
 
+//Flush clear cache
 func (p *Cache) Flush() error {
 	c := p.Redis.Get()
 	defer c.Close()
@@ -32,6 +35,7 @@ func (p *Cache) Flush() error {
 	return err
 }
 
+//Page cache page(by url and locale)
 func (p *Cache) Page(exp time.Duration, fn gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		key := p.key(c)
@@ -44,7 +48,6 @@ func (p *Cache) Page(exp time.Duration, fn gin.HandlerFunc) gin.HandlerFunc {
 				c.Writer.WriteHeader(rsp.Status)
 				c.Writer.Header().Set("Content-Type", rsp.Type)
 				c.Writer.Write(rsp.Data)
-				return
 			} else {
 				p.Logger.Error(err)
 			}
@@ -73,6 +76,8 @@ func (p *Cache) key(c *gin.Context) string {
 }
 
 //-----------------------------------------------------------------------------
+
+//CacheResponse page cache item
 type CacheResponse struct {
 	Status int
 	//Header http.Header

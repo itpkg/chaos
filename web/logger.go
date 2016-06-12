@@ -6,6 +6,7 @@ import (
 	"github.com/op/go-logging"
 )
 
+//Logger open logger
 func Logger() *logging.Logger {
 	var bkd logging.Backend
 	if IsProduction() {

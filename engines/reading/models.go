@@ -5,6 +5,7 @@ import (
 	"github.com/itpkg/chaos/web"
 )
 
+//Note note model
 type Note struct {
 	web.Model
 
@@ -16,6 +17,7 @@ type Note struct {
 	Share bool   `gorm:"not null" json:"share"`
 }
 
+//TableName table's name of Note
 func (Note) TableName() string {
 	return "reading_notes"
 }

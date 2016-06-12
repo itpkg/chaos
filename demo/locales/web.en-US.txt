@@ -46,6 +46,7 @@ buttons.remove = Remove
 buttons.delete = Delete
 buttons.submit = Submit
 buttons.reset = Reset
+buttons.close = Close
 
 
 form.id = ID

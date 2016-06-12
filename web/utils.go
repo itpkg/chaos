@@ -10,10 +10,12 @@ import (
 	"github.com/spf13/viper"
 )
 
+//IsProduction production mode ?
 func IsProduction() bool {
 	return viper.GetString("env") == "production"
 }
 
+//Host hostname
 func Host() string {
 	if IsProduction() {
 		if viper.GetBool("http.ssl") {
@@ -24,6 +26,7 @@ func Host() string {
 	return fmt.Sprintf("http://localhost:%d", viper.GetInt("http.port"))
 }
 
+//RandomStr random string
 func RandomStr(n int) string {
 	letters := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
 	buf := make([]rune, n)
@@ -33,6 +36,7 @@ func RandomStr(n int) string {
 	return string(buf)
 }
 
+//OpenDatabase open database
 func OpenDatabase() (*gorm.DB, error) {
 	//postgresql: "user=%s password=%s host=%s port=%d dbname=%s sslmode=%s"
 	args := ""
@@ -57,6 +61,7 @@ func OpenDatabase() (*gorm.DB, error) {
 
 }
 
+//OpenRedis open redis
 func OpenRedis() *redis.Pool {
 	return &redis.Pool{
 		MaxIdle:     3,
