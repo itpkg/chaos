@@ -48,9 +48,9 @@ func (p *Cache) Page(exp time.Duration, fn gin.HandlerFunc) gin.HandlerFunc {
 				c.Writer.WriteHeader(rsp.Status)
 				c.Writer.Header().Set("Content-Type", rsp.Type)
 				c.Writer.Write(rsp.Data)
-			} else {
-				p.Logger.Error(err)
+				return
 			}
+			p.Logger.Error(err)
 		} else {
 			p.Logger.Error(err)
 		}

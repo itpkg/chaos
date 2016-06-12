@@ -36,6 +36,12 @@ const Widget = React.createClass({
         o[e.target.id] = e.target.value
         this.setState(o);
     },
+    handleRemove: function(id) {
+        const {onDelNote} = this.props
+        onDelete('/reading/notes/' + id, function(rst) {
+            onDelNote(id)
+        })
+    },
     handleSubmit: function(e) {
         e.preventDefault();
         const {onChgNote, onAddNote} = this.props
@@ -108,7 +114,9 @@ const Widget = React.createClass({
                                 <h2>{n.title}</h2>
                                 <ReactMarkdown source={n.body}/> {isSignIn(user) && n.user_id == user.id
                                     ? <p>
-                                            <Button bsStyle='link' onClick={this.open.bind(this, n.id)}>{i18next.t('buttons.edit')}</Button>
+                                            <Button bsSize="sm" bsStyle='warning' onClick={this.open.bind(this, n.id)}>{i18next.t('buttons.edit')}</Button>
+                                            &nbsp;
+                                            <Button bsSize="sm" onClick={this.handleRemove.bind(this, n.id)} bsStyle="danger">{i18next.t("buttons.remove")}</Button>
                                         </p>
                                     : <br/>
 }
