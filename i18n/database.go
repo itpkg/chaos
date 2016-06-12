@@ -8,6 +8,7 @@ import (
 	"golang.org/x/text/language"
 )
 
+//Migrate migrate database
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&Locale{})
 	db.Model(&Locale{}).AddUniqueIndex("idx_locales_lang_code", "lang", "code")

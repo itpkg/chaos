@@ -9,6 +9,7 @@ import (
 	"github.com/op/go-logging"
 )
 
+//Engine platform engine
 type Engine struct {
 	I18n              *i18n.I18n      `inject:""`
 	Dao               *Dao            `inject:""`
@@ -18,6 +19,7 @@ type Engine struct {
 	Oauth2GoogleState string          `inject:"oauth2.google.state"`
 }
 
+//Map map objects
 func (p *Engine) Map(inj *inject.Graph) error {
 
 	enc, err := NewAesHmacEncryptor(Secret(120, 32), Secret(210, 32))
@@ -34,6 +36,8 @@ func (p *Engine) Map(inj *inject.Graph) error {
 	)
 
 }
+
+//Migrate db:migrate
 func (p *Engine) Migrate(db *gorm.DB) {
 	i18n.Migrate(db)
 
@@ -46,6 +50,8 @@ func (p *Engine) Migrate(db *gorm.DB) {
 	db.Model(&Role{}).AddUniqueIndex("idx_roles_name_resource_type_id", "name", "resource_type", "resource_id")
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")
 }
+
+//Seed db:seed
 func (p *Engine) Seed() {}
 
 func init() {

@@ -5,6 +5,7 @@ import (
 	"github.com/itpkg/chaos/web"
 )
 
+//NoticeFm form for notice
 type NoticeFm struct {
 	Content string `form:"content" binding:"required"`
 }

@@ -5,10 +5,12 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
-/**
+/*
 https://developers.google.com/identity/protocols/OAuth2WebServer
 https://developers.google.com/identity/protocols/googlescopes
 */
+
+//GoogleUser google oauth user info
 type GoogleUser struct {
 	ID      string `json:"id"`
 	Email   string `json:"email"`
@@ -17,6 +19,7 @@ type GoogleUser struct {
 	Picture string `json:"picture"`
 }
 
+//GoogleCredential google creadential
 type GoogleCredential struct {
 	Web struct {
 		ClientID     string   `json:"client_id"`
@@ -25,6 +28,7 @@ type GoogleCredential struct {
 	} `json:"web"`
 }
 
+//To to oauth2 config model
 func (p *GoogleCredential) To() oauth2.Config {
 	return oauth2.Config{
 		ClientID:     p.Web.ClientID,

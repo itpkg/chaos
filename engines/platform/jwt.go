@@ -14,6 +14,7 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+//Jwt jwt helper
 type Jwt struct {
 	Key    []byte               `inject:"jwt.key"`
 	Method crypto.SigningMethod `inject:"jwt.method"`
@@ -22,6 +23,7 @@ type Jwt struct {
 	Dao    *Dao                 `inject:""`
 }
 
+//Validate check jwt
 func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 	tk, err := jws.ParseJWT(buf)
 	if err != nil {
@@ -31,10 +33,12 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 	return tk.Claims(), err
 }
 
+//MustAdminHandler check must have admin role
 func (p *Jwt) MustAdminHandler() gin.HandlerFunc {
 	return p.MustRolesHandler("admin")
 }
 
+//MustRolesHandler check must have one roles at least
 func (p *Jwt) MustRolesHandler(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		u := c.MustGet("user").(*User)
@@ -49,6 +53,7 @@ func (p *Jwt) MustRolesHandler(roles ...string) gin.HandlerFunc {
 	}
 }
 
+//CurrentUserHandler inject current user
 func (p *Jwt) CurrentUserHandler(must bool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
@@ -91,6 +96,7 @@ func (p *Jwt) key(kid string) string {
 	return fmt.Sprintf("token://%s", kid)
 }
 
+//Sum create jwt token
 func (p *Jwt) Sum(cm jws.Claims, days int) ([]byte, error) {
 	kid := uuid.NewV4()
 	now := time.Now()

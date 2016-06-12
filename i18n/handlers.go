@@ -5,6 +5,7 @@ import (
 	"golang.org/x/text/language"
 )
 
+//LocaleHandler handler for detcte locale
 func LocaleHandler(c *gin.Context) {
 	// written := false
 	// 1. Check URL arguments.
@@ -36,6 +37,7 @@ func LocaleHandler(c *gin.Context) {
 	c.Set("locale", tag.String())
 }
 
+//Match get language.Tag from string
 func Match(lng string) language.Tag {
 	tag, _, _ := matcher.Match(language.Make(lng))
 	return tag

@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+//Worker worker job
 func (p *Engine) Worker() {
 	workers.Process("email", func(msg *workers.Msg) {
 

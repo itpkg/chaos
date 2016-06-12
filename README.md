@@ -1,4 +1,4 @@
-# CHAOS
+# CHAOS(by go)
 
 ## Build
 
@@ -7,6 +7,14 @@ make
 cd dist
 ./chaos
 ```
+
+## Deploy
+    mv dist /var/www/www.change-me.com
+    cd /var/www/www.change-me.com
+    ./chaos i
+    vi config.toml # don't forget to change domain and database setting
+    ./chaos db e # will print sql scripts to crete database and user
+    ./chaos ng # will generate nginx.conf file
 
 ## Devel
 

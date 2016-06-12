@@ -9,6 +9,7 @@ import (
 	"hash"
 )
 
+//Encryptor for encrypt and decrypt
 type Encryptor interface {
 	Encode(buf []byte) ([]byte, error)
 	Decode(buf []byte) ([]byte, error)
@@ -16,11 +17,13 @@ type Encryptor interface {
 	Equal(plain, code []byte) bool
 }
 
+//AesHmacEncryptor using hmac and aes
 type AesHmacEncryptor struct {
 	Cipher cipher.Block
 	Hash   hash.Hash
 }
 
+//Encode encode by aes
 func (p *AesHmacEncryptor) Encode(buf []byte) ([]byte, error) {
 	iv := make([]byte, aes.BlockSize)
 	if _, err := rand.Read(iv); err != nil {
@@ -33,6 +36,7 @@ func (p *AesHmacEncryptor) Encode(buf []byte) ([]byte, error) {
 	return append(val, iv...), nil
 }
 
+//Decode decode by aes
 func (p *AesHmacEncryptor) Decode(buf []byte) ([]byte, error) {
 	bln := len(buf)
 	cln := bln - aes.BlockSize
@@ -46,13 +50,17 @@ func (p *AesHmacEncryptor) Decode(buf []byte) ([]byte, error) {
 
 }
 
+//Sum sum by hmac
 func (p *AesHmacEncryptor) Sum(buf []byte) []byte {
 	return p.Hash.Sum(buf)
 }
+
+//Equal check hmac
 func (p *AesHmacEncryptor) Equal(plain, code []byte) bool {
 	return hmac.Equal(p.Hash.Sum(plain), code)
 }
 
+//NewAesHmacEncryptor new AesHmacEncryptor
 func NewAesHmacEncryptor(ck, hk []byte) (Encryptor, error) {
 	cip, err := aes.NewCipher(ck)
 	if err != nil {

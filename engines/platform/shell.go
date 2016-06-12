@@ -13,6 +13,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+//Shell shell commands
 func (p *Engine) Shell() []cli.Command {
 	return []cli.Command{
 		{
@@ -44,7 +45,7 @@ server {
   proxy_buffers 16 64k;
   proxy_buffer_size 128k;
 
-  server_name www.{{.Domain}} {{.Domain}};
+  server_name {{.Domain}};
 
   root {{.Root}}/public;
   index index.html;
@@ -138,6 +139,25 @@ server {
 			Aliases: []string{"db"},
 			Usage:   "database operations",
 			Subcommands: []cli.Command{
+				{
+					Name:    "example",
+					Usage:   "scripts example for create database and user",
+					Aliases: []string{"e"},
+					Action: web.Action(func(*cli.Context) error {
+						drv := viper.GetString("database.driver")
+						args := viper.GetStringMapString("database.args")
+						var err error
+						switch drv {
+						case "postgres":
+							fmt.Printf("CREATE USER %s WITH PASSWORD '%s';\n", args["user"], args["password"])
+							fmt.Printf("CREATE DATABASE %s WITH ENCODING=UTF8;\n", args["dbname"])
+							fmt.Printf("GRANT ALL PRIVILEGES ON DATABASE %s to %s;\n", args["user"], args["dbname"])
+						default:
+							err = fmt.Errorf("unknown driver %s", drv)
+						}
+						return err
+					}),
+				},
 				{
 					Name:    "migrate",
 					Usage:   "migrate the database",
@@ -355,10 +375,10 @@ server {
 						deny := c.Bool("deny")
 						years := c.Int("years")
 						if uid == "" {
-							return errors.New("uid mustn't empty.")
+							return errors.New("uid mustn't empty")
 						}
 						if name == "" {
-							return errors.New("role's name mustn't empty.")
+							return errors.New("role's name mustn't empty")
 						}
 						user, err := p.Dao.GetUser(uid)
 						if err != nil {

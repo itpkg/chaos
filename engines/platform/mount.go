@@ -7,6 +7,7 @@ import (
 	"github.com/itpkg/chaos/web"
 )
 
+//Mount mount routes
 func (p *Engine) Mount(r *gin.Engine) {
 	ag := r.Group("/admin", p.Jwt.CurrentUserHandler(true), p.Jwt.MustAdminHandler())
 	ag.GET("/site/info", p.getAdminSiteInfo)

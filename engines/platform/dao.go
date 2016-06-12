@@ -11,12 +11,14 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+//Dao db helper
 type Dao struct {
 	Db        *gorm.DB        `inject:""`
 	Encryptor Encryptor       `inject:""`
 	Logger    *logging.Logger `inject:""`
 }
 
+//Set save setting
 func (p *Dao) Set(k string, v interface{}, f bool) error {
 	buf, err := msgpack.Marshal(v)
 	if err != nil {
@@ -45,6 +47,7 @@ func (p *Dao) Set(k string, v interface{}, f bool) error {
 	return err
 }
 
+//Get get setting value by key
 func (p *Dao) Get(k string, v interface{}) error {
 	var m Setting
 	err := p.Db.Where("key = ?", k).First(&m).Error
@@ -60,6 +63,8 @@ func (p *Dao) Get(k string, v interface{}) error {
 }
 
 //-----------------------------------------------------------------------------
+
+//Log add log
 func (p *Dao) Log(user uint, msg string) {
 	l := Log{UserID: user, Message: msg}
 	if err := p.Db.Create(&l).Error; err != nil {
@@ -69,6 +74,7 @@ func (p *Dao) Log(user uint, msg string) {
 
 //-----------------------------------------------------------------------------
 
+//UserClaims generate user claims
 func (p *Dao) UserClaims(u *User) jws.Claims {
 	cm := jws.Claims{}
 	cm.SetSubject(u.Name)
@@ -79,6 +85,7 @@ func (p *Dao) UserClaims(u *User) jws.Claims {
 	return cm
 }
 
+//AddUser add openid user
 func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
 	var u User
 	var err error
@@ -108,12 +115,14 @@ func (p *Dao) AddUser(pid, pty, email, name, home, logo string) (*User, error) {
 	return &u, err
 }
 
+//GetUser get user by uid
 func (p *Dao) GetUser(uid string) (*User, error) {
 	var u User
 	err := p.Db.Where("uid = ?", uid).First(&u).Error
 	return &u, err
 }
 
+//Authority get user's role names
 func (p *Dao) Authority(user uint, rty string, rid uint) []string {
 	var items []Role
 	if err := p.Db.
@@ -138,10 +147,12 @@ func (p *Dao) Authority(user uint, rty string, rid uint) []string {
 	return roles
 }
 
+//Is is role ?
 func (p *Dao) Is(user uint, name string) bool {
 	return p.Can(user, name, "-", 0)
 }
 
+//Can can?
 func (p *Dao) Can(user uint, name string, rty string, rid uint) bool {
 	var r Role
 	if p.Db.
@@ -161,6 +172,7 @@ func (p *Dao) Can(user uint, name string, rty string, rid uint) bool {
 	return pm.Enable()
 }
 
+//Role check role exist
 func (p *Dao) Role(name string, rty string, rid uint) (*Role, error) {
 	var e error
 	r := Role{}
@@ -180,12 +192,14 @@ func (p *Dao) Role(name string, rty string, rid uint) (*Role, error) {
 	return &r, e
 }
 
+//Deny deny permission
 func (p *Dao) Deny(role uint, user uint) error {
 	return p.Db.
 		Where("role_id = ? AND user_id = ?", role, user).
 		Delete(Permission{}).Error
 }
 
+//Allow allow permission
 func (p *Dao) Allow(role uint, user uint, years, months, days int) error {
 	begin := time.Now()
 	end := begin.AddDate(years, months, days)

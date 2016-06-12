@@ -10,6 +10,7 @@ import (
 	"github.com/itpkg/chaos/web"
 )
 
+//Notice notice model
 type Notice struct {
 	ID        uint      `gorm:"primary_key" json:"id"`
 	Lang      string    `gorm:"not null;type:varchar(8);index" json:"lang"`
@@ -17,6 +18,7 @@ type Notice struct {
 	CreatedAt time.Time `gorm:"not null;default:current_timestamp" json:"created_at"`
 }
 
+//Setting setting model
 type Setting struct {
 	web.Model
 
@@ -25,6 +27,7 @@ type Setting struct {
 	Flag bool   `gorm:"not null"`
 }
 
+//User user model
 type User struct {
 	web.Model
 	Email    string `gorm:"not null;index;type:VARCHAR(255)" json:"email"`
@@ -46,18 +49,22 @@ type User struct {
 	Logs        []Log        `json:"logs"`
 }
 
+//IsConfirmed confirmed?
 func (p *User) IsConfirmed() bool {
 	return p.ConfirmedAt != nil
 }
 
+//IsLocked locked?
 func (p *User) IsLocked() bool {
 	return p.LockedAt != nil
 }
 
+//IsAvailable is valid?
 func (p *User) IsAvailable() bool {
 	return p.IsConfirmed() && !p.IsLocked()
 }
 
+//SetGravatar set logo by gravatar
 func (p *User) SetGravatar() {
 	buf := md5.Sum([]byte(strings.ToLower(p.Email)))
 	p.Logo = fmt.Sprintf("https://gravatar.com/avatar/%s.png", hex.EncodeToString(buf[:]))
@@ -67,6 +74,7 @@ func (p User) String() string {
 	return fmt.Sprintf("%s<%s>", p.Name, p.Email)
 }
 
+//Log model
 type Log struct {
 	ID        uint      `gorm:"primary_key" json:"id"`
 	UserID    uint      `gorm:"not null" json:"-"`
@@ -88,6 +96,7 @@ func (p Role) String() string {
 	return fmt.Sprintf("%s@%s://%d", p.Name, p.ResourceType, p.ResourceID)
 }
 
+//Permission permission model
 type Permission struct {
 	web.Model
 	User   User
@@ -98,14 +107,17 @@ type Permission struct {
 	End    time.Time `gorm:"not null;default:'1000-1-1';type:date"`
 }
 
+//EndS end to string
 func (p *Permission) EndS() string {
 	return p.End.Format("2006-01-02")
 }
 
+//BeginS begin to string
 func (p *Permission) BeginS() string {
 	return p.Begin.Format("2006-01-02")
 }
 
+//Enable is enable?
 func (p *Permission) Enable() bool {
 	now := time.Now()
 	return now.After(p.Begin) && now.Before(p.End)

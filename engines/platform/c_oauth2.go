@@ -8,6 +8,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+//OauthFm oauth2 model
 type OauthFm struct {
 	Code  string `form:"code"`
 	State string `form:"state"`
