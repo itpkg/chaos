@@ -62,9 +62,7 @@ const Widget = React.createClass({
     },
     componentDidMount: function() {
         const {user, onListNote} = this.props
-        ajax('get', '/reading/notes', null, function(rst) {
-            onListNote(rst)
-        })
+        onListNote();
     },
     render() {
         const {user, notes} = this.props
@@ -101,6 +99,7 @@ const Widget = React.createClass({
                 </form>
             </div>
         )
+
 
         return (
             <div className="container-fluid">
