@@ -2,3 +2,8 @@
 !/vendor/vendor.json
 
 /dist
+
+tmp
+
+*~
+*.swp

@@ -6,7 +6,7 @@ import (
 	"github.com/itpkg/chaos/web"
 )
 
-func (p *Engine) index(c *gin.Context) (interface{}, error) {
+func (p *Engine) indexNotes(c *gin.Context) (interface{}, error) {
 	var notes []Note
 	db := p.Db
 	if o, ok := c.Get("user"); ok {
@@ -25,7 +25,7 @@ type NoteFm struct {
 	Body  string `form:"body" binding:"required"`
 }
 
-func (p *Engine) create(c *gin.Context) (interface{}, error) {
+func (p *Engine) createNote(c *gin.Context) (interface{}, error) {
 	u := c.MustGet("user").(*platform.User)
 	var fm NoteFm
 	if err := c.Bind(&fm); err != nil {
@@ -35,7 +35,7 @@ func (p *Engine) create(c *gin.Context) (interface{}, error) {
 	err := p.Db.Create(&note).Error
 	return note, err
 }
-func (p *Engine) update(c *gin.Context) (interface{}, error) {
+func (p *Engine) updateNote(c *gin.Context) (interface{}, error) {
 	u := c.MustGet("user").(*platform.User)
 	id := c.Param("id")
 	var note Note
@@ -54,7 +54,7 @@ func (p *Engine) update(c *gin.Context) (interface{}, error) {
 	return note, err
 
 }
-func (p *Engine) show(c *gin.Context) (interface{}, error) {
+func (p *Engine) showNote(c *gin.Context) (interface{}, error) {
 	u := c.MustGet("user").(*platform.User)
 	id := c.Param("id")
 	var note Note
@@ -62,20 +62,10 @@ func (p *Engine) show(c *gin.Context) (interface{}, error) {
 	return note, err
 }
 
-func (p *Engine) delete(c *gin.Context) (interface{}, error) {
+func (p *Engine) deleteNote(c *gin.Context) (interface{}, error) {
 
 	u := c.MustGet("user").(*platform.User)
 	id := c.Param("id")
 	err := p.Db.Where("id = ? AND user_id = ?", id, u.ID).Delete(Note{}).Error
 	return web.OK, err
-}
-
-//Mount mount router
-func (p *Engine) Mount(r *gin.Engine) {
-	r.GET("/reading/notes", p.Jwt.CurrentUserHandler(false), web.Rest(p.index))
-	g := r.Group("/reading", p.Jwt.CurrentUserHandler(true))
-	g.POST("/notes", web.Rest(p.create))
-	g.GET("/notes/:id", web.Rest(p.show))
-	g.POST("/notes/:id", web.Rest(p.update))
-	g.DELETE("/notes/:id", web.Rest(p.delete))
 }
