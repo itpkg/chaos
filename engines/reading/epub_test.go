@@ -16,7 +16,8 @@ func TestEpub(t *testing.T) {
 
 	t.Logf("%+v", b)
 
-	t.Log("========")
+	t.Log("==== book info====")
+	t.Logf("metadatas: %v", b.MetadataFields())
 	for _, v := range []string{"title", "subject", "publisher", "creator", "date"} {
 		if s, e := b.Metadata(v); e == nil {
 			t.Logf("%s = %v", v, s)
@@ -25,7 +26,7 @@ func TestEpub(t *testing.T) {
 		}
 	}
 
-	t.Logf("============")
+	t.Logf("==== Navigation========")
 	for it, err := b.Navigation(); !it.IsLast(); it.Next() {
 		if err != nil {
 			t.Fatal(err)
@@ -33,7 +34,19 @@ func TestEpub(t *testing.T) {
 		t.Logf("%s: %s", it.Title(), it.URL())
 	}
 
-	t.Logf("============")
+	t.Logf("==== Open file ====")
+	if fd, err := b.OpenFile("stylesheet.css"); err == nil {
+		defer fd.Close()
+		if buf, err := ioutil.ReadAll(fd); err == nil {
+			t.Log(string(buf))
+		} else {
+			t.Fatal(err)
+		}
+	} else {
+		t.Fatal(err)
+	}
+
+	t.Logf("===== Spine =======")
 	for it, err := b.Spine(); !it.IsLast(); it.Next() {
 		if err != nil {
 			t.Fatal(err)
@@ -44,11 +57,11 @@ func TestEpub(t *testing.T) {
 		}
 		t.Logf("========= %s ========", it.URL())
 
-		if buf, err := ioutil.ReadAll(pg); err == nil {
-			t.Log(string(buf))
-		} else {
-			t.Fatal(err)
-		}
+		// if buf, err := ioutil.ReadAll(pg); err == nil {
+		// 	t.Log(string(buf))
+		// } else {
+		// 	t.Fatal(err)
+		// }
 		pg.Close()
 	}
 

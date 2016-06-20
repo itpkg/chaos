@@ -1,7 +1,6 @@
 package reading
 
 import (
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -24,7 +23,7 @@ func (p *Engine) indexBooks(c *gin.Context) (interface{}, error) {
 
 func (p *Engine) showBook(c *gin.Context) {
 
-	name := c.Param("name")
+	name := c.Param("name")[1:]
 
 	var book Book
 	if err := p.Db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
@@ -33,7 +32,8 @@ func (p *Engine) showBook(c *gin.Context) {
 	}
 
 	if buf, err := p._readBook(&book, name); err == nil {
-		web.Bytes(name, buf)
+		p.Logger.Debugf("%s: %s", name, string(buf))
+		web.Bytes(name, buf)(c)
 	} else {
 		c.String(http.StatusInternalServerError, err.Error())
 	}
@@ -47,22 +47,29 @@ func (p *Engine) _readBook(book *Book, name string) ([]byte, error) {
 		return nil, err
 	}
 
-	for it, err := bk.Spine(); !it.IsLast(); it.Next() {
-		if err != nil {
-			return nil, err
-		}
-		p.Logger.Debugf("url: %s, name: %s", it.URL(), name)
-		if name[1:] == it.URL() {
-			pg, err := it.Open()
-			defer pg.Close()
-			if err != nil {
-				return nil, err
-			}
-			return ioutil.ReadAll(pg)
-		}
+	fd, err := bk.OpenFile(name)
+	if err != nil {
+		return nil, err
 	}
+	defer fd.Close()
+	return ioutil.ReadAll(fd)
 
-	return nil, errors.New("not found")
+	// for it, err := bk.Spine(); !it.IsLast(); it.Next() {
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
+	// 	p.Logger.Debugf("find url: %s, name: %s", it.URL(), name[1:])
+	// 	if name[1:] == it.URL() {
+	// 		pg, err := it.Open()
+	// 		defer pg.Close()
+	// 		if err != nil {
+	// 			return nil, err
+	// 		}
+	// 		return ioutil.ReadAll(pg)
+	// 	}
+	// }
+	//
+	// return nil, errors.New("not found")
 }
 
 func (p *Engine) _scanBooks() error {
