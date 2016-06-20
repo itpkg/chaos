@@ -53,23 +53,6 @@ func (p *Engine) _readBook(book *Book, name string) ([]byte, error) {
 	}
 	defer fd.Close()
 	return ioutil.ReadAll(fd)
-
-	// for it, err := bk.Spine(); !it.IsLast(); it.Next() {
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
-	// 	p.Logger.Debugf("find url: %s, name: %s", it.URL(), name[1:])
-	// 	if name[1:] == it.URL() {
-	// 		pg, err := it.Open()
-	// 		defer pg.Close()
-	// 		if err != nil {
-	// 			return nil, err
-	// 		}
-	// 		return ioutil.ReadAll(pg)
-	// 	}
-	// }
-	//
-	// return nil, errors.New("not found")
 }
 
 func (p *Engine) _scanBooks() error {
