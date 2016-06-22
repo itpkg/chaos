@@ -22,7 +22,7 @@ func (p *Engine) getDict(c *gin.Context) {
 
 func (p *Engine) postDict(c *gin.Context) {
 	if out, err := exec.
-		Command("sdcv", "--data-dir", dictROOT, c.Param("keyword")).
+		Command("sdcv", "--data-dir", dictROOT, c.Query("keyword")).
 		Output(); err == nil {
 		c.String(http.StatusOK, string(out))
 	} else {

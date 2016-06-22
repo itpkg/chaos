@@ -25,8 +25,8 @@
     "bootstrap": "^3.3.6",
     "i18next": "^3.1.0",
     "i18next-browser-languagedetector": "^0.3.0",
-    "i18next-xhr-backend": "^0.5.5",
-    "jquery": "^2.2.4",
+    "i18next-xhr-backend": "^0.6.0",
+    "jquery": "^3.0.0",
     "jwt-decode": "^2.0.1",
     "marked": "^0.3.5",
     "moment": "^2.13.0",
@@ -52,7 +52,7 @@
     "clean-webpack-plugin": "^0.1.9",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.8.5",
+    "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.20.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
@@ -61,6 +61,6 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
-    "webpack-subresource-integrity": "^0.3.2"
+    "webpack-subresource-integrity": "^0.4.2"
   }
 }

@@ -67,7 +67,7 @@ module.exports = function(options) {
         inject: true,
         template: 'app/index.ejs',
         filename: 'index.html',
-        favicon: path.join(__dirname, 'app', 'favicon.png'),
+        favicon: path.join(__dirname, 'app', 'favicon.png'),      
         title: 'IT-PACKAGE'
     };
 
