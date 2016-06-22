@@ -30,15 +30,13 @@ platform.notices = Notices
 platform.notice.content = Content(markdown)
 
 
-reading.notes = Notes
+reading.pages.index = Reading
+reading.pages.notes = Notes
+reading.pages.books = Books
+reading.pages.dict = Dict
 reading.note.title = Title
 reading.note.body = Body
-
-
-dict.pages.index = Dict
-dict.pages.notes.index = Words
-dict.models.note.title = Keyword
-dict.models.note.body = Body
+reading.dict.keyword = Keyword
 
 
 buttons.more = More

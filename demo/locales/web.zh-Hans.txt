@@ -30,15 +30,13 @@ platform.notices = 通知列表
 platform.notice.content = 内容(markdown)
 
 
-reading.notes = 笔记列表
+reading.pages.index = 在线阅读
+reading.pages.books = 书籍列表
+reading.pages.notes = 笔记列表
+reading.pages.dict = 电子字典
 reading.note.title = 标题
 reading.note.body = 正文
-
-
-dict.pages.index = 字典
-dict.pages.notes.index = 生词本
-dict.models.note.title = 关键字
-dict.models.note.body = 内容
+reading.dict.keyword = 关键字
 
 
 buttons.more = 更多
