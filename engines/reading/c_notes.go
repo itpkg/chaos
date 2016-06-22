@@ -7,15 +7,26 @@ import (
 )
 
 func (p *Engine) indexNotes(c *gin.Context) (interface{}, error) {
-	var notes []Note
-	db := p.Db
-	if o, ok := c.Get("user"); ok {
-		db = db.Where("user_id = ? or share", o.(*platform.User).ID)
-	} else {
-		db = db.Where("share")
+	title := c.Query("title")
+	user := c.MustGet("user").(*platform.User)
+	if title == "" {
+		// list note titles
+		var titles []string
+		err := p.Db.
+			Model(&Note{}).
+			Where("user_id = ?", user.ID).
+			Order("updated_at DESC").
+			Pluck("title", &titles).Error
+		return titles, err
 	}
-	err := db.Order("updated_at DESC").Find(&notes).Error
+	// search by title
+	var notes []Note
+	err := p.Db.
+		Where("user_id = ? AND title = ?", user.ID, title).
+		Order("updated_at DESC").
+		Find(&notes).Error
 	return notes, err
+
 }
 
 //NoteFm note form model

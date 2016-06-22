@@ -12,7 +12,7 @@ type Note struct {
 	UserID uint          `gorm:"not null" json:"user_id"`
 	User   platform.User `json:"-"`
 
-	Title string `gorm:"not null" json:"title"`
+	Title string `gorm:"not null;index" json:"title"`
 	Body  string `gorm:"not null;type:text" json:"body"`
 	Share bool   `gorm:"not null" json:"share"`
 }
