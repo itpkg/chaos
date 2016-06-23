@@ -1,4 +1,7 @@
 package: github.com/itpkg/chaos
+homepage: https://github.com/itpkg/chaos
+license: MIT
+description: it-package
 import:
 - package: github.com/BurntSushi/toml
 - package: github.com/SermoDigital/jose
