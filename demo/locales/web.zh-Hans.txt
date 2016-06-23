@@ -50,6 +50,7 @@ buttons.delete = 删除
 buttons.submit = 提交
 buttons.reset = 重写
 buttons.close = 关闭
+buttons.query = 查询
 
 
 form.id = ID

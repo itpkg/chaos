@@ -24,18 +24,26 @@ func (p *Engine) getDict(c *gin.Context) {
 
 }
 
-func (p *Engine) postDict(c *gin.Context) {
-	kw := c.Query("keyword")
-	if dictExp.MatchString(kw) {
-		if out, err := exec.
-			Command("sdcv", "--data-dir", dictROOT, kw).
-			Output(); err == nil {
-			c.String(http.StatusOK, string(out))
-		} else {
-			c.String(http.StatusInternalServerError, err.Error())
-		}
-	} else {
-		c.String(http.StatusInternalServerError, fmt.Sprintf("bad keyword: %s", kw))
-	}
+//DictFm form for notice
+type DictFm struct {
+	Keyword string `form:"keyword" binding:"required"`
+}
 
+func (p *Engine) postDict(c *gin.Context) {
+	var fm DictFm
+	err := c.Bind(&fm)
+	if err == nil {
+		if dictExp.MatchString(fm.Keyword) {
+			var out []byte
+			if out, err = exec.
+				Command("sdcv", "--data-dir", dictROOT, fm.Keyword).
+				Output(); err == nil {
+				c.String(http.StatusOK, string(out))
+				return
+			}
+		} else {
+			err = fmt.Errorf("bad keyword: %s", fm.Keyword)
+		}
+	}
+	c.String(http.StatusInternalServerError, err.Error())
 }

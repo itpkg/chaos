@@ -1,10 +1,10 @@
 import React from 'react'
 import {Route, IndexRoute} from 'react-router'
 
-import Notes from './Notes'
+import Home from './Home'
 
 export default [
   <Route key="reading" path="reading">
-    <Route path="notes" component={Notes}/>
+    <IndexRoute component={Home}/>    
   </Route>
 ]
