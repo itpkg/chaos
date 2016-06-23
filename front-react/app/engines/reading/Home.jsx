@@ -4,6 +4,7 @@ import {Link} from 'react-router'
 import i18next from 'i18next'
 
 import Dict from './Dict'
+import Notes from './Notes'
 
 const Home = React.createClass({
     getInitialState: function() {
@@ -17,6 +18,8 @@ const Home = React.createClass({
             <div>
                 <div className="col-md-3">
                     <Dict/>
+                    <br/>
+                    <Notes/>
                 </div>
                 <div className="col-md-9"></div>
                 <hr/>

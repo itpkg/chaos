@@ -3,15 +3,17 @@ import {connect} from 'react-redux'
 import TimeAgo from 'react-timeago'
 import i18next from 'i18next'
 import ReactMarkdown from 'react-markdown'
-import {Modal, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {Modal, Button,
+  FormGroup, ControlLabel, FormControl,
+  ListGroup, ListGroupItem
+} from 'react-bootstrap'
 
 import {addNote, listNote, chgNote, delNote} from './actions'
 import {isSignIn, ajax, onDelete} from '../../utils'
-import NoMatch from '../../components/NoMatch'
 
 const Widget = React.createClass({
     getInitialState() {
-        return {showModal: false, title: '', body: '', id: null};
+        return {showModal: false, title: '', body: '', id: null, items: []};
     },
     close() {
         this.setState({showModal: false});
@@ -39,7 +41,8 @@ const Widget = React.createClass({
     handleRemove: function(id) {
         const {onDelNote} = this.props
         onDelete('/reading/notes/' + id, function(rst) {
-            onDelNote(id)
+            //TODO
+            console.log("delete " + id);
         })
     },
     handleSubmit: function(e) {
@@ -53,103 +56,78 @@ const Widget = React.createClass({
             body: this.state.body
         }, function(rst) {
             this.setState({showModal: false, id: null, title: '', body: ''})
-            if (id) {
-                onChgNote(rst)
-            } else {
-                onAddNote(rst)
-            }
+            //TODO
+            console.log("save " + rst.id);
         }.bind(this))
     },
     componentDidMount: function() {
-        const {user, onListNote} = this.props
-        onListNote();
+        const {user} = this.props;
+        if (isSignIn(user)) {
+            ajax("get", "/reading/notes", null, function(rst) {
+                this.setState({items: rst});
+            }.bind(this));
+        }
     },
     render() {
-        const {user, notes} = this.props
+        const {user} = this.props
 
         var fm = (
-            <div className="col-md-3">
-                <Button bsStyle="info" bsSize="large" onClick={this.open.bind(this, null)}>
-                    {i18next.t('buttons.new')}
-                </Button>
-                <form>
-                    <Modal show={this.state.showModal} onHide={this.close}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>{i18next.t(this.state.id
-                                    ? 'buttons.edit'
-                                    : 'buttons.new')}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <FormGroup>
-                                <ControlLabel>{i18next.t("reading.note.title")}</ControlLabel>
-                                <FormControl id="title" type="text" value={this.state.title} onChange={this.handleChange}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <ControlLabel>{i18next.t("reading.note.body")}</ControlLabel>
-                                <FormControl id="body" rows={16} componentClass="textarea" value={this.state.body} onChange={this.handleChange}/>
-                            </FormGroup>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.handleSubmit} bsStyle="primary">
-                                {i18next.t("buttons.save")}
-                            </Button>
-                            <Button onClick={this.close}>{i18next.t("buttons.close")}</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </form>
-            </div>
+            <form>
+                <Modal show={this.state.showModal} onHide={this.close}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{i18next.t(this.state.id
+                                ? 'buttons.edit'
+                                : 'buttons.new')}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormGroup>
+                            <ControlLabel>{i18next.t("reading.note.title")}</ControlLabel>
+                            <FormControl id="title" type="text" value={this.state.title} onChange={this.handleChange}/>
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel>{i18next.t("reading.note.body")}</ControlLabel>
+                            <FormControl id="body" rows={16} componentClass="textarea" value={this.state.body} onChange={this.handleChange}/>
+                        </FormGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.handleSubmit} bsStyle="primary">
+                            {i18next.t("buttons.save")}
+                        </Button>
+                        <Button onClick={this.close}>{i18next.t("buttons.close")}</Button>
+                    </Modal.Footer>
+                </Modal>
+            </form>
         )
 
-
-        return (
-            <div className="container-fluid">
-                <div className="row">
-                    {isSignIn(user)
-                        ? fm
-                        : <br/>}
-                    {notes.map((n, i) => {
-                        return (
-                            <div className="col-md-3" key={i}>
-                                <h2>{n.title}</h2>
-                                <ReactMarkdown source={n.body}/> {isSignIn(user) && n.user_id == user.id
-                                    ? <p>
-                                            <Button bsSize="sm" bsStyle='warning' onClick={this.open.bind(this, n.id)}>{i18next.t('buttons.edit')}</Button>
-                                            &nbsp;
-                                            <Button bsSize="sm" onClick={this.handleRemove.bind(this, n.id)} bsStyle="danger">{i18next.t("buttons.remove")}</Button>
-                                        </p>
-                                    : <br/>
-}
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
-        )
+        return isSignIn(user)
+            ? (
+                <fieldset>
+                    <legend>{i18next.t("reading.pages.notes")}</legend>
+                    <div className="pull-right">
+                        <Button bsStyle="info" onClick={this.open.bind(this, null)}>
+                            {i18next.t('buttons.new')}
+                        </Button>
+                    </div>
+                    <br/>
+                    {fm}
+                    <br/>
+                    <div>
+                        <ListGroup>
+                            {this.state.items.map((t, i) => {
+                                return (
+                                    <ListGroupItem key={i} onClick={this.open.bind(this, t)}>{t}</ListGroupItem>
+                                )
+                            })}
+                        </ListGroup>
+                    </div>
+                </fieldset>
+            )
+            : (<br/>)
     }
 })
 
 Widget.propTypes = {
-    user: PropTypes.object.isRequired,
-    notes: PropTypes.array.isRequired,
-    onAddNote: PropTypes.func.isRequired,
-    onListNote: PropTypes.func.isRequired,
-    onDelNote: PropTypes.func.isRequired,
-    onChgNote: PropTypes.func.isRequired
+    user: PropTypes.object.isRequired
 }
 
-export default connect(state => ({notes: state.readingNotes, user: state.currentUser}), dispatch => ({
-    onAddNote: function(n) {
-        dispatch(addNote(n))
-    },
-    onDelNote: function(i) {
-        dispatch(delNote(i))
-    },
-    onChgNote: function(n) {
-        dispatch(chgNote(n))
-    },
-    onListNote: function() {
-        ajax('get', '/reading/notes', null, function(rst) {
-            dispatch(listNote(rst))
-        })
-    }
-}))(Widget);
+export default connect(state => ({notes: state.readingNotes, user: state.currentUser}), dispatch => ({}))(Widget);
