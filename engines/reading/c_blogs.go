@@ -9,25 +9,18 @@ import (
 	"path/filepath"
 
 	"github.com/gin-gonic/gin"
-	"github.com/itpkg/chaos/web"
 )
 
-func (p *Engine) blogs(c *gin.Context) {
-	name := c.Param("name")
-	if name == "/" {
-		if rst, err := p._scanBlogs(); err == nil {
-			c.JSON(http.StatusOK, rst)
-		} else {
-			c.String(http.StatusInternalServerError, err.Error())
-		}
+func (p *Engine) indexBlogs(c *gin.Context) (interface{}, error) {
+	return p._scanBlogs()
+}
 
+func (p *Engine) showBlog(c *gin.Context) {
+	name := c.Param("name")
+	if buf, err := ioutil.ReadFile(fmt.Sprintf("%s%s", blogsRoot, name)); err == nil {
+		c.String(http.StatusOK, string(buf))
 	} else {
-		if buf, err := ioutil.ReadFile(fmt.Sprintf("%s%s", blogsRoot, name)); err == nil {
-			//c.String(http.StatusOK, string(buf))
-			web.Bytes(name[1:], buf)(c)
-		} else {
-			c.String(http.StatusInternalServerError, err.Error())
-		}
+		c.String(http.StatusInternalServerError, err.Error())
 	}
 }
 

@@ -11,7 +11,8 @@ import (
 func (p *Engine) Mount(r *gin.Engine) {
 
 	gf := r.Group("/reading", p.Jwt.CurrentUserHandler(false))
-	gf.GET("/blogs/*name", p.Cache.Page(time.Hour*24, p.blogs))
+	gf.GET("/blogs", p.Cache.Page(time.Hour*24, web.Rest(p.indexBlogs)))
+	gf.GET("/blog/*name", p.Cache.Page(time.Hour*24, p.showBlog))
 	gf.GET("/books", p.Cache.Page(time.Hour*24, web.Rest(p.indexBooks)))
 	gf.GET("/books/:id/*name", p.Cache.Page(time.Hour*24, p.showBook))
 	gf.GET("/dict", p.getDict)
