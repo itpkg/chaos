@@ -33,10 +33,14 @@ platform.notice.content = 内容(markdown)
 reading.pages.index = 在线阅读
 reading.pages.books = 书籍列表
 reading.pages.notes = 笔记列表
+reading.pages.blogs = 文章列表
 reading.pages.dict = 电子字典
 reading.note.title = 标题
 reading.note.body = 正文
 reading.dict.keyword = 关键字
+reading.book.creator = 作者
+reading.book.subject = 主题
+reading.book.version = 版本
 
 
 buttons.more = 更多
@@ -51,6 +55,7 @@ buttons.submit = 提交
 buttons.reset = 重写
 buttons.close = 关闭
 buttons.query = 查询
+buttons.filter = 过滤
 
 
 form.id = ID

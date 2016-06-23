@@ -28,11 +28,16 @@ go get -u github.com/golang/lint/golint
 go get -u github.com/rogpeppe/godef
 
 go get -u github.com/Masterminds/glide
+cd $GOPATH/src/github.com/Masterminds/glide
+make build
+mv glide $GOPATH/bin
 
 go get -u github.com/itpkg/chaos
 cd $GOPATH/src/github.com/itpkg/chaos
 glide install
 cd front-react && npm install
+
+
 ```
 
 ### Editor(Atom)

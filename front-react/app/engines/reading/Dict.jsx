@@ -39,7 +39,7 @@ const Widget = React.createClass({
                 <form>
                     <FormGroup>
                         <ControlLabel>{i18next.t("reading.dict.keyword")}</ControlLabel>
-                        <FormControl id="keyword" type="keyword" value={this.state.keyword} onChange={this.handleChange}/>
+                        <FormControl id="keyword" value={this.state.keyword} onChange={this.handleChange}/>
                     </FormGroup>
                     {rst}
                     <Button onClick={this.handleSubmit} bsStyle="primary">

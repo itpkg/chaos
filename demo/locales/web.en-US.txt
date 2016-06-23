@@ -33,10 +33,14 @@ platform.notice.content = Content(markdown)
 reading.pages.index = Reading
 reading.pages.notes = Notes
 reading.pages.books = Books
+reading.pages.blogs = Blogs
 reading.pages.dict = Dict
 reading.note.title = Title
 reading.note.body = Body
 reading.dict.keyword = Keyword
+reading.book.creator = Creator
+reading.book.subject = Subject
+reading.book.version = Version
 
 
 buttons.more = More
@@ -51,6 +55,7 @@ buttons.submit = Submit
 buttons.reset = Reset
 buttons.close = Close
 buttons.query = Query
+buttons.filter = Filter
 
 
 form.id = ID

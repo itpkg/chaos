@@ -32,7 +32,6 @@ func (p *Engine) showBook(c *gin.Context) {
 	}
 
 	if buf, err := p._readBook(&book, name); err == nil {
-		p.Logger.Debugf("%s: %s", name, string(buf))
 		web.Bytes(name, buf)(c)
 	} else {
 		c.String(http.StatusInternalServerError, err.Error())

@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react'
-import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import i18next from 'i18next'
 
 import Dict from './Dict'
 import Notes from './Notes'
+import Books from './Books'
 
-const Home = React.createClass({
+const Widget = React.createClass({
     getInitialState: function() {
         return {}
     },
@@ -21,11 +21,13 @@ const Home = React.createClass({
                     <br/>
                     <Notes/>
                 </div>
-                <div className="col-md-9"></div>
+                <div className="col-md-9">
+                  <Books/>
+                </div>
                 <hr/>
             </div>
         )
     }
 });
 
-export default Home;
+export default Widget;
