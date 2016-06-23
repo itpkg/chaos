@@ -14,7 +14,7 @@ func (p *Engine) Mount(r *gin.Engine) {
 	gf.GET("/blogs", p.Cache.Page(time.Hour*24, web.Rest(p.indexBlogs)))
 	gf.GET("/blog/*name", p.Cache.Page(time.Hour*24, p.showBlog))
 	gf.GET("/books", p.Cache.Page(time.Hour*24, web.Rest(p.indexBooks)))
-	gf.GET("/books/:id/*name", p.Cache.Page(time.Hour*24, p.showBook))
+	gf.GET("/book/:id/*name", p.Cache.Page(time.Hour*24, p.showBook))
 	gf.GET("/dict", p.getDict)
 	gf.POST("/dict", p.postDict)
 

@@ -3,6 +3,9 @@ import i18next from 'i18next'
 import {
   Button, Thumbnail,
   FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
+import {IndexLinkContainer} from 'react-router-bootstrap'
+import {Link} from 'react-router'
+
 import {ajax} from '../../utils'
 
 export const Index = React.createClass({
@@ -29,6 +32,17 @@ export const Index = React.createClass({
       //   </FormGroup>
       // </div>
       // <br/>
+
+        // var showBook = function(b){
+        //   return <Link className="btn btn-primary" to={`/reading/book/${b.id}/${b.home}`}>
+        //     {i18next.t("buttons.more")}
+        //   </Link>
+        // }
+        var showBook = function(b){
+          return <a className="btn btn-primary" href={CHAOS_ENV.backend+'/reading/book/'+b.id+'/'+b.home} target='_blank'>
+                        {i18next.t("buttons.more")}
+                      </a>
+        }
         return (
           <div className="row">
             <h3>{i18next.t('reading.pages.books')}</h3>
@@ -44,15 +58,27 @@ export const Index = React.createClass({
                       {i18next.t("reading.book.version")}: {b.version}
                     </p>
                     <p>
-                      <a className="btn btn-primary" href={CHAOS_ENV.backend+'/reading/books/'+b.id+'/'+b.home} target='_blank'>
-                        {i18next.t("buttons.more")}
-                      </a>
+                      {showBook(b)}
                     </p>
                     </Thumbnail>
                   </div>
               )
             })}
           </div>
+        )
+    }
+});
+
+
+export const Show = React.createClass({
+    componentDidMount() {
+      //console.log(params);
+    },
+    render() {
+        const {params} = this.props;
+        const url = CHAOS_ENV.backend+'/reading/book/'+params.splat;
+        return (
+          <object className="html-object" data={url}></object>
         )
     }
 });

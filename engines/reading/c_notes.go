@@ -7,27 +7,38 @@ import (
 )
 
 func (p *Engine) indexNotes(c *gin.Context) (interface{}, error) {
-	title := c.Query("title")
 	user := c.MustGet("user").(*platform.User)
-	if title == "" {
-		// list note titles
-		var titles []string
-		err := p.Db.
-			Model(&Note{}).
-			Where("user_id = ?", user.ID).
-			Order("updated_at DESC").
-			Pluck("title", &titles).Error
-		return titles, err
-	}
-	// search by title
 	var notes []Note
 	err := p.Db.
-		Where("user_id = ? AND title = ?", user.ID, title).
-		Order("updated_at DESC").
+		Where("user_id = ?", user.ID).
+		Order("title DESC").
 		Find(&notes).Error
 	return notes, err
 
 }
+
+// func (p *Engine) indexNotes(c *gin.Context) (interface{}, error) {
+// 	title := c.Query("title")
+// 	user := c.MustGet("user").(*platform.User)
+// 	if title == "" {
+// 		// list note titles
+// 		var titles []string
+// 		err := p.Db.
+// 			Model(&Note{}).
+// 			Where("user_id = ?", user.ID).
+// 			Order("updated_at DESC").
+// 			Pluck("title", &titles).Error
+// 		return titles, err
+// 	}
+// 	// search by title
+// 	var notes []Note
+// 	err := p.Db.
+// 		Where("user_id = ? AND title = ?", user.ID, title).
+// 		Order("updated_at DESC").
+// 		Find(&notes).Error
+// 	return notes, err
+//
+// }
 
 //NoteFm note form model
 type NoteFm struct {
@@ -46,6 +57,7 @@ func (p *Engine) createNote(c *gin.Context) (interface{}, error) {
 	err := p.Db.Create(&note).Error
 	return note, err
 }
+
 func (p *Engine) updateNote(c *gin.Context) (interface{}, error) {
 	u := c.MustGet("user").(*platform.User)
 	id := c.Param("id")
