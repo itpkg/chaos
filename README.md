@@ -24,14 +24,15 @@ cd dist
 go get -u github.com/nsf/gocode
 go get -u golang.org/x/tools/cmd/goimports
 go get -u github.com/alecthomas/gometalinter
-go get -u github.com/kardianos/govendor
 go get -u github.com/golang/lint/golint
 go get -u github.com/rogpeppe/godef
 
+go get -u github.com/Masterminds/glide
+
 go get -u github.com/itpkg/chaos
 cd $GOPATH/src/github.com/itpkg/chaos
-govendor sync
-sudo npm install -g ember-cli@2.6
+glide install
+cd front-react && npm install
 ```
 
 ### Editor(Atom)

@@ -1,0 +1,33 @@
+package: github.com/itpkg/chaos
+import:
+- package: github.com/BurntSushi/toml
+- package: github.com/SermoDigital/jose
+  subpackages:
+  - crypto
+  - jws
+  - jwt
+- package: github.com/chonglou/epubgo
+- package: github.com/facebookgo/inject
+- package: github.com/fvbock/endless
+- package: github.com/garyburd/redigo
+  subpackages:
+  - redis
+- package: github.com/gin-gonic/gin
+- package: github.com/jinzhu/gorm
+  subpackages:
+  - dialects/mysql
+  - dialects/postgres
+  - dialects/sqlite
+- package: github.com/jrallison/go-workers
+- package: github.com/op/go-logging
+- package: github.com/rs/cors
+- package: github.com/satori/go.uuid
+- package: github.com/spf13/viper
+- package: github.com/urfave/cli
+- package: golang.org/x/oauth2
+  subpackages:
+  - google
+- package: golang.org/x/text
+  subpackages:
+  - language
+- package: gopkg.in/vmihailenco/msgpack.v2

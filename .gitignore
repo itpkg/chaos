@@ -1,5 +1,4 @@
 /vendor/*
-!/vendor/vendor.json
 
 /dist
 
