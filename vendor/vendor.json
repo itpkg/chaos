@@ -197,10 +197,10 @@
 			"revisionTime": "2016-04-26T22:13:00Z"
 		},
 		{
-			"checksumSHA1": "csotQIK+r4PF/+D+ghUTWTXFGmU=",
+			"checksumSHA1": "REJ9x/XeNMpSaWaKamWv3buwK+8=",
 			"path": "github.com/jinzhu/gorm",
-			"revision": "bf0e23607840019d62e32e87e9af48e881d74b1e",
-			"revisionTime": "2016-06-02T03:06:44Z"
+			"revision": "caa792644ce60fd7b429e0616afbdbccdf011be2",
+			"revisionTime": "2016-06-17T10:18:46Z"
 		},
 		{
 			"checksumSHA1": "eECxSkwh0WmhLwaxHfkvcLOWS08=",

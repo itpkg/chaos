@@ -2,6 +2,7 @@ package web
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -60,6 +61,7 @@ func (p *Cache) Page(exp time.Duration, fn gin.HandlerFunc) gin.HandlerFunc {
 			Key:            key,
 			Conn:           con,
 			Logger:         p.Logger,
+			status:         http.StatusOK,
 		}
 		c.Writer = wrt
 		fn(c)
