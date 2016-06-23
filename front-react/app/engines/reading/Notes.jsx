@@ -117,7 +117,6 @@ const Widget = React.createClass({
                                             &nbsp;
                                             <Button bsSize="sm" onClick={this.handleRemove.bind(this, n.id)} bsStyle="danger">{i18next.t("buttons.remove")}</Button>
                                       </p>
-}
                             </Thumbnail>
                           </div>
                         )

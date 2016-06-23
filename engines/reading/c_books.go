@@ -20,7 +20,10 @@ func (p *Engine) indexBooks(c *gin.Context) (interface{}, error) {
 	err := p.Db.Order("id ASC").Find(&books).Error
 	return books, err
 }
-
+func (p *Engine) deleteBook(c *gin.Context) (interface{}, error) {
+	err := p.Db.Where("id = ?", c.Param("id")).Delete(&Book{}).Error
+	return web.OK, err
+}
 func (p *Engine) showBook(c *gin.Context) {
 
 	name := c.Param("name")[1:]

@@ -19,6 +19,7 @@ func (p *Engine) Mount(r *gin.Engine) {
 	gf.POST("/dict", p.postDict)
 
 	gt := r.Group("/reading", p.Jwt.CurrentUserHandler(true))
+	gt.DELETE("/books/:id", p.Jwt.MustAdminHandler(), web.Rest(p.deleteBook))
 	gt.GET("/notes", web.Rest(p.indexNotes))
 	gt.POST("/notes", web.Rest(p.createNote))
 	gt.GET("/notes/:id", web.Rest(p.showNote))

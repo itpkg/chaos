@@ -1,14 +1,15 @@
 import React, {PropTypes} from 'react'
 import i18next from 'i18next'
+import {connect} from 'react-redux'
 import {
   Button, Thumbnail,
   FormGroup, ControlLabel, FormControl} from 'react-bootstrap'
 import {IndexLinkContainer} from 'react-router-bootstrap'
 import {Link} from 'react-router'
 
-import {ajax} from '../../utils'
+import {ajax, isAdmin, onDelete} from '../../utils'
 
-export const Index = React.createClass({
+const IndexW = React.createClass({
     getInitialState() {
         return {items:[], keyword:''};
     },
@@ -19,12 +20,25 @@ export const Index = React.createClass({
     //     o[e.target.id] = e.target.value
     //     this.setState(o);
     // },
+    handleRemove:function(id){
+      onDelete("/reading/books/"+id, function(){
+        var books = this.state.items;
+        for (var i = 0; i < books.length; i++) {
+            if (books[i].id === id) {
+                books.splice(i, 1);
+                break
+            }
+        }
+        this.setState({items:books});
+      }.bind(this));
+    },
     componentDidMount() {
       ajax('get', '/reading/books', null, function(rst){
         this.setState({items:rst});
       }.bind(this))
     },
     render() {
+      const {user} = this.props;
       // <div className="col-md-12">
       //   <FormGroup>
       //     <ControlLabel>{i18next.t("buttons.filter")}</ControlLabel>
@@ -59,6 +73,8 @@ export const Index = React.createClass({
                     </p>
                     <p>
                       {showBook(b)}
+                      &nbsp;
+                      {isAdmin(user) ? (<Button onClick={this.handleRemove.bind(this, b.id)} bsStyle="danger">{i18next.t("buttons.remove")}</Button>):(<span/>)}
                     </p>
                     </Thumbnail>
                   </div>
@@ -69,6 +85,19 @@ export const Index = React.createClass({
     }
 });
 
+
+IndexW.propTypes = {
+    user: PropTypes.object.isRequired,
+}
+
+export const Index = connect(
+  state => ({user: state.currentUser}),
+  dispatch => ({
+
+  })
+)(IndexW);
+
+//-----------------------------------------------------------------------------
 
 export const Show = React.createClass({
     componentDidMount() {
