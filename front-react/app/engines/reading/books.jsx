@@ -131,16 +131,15 @@ export const Show = React.createClass({
         }
         return null
       }
+
+      var title = item.opf.metadata.title;
+      var creator = item.opf.metadata.creator;
       return (<fieldset>
-      <legend>{item.opf.metadata.title[0]}-{item.opf.metadata.creator[0].author}</legend>
-      <ol>
-      {show_point(item.ncx.points)}
-    </ol>
+          <legend>{title ? title[0]:''}-{creator ? creator[0].author:''}</legend>
+          <ol>
+            {show_point(item.ncx.points)}
+          </ol>
       </fieldset>)
-        // const {params} = this.props;
-        // const url = CHAOS_ENV.backend+'/reading/book/'+params.splat;
-        // return (
-        //   <object className="html-object" data={url}></object>
-        // )
+
     }
 });
