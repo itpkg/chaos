@@ -95,19 +95,48 @@ export const Index = connect(
 //-----------------------------------------------------------------------------
 
 export const Show = React.createClass({
+    getInitialState() {
+        return {item:{
+          opf:{
+            metadata:{
+              title:[''],
+              creator:[{author:''}]
+            }
+          },
+          ncx:{}
+        }};
+    },
     componentDidMount() {
       const {params} = this.props;
       ajax('get', '/reading/book/'+params.id, null, function(item){
         this.setState({item:item});
-      });
-      // var showBook = function(b){
-      //   return <a className="btn btn-primary" href={CHAOS_ENV.backend+'/reading/book/'+b.id+'/'+b.home} target='_blank'>
-      //                 {i18next.t("buttons.more")}
-      //               </a>
-      // }
+      }.bind(this));
     },
     render() {
-      return (<div>aaa</div>)
+      const {params} = this.props;
+      const {item} = this.state;
+      var show_point = function(p){
+        if(p){
+          return p.map((l, i)=>{
+            return (<li key={i}>
+              <a target="_blank"
+                href={CHAOS_ENV.backend+'/reading/book/'+params.id+'/'+l.content.src}>
+                {l.text}
+              </a>
+              <ol>
+              {show_point(l.points)}
+              </ol>
+            </li>)
+          })
+        }
+        return null
+      }
+      return (<fieldset>
+      <legend>{item.opf.metadata.title[0]}-{item.opf.metadata.creator[0].author}</legend>
+      <ol>
+      {show_point(item.ncx.points)}
+    </ol>
+      </fieldset>)
         // const {params} = this.props;
         // const url = CHAOS_ENV.backend+'/reading/book/'+params.splat;
         // return (

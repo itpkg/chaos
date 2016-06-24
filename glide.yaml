@@ -1,7 +1,4 @@
 package: github.com/itpkg/chaos
-description: it-package
-homepage: https://github.com/itpkg/chaos
-license: MIT
 import:
 - package: github.com/BurntSushi/toml
 - package: github.com/SermoDigital/jose
@@ -15,6 +12,7 @@ import:
   subpackages:
   - redis
 - package: github.com/gin-gonic/gin
+- package: github.com/itpkg/epub
 - package: github.com/jinzhu/gorm
   subpackages:
   - dialects/mysql
@@ -33,4 +31,3 @@ import:
   subpackages:
   - language
 - package: gopkg.in/vmihailenco/msgpack.v2
-- package: github.com/itpkg/epub

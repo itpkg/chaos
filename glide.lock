@@ -1,5 +1,5 @@
-hash: dfec52c6b51db96b835536f1f863c57a8cd7452f275c44685c076001d84a141c
-updated: 2016-06-23T19:19:19.20874221-07:00
+hash: 911b1ddb8a492ad600272797816ade1e87d89f6319005b76891b0e9b88c3d954
+updated: 2016-06-23T20:11:23.303354191-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -41,9 +41,9 @@ imports:
   - json/scanner
   - json/token
 - name: github.com/itpkg/epub
-  version: 6b7abd7178284a7e55cd2db9fd54ba122cbf0f91
+  version: d1c3c09da16cfd4fd7fd78ee2eb49592e0274ab3
 - name: github.com/jinzhu/gorm
-  version: caa792644ce60fd7b429e0616afbdbccdf011be2
+  version: 321d10b67b7218c5cf3bebc0c01fc8c4536c2bc7
   subpackages:
   - dialects/mysql
   - dialects/postgres
@@ -53,7 +53,7 @@ imports:
 - name: github.com/jrallison/go-workers
   version: 287ed37cbdd72e67c1679ced0a12352a255abfe3
 - name: github.com/lib/pq
-  version: e2402a7cd1e57e08a576b94cdfed36ae30366545
+  version: 4dd446efc17690bc53e154025146f73203b18309
   subpackages:
   - hstore
   - oid

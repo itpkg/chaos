@@ -33,7 +33,7 @@ func (p *Engine) indexBook(c *gin.Context) {
 		return
 	}
 	defer bk.Close()
-	c.JSON(http.StatusOK, bk.Ncx.NavMap)
+	c.JSON(http.StatusOK, bk)
 }
 
 func (p *Engine) showBook(c *gin.Context) {
