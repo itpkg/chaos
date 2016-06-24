@@ -32,7 +32,6 @@ type Book struct {
 	Subject   string `sql:"not null;index" json:"subject"`
 	Publisher string `sql:"not null;index" json:"publisher"`
 	Version   string `sql:"not null;index" json:"version"`
-	Home      string `sql:"not null;index" json:"home"`
 }
 
 //TableName table name

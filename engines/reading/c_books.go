@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/chonglou/epubgo"
 	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
+	"github.com/itpkg/epub"
 )
 
 const booksROOT = "tmp/reading/books"
@@ -20,42 +20,56 @@ func (p *Engine) indexBooks(c *gin.Context) (interface{}, error) {
 	err := p.Db.Order("id ASC").Find(&books).Error
 	return books, err
 }
+
 func (p *Engine) deleteBook(c *gin.Context) (interface{}, error) {
 	err := p.Db.Where("id = ?", c.Param("id")).Delete(&Book{}).Error
 	return web.OK, err
 }
-func (p *Engine) showBook(c *gin.Context) {
 
-	name := c.Param("name")[1:]
-
-	var book Book
-	if err := p.Db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+func (p *Engine) indexBook(c *gin.Context) {
+	bk, err := p.book(c)
+	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
+	defer bk.Close()
+	c.JSON(http.StatusOK, bk.Ncx.NavMap)
+}
 
-	if buf, err := p._readBook(&book, name); err == nil {
-		web.Bytes(name, buf)(c)
-	} else {
+func (p *Engine) showBook(c *gin.Context) {
+	bk, err := p.book(c)
+	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
+		return
 	}
+	defer bk.Close()
+
+	name := c.Param("name")[1:]
+	fd, err := bk.Open(name)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	defer fd.Close()
+	buf, err := ioutil.ReadAll(fd)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	web.Bytes(name, buf)(c)
+
+}
+
+func (p *Engine) book(c *gin.Context) (*epub.Book, error) {
+	var book Book
+	if err := p.Db.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+		return nil, err
+	}
+	return epub.Open(fmt.Sprintf("%s/%s", booksROOT, book.Name))
 
 }
 
 //-----------------------------------------------------------------------------
-func (p *Engine) _readBook(book *Book, name string) ([]byte, error) {
-	bk, err := epubgo.Open(fmt.Sprintf("%s/%s", booksROOT, book.Name))
-	if err != nil {
-		return nil, err
-	}
-
-	fd, err := bk.OpenFile(name)
-	if err != nil {
-		return nil, err
-	}
-	defer fd.Close()
-	return ioutil.ReadAll(fd)
-}
 
 func (p *Engine) _scanBooks() error {
 	const sep = ","
@@ -68,41 +82,28 @@ func (p *Engine) _scanBooks() error {
 		}
 		if info.Mode().IsRegular() && filepath.Ext(info.Name()) == ext {
 			p.Logger.Infof("find book %s", path)
-			bk, err := epubgo.Open(path)
+			bk, err := epub.Open(path)
 			if err != nil {
 				return err
 			}
-			title, _ := bk.Metadata("title")
-			subject, _ := bk.Metadata("subject")
-			publisher, _ := bk.Metadata("publisher")
-			creator, _ := bk.Metadata("creator")
-			version, _ := bk.Metadata("date")
+			defer bk.Close()
+
+			var version []string
+			for _, d := range bk.Opf.Metadata.Date {
+				version = append(version, d.Data)
+			}
+			var creator []string
+			for _, c := range bk.Opf.Metadata.Creator {
+				creator = append(creator, c.Data)
+			}
 
 			book := Book{
 				Name:      path[len(booksROOT)+1 : len(path)],
-				Title:     strings.Join(title, sep),
-				Subject:   strings.Join(subject, sep),
-				Publisher: strings.Join(publisher, sep),
+				Title:     strings.Join(bk.Opf.Metadata.Title, sep),
+				Subject:   strings.Join(bk.Opf.Metadata.Subject, sep),
+				Publisher: strings.Join(bk.Opf.Metadata.Publisher, sep),
 				Creator:   strings.Join(creator, sep),
 				Version:   strings.Join(version, sep),
-			}
-
-			for it, err := bk.Navigation(); !it.IsLast(); err = it.Next() {
-				if err != nil {
-					return err
-				}
-				for _, u := range []string{"TableOfContents.xhtml"} {
-					if strings.HasPrefix(it.URL(), u) {
-						book.Home = u
-						break
-					}
-				}
-				if book.Home != "" {
-					break
-				}
-			}
-			if book.Home == "" {
-				return fmt.Errorf("Bad book format: %+v", book)
 			}
 
 			books = append(books, book)

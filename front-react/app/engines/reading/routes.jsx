@@ -9,7 +9,7 @@ import Layout from './Layout'
 export default [
   <Route key="reading" path="reading" component={Layout}>
     <Route path="books" component={BookIndex}/>
-    <Route path="book/**" component={BookShow}/>
+    <Route path="books/:id" component={BookShow}/>
 
     <Route path="blogs" component={BlogIndex}/>
     <Route path="blog/**" component={BlogShow}/>

@@ -1,12 +1,10 @@
-hash: 519e6c17bae9a953593b50fd079b480a785107ab0cb947d3f889c2597c098dd8
-updated: 2016-06-23T10:38:13.94765308-07:00
+hash: dfec52c6b51db96b835536f1f863c57a8cd7452f275c44685c076001d84a141c
+updated: 2016-06-23T19:19:19.20874221-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
 - name: github.com/BurntSushi/toml
   version: f0aeabca5a127c4078abb8c8d64298b147264b55
-- name: github.com/chonglou/epubgo
-  version: 90dd5d78197fa9d88962f80d28fe9be96f0fad3c
 - name: github.com/facebookgo/inject
   version: 643b7206b487b04fbea325cf6e8d06a66f8db772
 - name: github.com/facebookgo/structtag
@@ -42,6 +40,8 @@ imports:
   - hcl/strconv
   - json/scanner
   - json/token
+- name: github.com/itpkg/epub
+  version: 6b7abd7178284a7e55cd2db9fd54ba122cbf0f91
 - name: github.com/jinzhu/gorm
   version: caa792644ce60fd7b429e0616afbdbccdf011be2
   subpackages:
@@ -93,10 +93,7 @@ imports:
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
   - context
-  - html/charset
   - context/ctxhttp
-  - html
-  - html/atom
 - name: golang.org/x/oauth2
   version: 65a8d08c6292395d47053be10b3c5e91960def76
   subpackages:
@@ -113,19 +110,6 @@ imports:
   subpackages:
   - language
   - internal/tag
-  - encoding
-  - encoding/charmap
-  - encoding/htmlindex
-  - transform
-  - encoding/internal/identifier
-  - encoding/internal
-  - encoding/japanese
-  - encoding/korean
-  - encoding/simplifiedchinese
-  - encoding/traditionalchinese
-  - encoding/unicode
-  - internal/utf8internal
-  - runes
 - name: google.golang.org/appengine
   version: 267c27e7492265b84fc6719503b14a1e17975d79
   subpackages:

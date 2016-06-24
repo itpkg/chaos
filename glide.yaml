@@ -1,7 +1,7 @@
 package: github.com/itpkg/chaos
+description: it-package
 homepage: https://github.com/itpkg/chaos
 license: MIT
-description: it-package
 import:
 - package: github.com/BurntSushi/toml
 - package: github.com/SermoDigital/jose
@@ -9,7 +9,6 @@ import:
   - crypto
   - jws
   - jwt
-- package: github.com/chonglou/epubgo
 - package: github.com/facebookgo/inject
 - package: github.com/fvbock/endless
 - package: github.com/garyburd/redigo
@@ -34,3 +33,4 @@ import:
   subpackages:
   - language
 - package: gopkg.in/vmihailenco/msgpack.v2
+- package: github.com/itpkg/epub

@@ -47,15 +47,10 @@ const IndexW = React.createClass({
       // </div>
       // <br/>
 
-        // var showBook = function(b){
-        //   return <Link className="btn btn-primary" to={`/reading/book/${b.id}/${b.home}`}>
-        //     {i18next.t("buttons.more")}
-        //   </Link>
-        // }
         var showBook = function(b){
-          return <a className="btn btn-primary" href={CHAOS_ENV.backend+'/reading/book/'+b.id+'/'+b.home} target='_blank'>
-                        {i18next.t("buttons.more")}
-                      </a>
+          return <Link className="btn btn-primary" to={`/reading/books/${b.id}`}>
+            {i18next.t("buttons.more")}
+          </Link>
         }
         return (
           <div className="row">
@@ -101,13 +96,22 @@ export const Index = connect(
 
 export const Show = React.createClass({
     componentDidMount() {
-      //console.log(params);
+      const {params} = this.props;
+      ajax('get', '/reading/book/'+params.id, null, function(item){
+        this.setState({item:item});
+      });
+      // var showBook = function(b){
+      //   return <a className="btn btn-primary" href={CHAOS_ENV.backend+'/reading/book/'+b.id+'/'+b.home} target='_blank'>
+      //                 {i18next.t("buttons.more")}
+      //               </a>
+      // }
     },
     render() {
-        const {params} = this.props;
-        const url = CHAOS_ENV.backend+'/reading/book/'+params.splat;
-        return (
-          <object className="html-object" data={url}></object>
-        )
+      return (<div>aaa</div>)
+        // const {params} = this.props;
+        // const url = CHAOS_ENV.backend+'/reading/book/'+params.splat;
+        // return (
+        //   <object className="html-object" data={url}></object>
+        // )
     }
 });
