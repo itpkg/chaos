@@ -21,6 +21,12 @@ cd dist
 ### Env
 
 ```
+zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+gvm install go1.4.3
+gvm use go1.4.3
+GOROOT_BOOTSTRAP=$GOROOT gvm install go1.7beta2
+gvm use go1.7beta2 --default
+
 go get -u github.com/nsf/gocode
 go get -u golang.org/x/tools/cmd/goimports
 go get -u github.com/alecthomas/gometalinter
