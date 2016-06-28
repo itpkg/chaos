@@ -1,5 +1,5 @@
 hash: 911b1ddb8a492ad600272797816ade1e87d89f6319005b76891b0e9b88c3d954
-updated: 2016-06-23T20:11:23.303354191-07:00
+updated: 2016-06-28T10:22:29.063485613-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -10,7 +10,7 @@ imports:
 - name: github.com/facebookgo/structtag
   version: 217e25fb96916cc60332e399c9aa63f5c422ceed
 - name: github.com/fsnotify/fsnotify
-  version: 30411dbcefb7a1da7e84f75530ad3abe4011b4f8
+  version: 51d3cc5e20d962cf0048c901c4ab3ddf0d7f7083
 - name: github.com/fvbock/endless
   version: 2cdc20a776897c0f406853c048c33e2c1a9f0ebf
 - name: github.com/garyburd/redigo
@@ -30,7 +30,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/hashicorp/hcl
-  version: 5b7dbf7eefffea49afb3c9655d6582c72fae5fd1
+  version: 61f5143284c041681f76a5b63efcb232aaa94737
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -43,13 +43,13 @@ imports:
 - name: github.com/itpkg/epub
   version: d1c3c09da16cfd4fd7fd78ee2eb49592e0274ab3
 - name: github.com/jinzhu/gorm
-  version: 321d10b67b7218c5cf3bebc0c01fc8c4536c2bc7
+  version: c1c4f9f86e732a042aac9f37e025893d6d6cabec
   subpackages:
   - dialects/mysql
   - dialects/postgres
   - dialects/sqlite
 - name: github.com/jinzhu/inflection
-  version: 3272df6c21d04180007eb3349844c89a3856bc25
+  version: 8f4d3a0d04ce0b7c0cf3126fb98524246d00d102
 - name: github.com/jrallison/go-workers
   version: 287ed37cbdd72e67c1679ced0a12352a255abfe3
 - name: github.com/lib/pq
@@ -88,7 +88,7 @@ imports:
 - name: github.com/spf13/viper
   version: c1ccc378a054ea8d4e38d8c67f6938d4760b53dd
 - name: github.com/urfave/cli
-  version: 4205e9c4ee9672a8df5bb4fe486a8aa07e1e4037
+  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
@@ -124,14 +124,14 @@ imports:
   - internal/log
   - internal/remote_api
 - name: google.golang.org/cloud
-  version: 313b870fb828e3eaeeb73b3529638435bfcf7324
+  version: a4c7c3139dc2772ad6c3bb73d0a9236a79063f8c
   subpackages:
   - compute/metadata
   - internal
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/vmihailenco/msgpack.v2
-  version: e09fff0fb288c4ddaaf06cee47f386751b7229b7
+  version: 613c50bacd4fc31ec0fc541489863db3ed02274a
   subpackages:
   - codes
 - name: gopkg.in/yaml.v2

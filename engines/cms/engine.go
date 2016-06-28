@@ -2,24 +2,26 @@ package cms
 
 import (
 	"github.com/facebookgo/inject"
-	"github.com/gin-gonic/gin"
 	"github.com/itpkg/chaos/web"
-	"github.com/jinzhu/gorm"
 	"github.com/urfave/cli"
 )
 
+//Engine engine
 type Engine struct {
 }
 
+//Map map
 func (p *Engine) Map(*inject.Graph) error {
 	return nil
 }
-func (p *Engine) Mount(*gin.Engine) {
 
-}
-func (p *Engine) Migrate(*gorm.DB) {}
-func (p *Engine) Seed()            {}
-func (p *Engine) Worker()          {}
+//Seed db:seed
+func (p *Engine) Seed() {}
+
+//Worker worker
+func (p *Engine) Worker() {}
+
+//Shell shell
 func (p *Engine) Shell() []cli.Command {
 	return []cli.Command{}
 }
