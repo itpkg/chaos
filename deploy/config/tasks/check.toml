@@ -1,0 +1,5 @@
+description = "check needed packages(ubuntu)"
+hosts = []
+roles = ["all"]
+script = ["sudo apt-get install golang nodejs npm"]
+deploy = false

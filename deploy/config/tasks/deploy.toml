@@ -1,0 +1,5 @@
+description = "deploy web application"
+refresh = true
+hosts = []
+roles = ["web"]
+script = ["uname -a", "whoami", "echo {{.Name}}"]

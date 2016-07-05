@@ -1,5 +1,5 @@
 hash: 911b1ddb8a492ad600272797816ade1e87d89f6319005b76891b0e9b88c3d954
-updated: 2016-06-28T10:22:29.063485613-07:00
+updated: 2016-07-04T11:46:14.086177502-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -10,7 +10,7 @@ imports:
 - name: github.com/facebookgo/structtag
   version: 217e25fb96916cc60332e399c9aa63f5c422ceed
 - name: github.com/fsnotify/fsnotify
-  version: 51d3cc5e20d962cf0048c901c4ab3ddf0d7f7083
+  version: a8a77c9133d2d6fd8334f3260d06f60e8d80a5fb
 - name: github.com/fvbock/endless
   version: 2cdc20a776897c0f406853c048c33e2c1a9f0ebf
 - name: github.com/garyburd/redigo
@@ -95,18 +95,18 @@ imports:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 65a8d08c6292395d47053be10b3c5e91960def76
+  version: df5b72659a3b1789a345ea643bb7c28442681652
   subpackages:
   - google
   - internal
   - jws
   - jwt
 - name: golang.org/x/sys
-  version: 62bee037599929a6e9146f29d10dd5208c43507d
+  version: a408501be4d17ee978c04a618e7a1b22af058c0e
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: 4440cd4f4c2ea31e1872e00de675a86d0c19006c
+  version: ce78b075c2fbd48520f4995b173eb9fe18b56ef3
   subpackages:
   - language
   - internal/tag
@@ -124,14 +124,14 @@ imports:
   - internal/log
   - internal/remote_api
 - name: google.golang.org/cloud
-  version: a4c7c3139dc2772ad6c3bb73d0a9236a79063f8c
+  version: ebfe3819c9ab4acaf086ae57e4cbd7dee683baf0
   subpackages:
   - compute/metadata
   - internal
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/vmihailenco/msgpack.v2
-  version: 613c50bacd4fc31ec0fc541489863db3ed02274a
+  version: 585b09497e708217121c79a5aa185647b757605a
   subpackages:
   - codes
 - name: gopkg.in/yaml.v2
