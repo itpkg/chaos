@@ -6,6 +6,7 @@ import (
 	"path"
 	"text/template"
 
+	"github.com/itpkg/chaos/engines/ops"
 	"github.com/itpkg/chaos/web"
 	"github.com/spf13/viper"
 	"github.com/urfave/cli"
@@ -69,17 +70,6 @@ func write_config(c *cli.Context, files map[string]string) error {
 	return nil
 }
 
-var flag_USER = cli.StringFlag{
-	Name:  "user, u",
-	Value: "",
-	Usage: "database user",
-}
-var flag_PASSWORD = cli.StringFlag{
-	Name:  "password, p",
-	Value: "",
-	Usage: "database password",
-}
-
 //Shell command
 func (p *Engine) Shell() []cli.Command {
 	return []cli.Command{
@@ -91,7 +81,7 @@ func (p *Engine) Shell() []cli.Command {
 				{
 					Name:    "postfix",
 					Aliases: []string{"pf"},
-					Flags:   []cli.Flag{flag_USER, flag_PASSWORD},
+					Flags:   []cli.Flag{ops.FlagDatabaseUser, ops.FlagDatabasePassword},
 					Usage:   "generate postfix config files",
 					Action: web.Action(func(c *cli.Context) error {
 						files := map[string]string{
@@ -223,7 +213,7 @@ postmap -q alias@example.com {{.Driver}}:/etc/postfix/virtual-alias-maps.cf
 				{
 					Name:    "database",
 					Aliases: []string{"db"},
-					Flags:   []cli.Flag{flag_USER, flag_PASSWORD},
+					Flags:   []cli.Flag{ops.FlagDatabaseUser, ops.FlagDatabasePassword},
 					Usage:   "create readonly user to database",
 					Action: web.Action(func(c *cli.Context) error {
 						files := map[string]string{
@@ -238,7 +228,7 @@ GRANT SELECT ON {{.UserTable}}, {{.DomainTable}}, {{.AliasTable}} TO {{.User}};
 				{
 					Name:    "dovecot",
 					Aliases: []string{"dv"},
-					Flags:   []cli.Flag{flag_USER, flag_PASSWORD},
+					Flags:   []cli.Flag{ops.FlagDatabaseUser, ops.FlagDatabasePassword},
 					Usage:   "generate dovecot config files",
 					Action: web.Action(func(c *cli.Context) error {
 						files := map[string]string{
