@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path"
 	"text/template"
 
 	"github.com/facebookgo/inject"
@@ -95,12 +96,21 @@ server {
 }
 
 `
-				t := template.Must(template.New("").Parse(tpl))
+				t, err := template.New("").Parse(tpl)
+				if err != nil {
+					return err
+				}
 				pwd, err := os.Getwd()
 				if err != nil {
 					return err
 				}
-				fd, err := os.OpenFile("nginx.conf", os.O_WRONLY|os.O_CREATE, 0600)
+				if err = os.MkdirAll("etc", 0700); err != nil {
+					return err
+				}
+				fd, err := os.OpenFile(
+					path.Join("etc", "nginx.conf"),
+					os.O_WRONLY|os.O_CREATE,
+					0600)
 				if err != nil {
 					return err
 				}

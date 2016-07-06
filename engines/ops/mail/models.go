@@ -25,7 +25,6 @@ type User struct {
 	Email    string `gorm:"type:varchar(255);unique;not null"`
 	Password string `gorm:"type:varchar(128);not null"`
 	Name     string `gorm:"type:varchar(128);not null;index"`
-	Home     string `gorm:"type:varchar(128);not null"`
 }
 
 //TableName table's name of User
@@ -41,7 +40,7 @@ type Alias struct {
 	Domain   Domain
 
 	Source      string `gorm:"type:varchar(255);unique;primary_key;not null"`
-	Destination string `gorm:"type:varchar(255);not null"`
+	Destination string `gorm:"type:varchar(255);not null;index"`
 }
 
 //TableName table's name of Alias

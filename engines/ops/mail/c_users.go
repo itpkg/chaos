@@ -44,7 +44,6 @@ func (p *Engine) createUser(c *gin.Context) (interface{}, error) {
 		Email:    fmt.Sprintf("%s@%s", fm.Uid, d.Name),
 		Password: pwd,
 		Name:     fm.Name,
-		Home:     fmt.Sprintf("%s/%s", d.Name, fm.Uid),
 	}
 	err = p.Db.Create(user).Error
 	return user, err

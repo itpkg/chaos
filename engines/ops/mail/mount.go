@@ -7,7 +7,7 @@ import (
 
 //Mount mount web
 func (p *Engine) Mount(r *gin.Engine) {
-	rg := r.Group("/ops/mail")
+	rg := r.Group("/ops/mail", p.Jwt.MustRolesHandler("ops"))
 	rg.GET("/domains", web.Rest(p.indexDomain))
 	rg.POST("/domains", web.Rest(p.createDomain))
 	rg.DELETE("/domains/:id", web.Rest(p.deleteDomain))
