@@ -61,15 +61,6 @@ apm install seti-ui seti-syntax
 - atom-typescript
 - autosave: enabled is true
 
-## Notes
-
-### govendor
-
-```
-govendor init # Create the "vendor" folder and the "vendor.json" file.
-govendor list # List and filter existing dependencies and packages.
-govendor fetch golang.org/x/oauth2 # Like "go get" but copies dependencies into a "vendor" folder.
-```
 
 ## Thanks
 

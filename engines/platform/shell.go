@@ -104,13 +104,14 @@ server {
 				if err != nil {
 					return err
 				}
-				if err = os.MkdirAll("etc", 0700); err != nil {
+
+				domain := viper.GetString("http.domain")
+				fn := path.Join("etc", "nginx", "sites-enabled", domain+".conf")
+				if err = os.MkdirAll(path.Dir(fn), 0700); err != nil {
 					return err
 				}
-				fd, err := os.OpenFile(
-					path.Join("etc", "nginx.conf"),
-					os.O_WRONLY|os.O_CREATE,
-					0600)
+				fmt.Printf("generate file %s\n", fn)
+				fd, err := os.OpenFile(fn, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0600)
 				if err != nil {
 					return err
 				}
@@ -124,7 +125,7 @@ server {
 					Version string
 				}{
 					Ssl:     viper.GetBool("http.ssl"),
-					Domain:  viper.GetString("http.domain"),
+					Domain:  domain,
 					Port:    viper.GetInt("http.port"),
 					Root:    pwd,
 					Version: "v1",

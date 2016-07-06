@@ -1,10 +1,12 @@
 package web
 
 import (
+	"crypto/x509/pkix"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"path"
 
 	"github.com/BurntSushi/toml"
 	"github.com/facebookgo/inject"
@@ -150,6 +152,56 @@ func Run() error {
 				})
 				workers.Run()
 				return nil
+			}),
+		},
+		{
+			Name:    "openssl",
+			Aliases: []string{"ssl"},
+			Usage:   "generate ssl certificates",
+			Flags: []cli.Flag{
+				cli.BoolFlag{
+					Name:  "root, r",
+					Usage: "root certificate authorities?",
+				},
+				cli.StringFlag{
+					Name:  "country, c",
+					Value: "Earth",
+					Usage: "country",
+				},
+				cli.StringFlag{
+					Name:  "organization, o",
+					Value: "Mother Nature",
+					Usage: "organization",
+				},
+				cli.IntFlag{
+					Name:  "years, y",
+					Value: 1,
+					Usage: "years",
+				},
+			},
+			Action: Action(func(c *cli.Context) error {
+				pri, pub, crt, err := CreateCertificate(
+					c.Bool("root"),
+					pkix.Name{
+						Country:      []string{c.String("country")},
+						Organization: []string{c.String("organization")},
+					},
+					c.Int("years"),
+				)
+				if err != nil {
+					return err
+				}
+
+				root := path.Join("etc", "ssl")
+				err = WritePemFile(path.Join(root, "pri.pem"), "RSA PRIVATE KEY", pri)
+				if err == nil {
+					err = WritePemFile(path.Join(root, "pub.pem"), "RSA PUBLIC KEY", pub)
+				}
+				if err == nil {
+					err = WritePemFile(path.Join(root, "crt.pem"), "CERTIFICATE", crt)
+				}
+				return err
+
 			}),
 		},
 	}

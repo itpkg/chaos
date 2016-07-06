@@ -26,7 +26,7 @@ func write_config(c *cli.Context, files map[string]string) error {
 		fmt.Printf("generate file %s\n", n)
 		fd, err := os.OpenFile(
 			n,
-			os.O_WRONLY|os.O_CREATE,
+			os.O_WRONLY|os.O_CREATE|os.O_EXCL,
 			0600)
 		if err != nil {
 			return err
