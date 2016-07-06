@@ -1,20 +1,11 @@
 # CHAOS(by go)
 
-## Build
+## Run(by docker)
 
 ```
-make
-cd dist
-./chaos
+docker build -t chaos .
+docker run --rm -p 443:443 chaos
 ```
-
-## Deploy
-    mv dist /var/www/www.change-me.com
-    cd /var/www/www.change-me.com
-    ./chaos i
-    vi config.toml # don't forget to change domain and database setting
-    ./chaos db e # will print sql scripts to crete database and user
-    ./chaos ng # will generate nginx.conf file
 
 ## Devel
 
@@ -42,8 +33,6 @@ go get -u github.com/itpkg/chaos
 cd $GOPATH/src/github.com/itpkg/chaos
 glide install
 cd front-react && npm install
-
-
 ```
 
 ### Editor(Atom)
@@ -59,11 +48,22 @@ apm install seti-ui seti-syntax
 - react
 - atom-beautify
 - atom-typescript
+- language-docker
 - autosave: enabled is true
 
+## Notes
+
+### Docker
+
+```
+docker kill $(docker ps -q) # Kill all running containers
+docker rm $(docker ps -a -q) # Delete all stopped containers (including data-only containers)
+docker rmi $(docker images -q) # Delete ALL images
+```
 
 ## Thanks
 
+- <https://docs.docker.com/>
 - <https://github.com/gin-gonic/gin>
 - <https://github.com/jinzhu/gorm>
 - <https://github.com/urfave/cli>
