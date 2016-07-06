@@ -159,9 +159,9 @@ func Run() error {
 			Aliases: []string{"ssl"},
 			Usage:   "generate ssl certificates",
 			Flags: []cli.Flag{
-				cli.BoolFlag{
-					Name:  "root, r",
-					Usage: "root certificate authorities?",
+				cli.StringFlag{
+					Name:  "name, n",
+					Usage: "name",
 				},
 				cli.StringFlag{
 					Name:  "country, c",
@@ -180,8 +180,15 @@ func Run() error {
 				},
 			},
 			Action: Action(func(c *cli.Context) error {
-				pri, pub, crt, err := CreateCertificate(
-					c.Bool("root"),
+				name := c.String("name")
+				if len(name) == 0 {
+					cli.ShowCommandHelp(c, "openssl")
+					return nil
+				}
+				root := path.Join("etc", "ssl", name)
+
+				key, crt, err := CreateCertificate(
+					true,
 					pkix.Name{
 						Country:      []string{c.String("country")},
 						Organization: []string{c.String("organization")},
@@ -192,13 +199,24 @@ func Run() error {
 					return err
 				}
 
-				root := path.Join("etc", "ssl")
-				err = WritePemFile(path.Join(root, "pri.pem"), "RSA PRIVATE KEY", pri)
+				fnk := path.Join(root, "key.pem")
+				fnc := path.Join(root, "crt.pem")
+
+				fmt.Printf("generate pem file %s\n", fnk)
+				err = WritePemFile(fnk, "RSA PRIVATE KEY", key)
+				fmt.Printf("test: openssl rsa -noout -text -in %s\n", fnk)
+
 				if err == nil {
-					err = WritePemFile(path.Join(root, "pub.pem"), "RSA PUBLIC KEY", pub)
+					fmt.Printf("generate pem file %s\n", fnc)
+					err = WritePemFile(fnc, "CERTIFICATE", crt)
+					fmt.Printf("test: openssl x509 -noout -text -in %s\n", fnc)
 				}
 				if err == nil {
-					err = WritePemFile(path.Join(root, "crt.pem"), "CERTIFICATE", crt)
+					fmt.Printf(
+						"verify: diff <(openssl rsa -noout -modulus -in %s) <(openssl x509 -noout -modulus -in %s)",
+						fnk,
+						fnc,
+					)
 				}
 				return err
 

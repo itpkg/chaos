@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"crypto/x509/pkix"
 	"encoding/pem"
-	"fmt"
 	"math/big"
 	"os"
 	"path"
@@ -14,7 +13,6 @@ import (
 )
 
 func WritePemFile(file, _type string, buf []byte) error {
-	fmt.Printf("generate pem file %s\n", file)
 	if err := os.MkdirAll(path.Dir(file), 0700); err != nil {
 		return err
 	}
@@ -32,14 +30,14 @@ func WritePemFile(file, _type string, buf []byte) error {
 	)
 }
 
-func CreateCertificate(ca bool, subject pkix.Name, years int) ([]byte, []byte, []byte, error) {
+func CreateCertificate(ca bool, subject pkix.Name, years int) ([]byte, []byte, error) {
 	now := time.Now()
 
 	serialNumber, err := rand.Int(
 		rand.Reader,
 		new(big.Int).Lsh(big.NewInt(1), 128))
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, err
 	}
 	//http://golang.org/pkg/crypto/x509/#Certificate
 	tpl := &x509.Certificate{
@@ -58,7 +56,7 @@ func CreateCertificate(ca bool, subject pkix.Name, years int) ([]byte, []byte, [
 
 	key, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, err
 	}
 
 	cert, err := x509.CreateCertificate(
@@ -69,11 +67,8 @@ func CreateCertificate(ca bool, subject pkix.Name, years int) ([]byte, []byte, [
 		key,
 	)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, err
 	}
-	pub, err := x509.MarshalPKIXPublicKey(&key.PublicKey)
-	if err != nil {
-		return nil, nil, nil, err
-	}
-	return x509.MarshalPKCS1PrivateKey(key), pub, cert, nil
+
+	return x509.MarshalPKCS1PrivateKey(key), cert, nil
 }
