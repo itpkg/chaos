@@ -24,7 +24,7 @@ func (p *Engine) Map(*inject.Graph) error {
 
 //Migrate db:migrate
 func (p *Engine) Migrate(db *gorm.DB) {
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{}, &Log{})
 }
 
 //Seed db:seed
