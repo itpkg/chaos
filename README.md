@@ -4,7 +4,8 @@
 
 ```
 docker build -t chaos .
-docker run --rm -p 443:443 chaos
+docker run --rm -P -p 2222:22 chaos
+ssh -p 2222 root@localhost # password is "root"
 ```
 
 ## Devel
@@ -56,6 +57,7 @@ apm install seti-ui seti-syntax
 ### Docker
 
 ```
+docker stop $(docker ps -l -q) # stop the most recent container
 docker kill $(docker ps -q) # Kill all running containers
 docker rm $(docker ps -a -q) # Delete all stopped containers (including data-only containers)
 docker rmi $(docker images -q) # Delete ALL images
