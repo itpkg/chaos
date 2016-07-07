@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/itpkg/chaos/engines/cms"
 	_ "github.com/itpkg/chaos/engines/hr"
+	_ "github.com/itpkg/chaos/engines/mail"
 	_ "github.com/itpkg/chaos/engines/ops/mail"
 	_ "github.com/itpkg/chaos/engines/ops/vpn"
 	_ "github.com/itpkg/chaos/engines/reading"

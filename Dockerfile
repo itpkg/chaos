@@ -29,5 +29,6 @@ RUN rm -r $GOPATH
 #RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 EXPOSE 443 5432 6379
-VOLUME ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql", "/var/www" ]
+VOLUME ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql", $WORKDIR]
+
 CMD ["/sbin/init"]

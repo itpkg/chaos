@@ -8,19 +8,30 @@ import (
 	"github.com/urfave/cli"
 )
 
+//Engine engine
 type Engine struct {
 }
 
+//Map map objects
 func (p *Engine) Map(*inject.Graph) error {
 	return nil
 }
+
+//Mount mount web points
 func (p *Engine) Mount(*gin.Engine) {
 
 }
 
+//Migrate db:migrate
 func (p *Engine) Migrate(*gorm.DB) {}
-func (p *Engine) Seed()            {}
-func (p *Engine) Worker()          {}
+
+//Seed db:seed
+func (p *Engine) Seed() {}
+
+//Worker worker
+func (p *Engine) Worker() {}
+
+//Shell commands
 func (p *Engine) Shell() []cli.Command {
 	return []cli.Command{}
 }
