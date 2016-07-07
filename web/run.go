@@ -90,12 +90,21 @@ func Run() error {
 			Name:    "init",
 			Aliases: []string{"i"},
 			Usage:   "init config file",
-			Action: func(*cli.Context) error {
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "environment, e",
+					Value: "development",
+					Usage: "environment, like: development, production, test...",
+				},
+			},
+			Action: func(c *cli.Context) error {
 				const fn = "config.toml"
 				if _, err := os.Stat(fn); err == nil {
 					return fmt.Errorf("file %s already exists", fn)
 				}
+				fmt.Printf("generate file %s\n", fn)
 
+				viper.Set("env", c.String("environment"))
 				args := viper.AllSettings()
 				fd, err := os.Create(fn)
 				if err != nil {
@@ -242,7 +251,7 @@ func init() {
 	viper.SetDefault("redis", map[string]interface{}{
 		"host": "localhost",
 		"port": 6379,
-		"db":   2,
+		"db":   8,
 	})
 
 	viper.SetDefault("http", map[string]interface{}{

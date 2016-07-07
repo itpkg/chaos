@@ -1,5 +1,5 @@
 hash: 911b1ddb8a492ad600272797816ade1e87d89f6319005b76891b0e9b88c3d954
-updated: 2016-07-04T11:46:14.086177502-07:00
+updated: 2016-07-07T12:03:29.200357457-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -43,7 +43,7 @@ imports:
 - name: github.com/itpkg/epub
   version: d1c3c09da16cfd4fd7fd78ee2eb49592e0274ab3
 - name: github.com/jinzhu/gorm
-  version: c1c4f9f86e732a042aac9f37e025893d6d6cabec
+  version: 3324ab20633e8c7ec6d6b1f7a714a1a6e06fec08
   subpackages:
   - dialects/mysql
   - dialects/postgres
@@ -58,11 +58,9 @@ imports:
   - hstore
   - oid
 - name: github.com/magiconair/properties
-  version: c265cfa48dda6474e208715ca93e987829f572f8
+  version: e2f061ecfdaca9f35b2e2c12346ffc526f138137
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
-- name: github.com/mattn/go-sqlite3
-  version: 38ee283dabf11c9cbdb968eebd79b1fa7acbabe6
 - name: github.com/mitchellh/mapstructure
   version: d2dd0262208475919e1a362f675cfc0e7c10e905
 - name: github.com/op/go-logging
@@ -95,7 +93,7 @@ imports:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: df5b72659a3b1789a345ea643bb7c28442681652
+  version: 7357e96168422ba1e6e7f21075713b72d58764e7
   subpackages:
   - google
   - internal
@@ -124,7 +122,7 @@ imports:
   - internal/log
   - internal/remote_api
 - name: google.golang.org/cloud
-  version: ebfe3819c9ab4acaf086ae57e4cbd7dee683baf0
+  version: 3c8a6848c1cfda0a24ed78fd2e10b6243deb1fec
   subpackages:
   - compute/metadata
   - internal
