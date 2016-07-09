@@ -4,7 +4,8 @@
 
 ```
 docker build -t chaos .
-docker run --rm -P -p 2222:22 chaos
+docker run --rm -P -p 2222:22 -p 8080:80 chaos
+firefox http://localhost:8080
 ssh -p 2222 root@localhost # password is "root"
 ```
 
