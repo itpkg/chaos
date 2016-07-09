@@ -17,7 +17,6 @@ import:
   subpackages:
   - dialects/mysql
   - dialects/postgres
-  - dialects/sqlite
 - package: github.com/jrallison/go-workers
 - package: github.com/op/go-logging
 - package: github.com/rs/cors

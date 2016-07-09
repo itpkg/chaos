@@ -1,10 +1,10 @@
-hash: 911b1ddb8a492ad600272797816ade1e87d89f6319005b76891b0e9b88c3d954
-updated: 2016-07-07T12:03:29.200357457-07:00
+hash: 297ee1781c2cb9d0b64636b5fb0dc6cf907294edf3e7373f3326f7fb2030526e
+updated: 2016-07-09T09:43:27.964386832-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
 - name: github.com/BurntSushi/toml
-  version: f0aeabca5a127c4078abb8c8d64298b147264b55
+  version: ffaa107fbd880f6d18cd6fec9b511668dcad8639
 - name: github.com/facebookgo/inject
   version: 643b7206b487b04fbea325cf6e8d06a66f8db772
 - name: github.com/facebookgo/structtag
@@ -30,7 +30,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/hashicorp/hcl
-  version: 61f5143284c041681f76a5b63efcb232aaa94737
+  version: 364df430845abef160a0bfb3a59979f746bf4956
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -47,7 +47,6 @@ imports:
   subpackages:
   - dialects/mysql
   - dialects/postgres
-  - dialects/sqlite
 - name: github.com/jinzhu/inflection
   version: 8f4d3a0d04ce0b7c0cf3126fb98524246d00d102
 - name: github.com/jrallison/go-workers
@@ -122,7 +121,7 @@ imports:
   - internal/log
   - internal/remote_api
 - name: google.golang.org/cloud
-  version: 3c8a6848c1cfda0a24ed78fd2e10b6243deb1fec
+  version: 83ee71d0fec26977bad1662134fa1e8c91268025
   subpackages:
   - compute/metadata
   - internal

@@ -53,7 +53,7 @@ module.exports = function(options) {
     }];
 
     var env = {
-        CHAOS_ENV: JSON.stringify({
+        CHAOS: JSON.stringify({
             backend: options.backend,
             engines: options.engines,
             version: '2016.6.9'
@@ -67,7 +67,7 @@ module.exports = function(options) {
         inject: true,
         template: 'app/index.ejs',
         filename: 'index.html',
-        favicon: path.join(__dirname, 'app', 'favicon.png'),      
+        favicon: path.join(__dirname, 'app', 'favicon.png'),
         title: 'IT-PACKAGE'
     };
 
@@ -129,6 +129,11 @@ module.exports = function(options) {
         output: output,
         plugins: plugins,
         module: {
+            preLoaders: [{
+                test: /\.js$/,
+                loader: "eslint-loader",
+                exclude: /node_modules/
+            }],
             loaders: loaders,
         },
         resolve: {
@@ -137,6 +142,9 @@ module.exports = function(options) {
         devServer: {
             historyApiFallback: true,
             port: 4200
-        }
+        },
+        // eslint: {
+        //     fix: true
+        // }
     };
 }
