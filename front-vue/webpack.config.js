@@ -11,7 +11,7 @@ module.exports = function (options) {
     app: path.join(__dirname, 'app')
   }
   entry.vendor = [
-    // 'jquery',
+    // 'bootstrap',
     'tether',
     'bootstrap',
     /* redux */
@@ -20,9 +20,10 @@ module.exports = function (options) {
     /* vue */
     'vue',
     'vue-resource',
-    'vue-router'
-
-  // 'jwt-decode',
+    'vue-router',
+    'pug',
+    /* utils*/
+    'jwt-decode'
   // 'url-parse',
   // 'marked',
   // i18n
@@ -35,7 +36,6 @@ module.exports = function (options) {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
-      'Tether': 'tether',
       'window.Tether': 'tether'
     })]
   var loaders = [{
@@ -128,17 +128,21 @@ module.exports = function (options) {
   return {
     entry: entry,
     output: output,
-    resolveLoader: {
-      root: path.join(__dirname, 'node_modules')
-    },
+    // resolveLoader: {
+    //   root: path.join(__dirname, 'node_modules')
+    // },
     plugins: plugins,
     module: {
-      preLoaders: [{
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/
-      }],
+      // preLoaders: [{
+      //   test: /\.js$/,
+      //   loader: 'eslint-loader',
+      //   exclude: /node_modules/
+      // }],
       loaders: loaders
+    },
+    node: {
+      // fix: Cannot find module "fs"
+      fs: 'empty'
     },
     devServer: {
       historyApiFallback: true,
