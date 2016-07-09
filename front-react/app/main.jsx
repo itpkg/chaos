@@ -8,7 +8,7 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 console.log("jquery version: "+$().jquery);
 console.log("react version: "+React.version);
-console.log("chaos version: "+CHAOS_ENV.version);
+console.log("chaos version: "+CHAOS.version);
 
 import root from './engines'
 import Layout from './components/Layout'

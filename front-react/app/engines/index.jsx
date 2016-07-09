@@ -15,14 +15,14 @@ const engines = {
 }
 
 export default {
-  routes(){
-    return CHAOS_ENV.engines.reduce(function(obj, en) {
+  routes () {
+    return process.env.CHAOS.engines.reduce(function (obj, en) {
       return obj.concat(engines[en].routes)
-    }, []);
+    }, [])
   },
-  reducers(){
-    return CHAOS_ENV.engines.reduce(function(obj, en) {
+  reducers () {
+    return process.env.CHAOS.engines.reduce(function (obj, en) {
       return Object.assign(obj, engines[en].reducers)
-    }, {});
+    }, {})
   }
 }

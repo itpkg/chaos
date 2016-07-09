@@ -52,6 +52,8 @@ apm install seti-ui seti-syntax
 - atom-beautify
 - atom-typescript
 - language-docker
+- linter-eslint
+- standard-formatter
 - autosave: enabled is true
 
 ## Notes

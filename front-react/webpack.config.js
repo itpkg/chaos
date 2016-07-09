@@ -130,7 +130,7 @@ module.exports = function(options) {
         plugins: plugins,
         module: {
             preLoaders: [{
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 loader: "eslint-loader",
                 exclude: /node_modules/
             }],
