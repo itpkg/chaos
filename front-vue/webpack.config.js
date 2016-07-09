@@ -11,36 +11,38 @@ module.exports = function (options) {
     app: path.join(__dirname, 'app')
   }
   entry.vendor = [
-    'jquery',
+    // 'jquery',
+    'tether',
     'bootstrap',
+    /* redux */
+    'redux',
+    'revue',
+    /* vue */
+    'vue',
+    'vue-resource',
+    'vue-router'
 
-    'react',
-    'react-dom',
-    'react-router',
-    'react-bootstrap',
-    'react-redux',
-    'react-router-redux',
-    'react-router-bootstrap',
-    'react-timeago',
-    'react-markdown',
-
-    'jwt-decode',
-    'url-parse',
-    // 'marked',
-
-    'i18next',
-    'i18next-xhr-backend',
-    'i18next-browser-languagedetector'
+  // 'jwt-decode',
+  // 'url-parse',
+  // 'marked',
+  // i18n
+  // 'i18next',
+  // 'i18next-xhr-backend',
+  // 'i18next-browser-languagedetector'
   ]
 
   var plugins = [
     new webpack.ProvidePlugin({
       $: 'jquery',
-      jQuery: 'jquery'
-    })
-  ]
+      jQuery: 'jquery',
+      'Tether': 'tether',
+      'window.Tether': 'tether'
+    })]
   var loaders = [{
-    test: /\.jsx?$/,
+    test: /\.vue$/,
+    loader: 'vue'
+  }, {
+    test: /\.js$/,
     exclude: /(node_modules)/,
     loader: 'babel'
   }, {
@@ -55,16 +57,16 @@ module.exports = function (options) {
     CHAOS: JSON.stringify({
       backend: options.backend,
       engines: options.engines,
-      version: '2016.6.9'
+      version: require('./package.json').version
     })
   }
   var output = {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, 'dist'),
     publicPath: '/'
   }
   var htmlOptions = {
     inject: true,
-    template: 'app/index.ejs',
+    template: 'app/index.html',
     filename: 'index.html',
     favicon: path.join(__dirname, 'app', 'favicon.png'),
     title: 'IT-PACKAGE'
@@ -126,24 +128,21 @@ module.exports = function (options) {
   return {
     entry: entry,
     output: output,
+    resolveLoader: {
+      root: path.join(__dirname, 'node_modules')
+    },
     plugins: plugins,
     module: {
       preLoaders: [{
-        test: /\.jsx?$/,
+        test: /\.js$/,
         loader: 'eslint-loader',
         exclude: /node_modules/
       }],
       loaders: loaders
     },
-    resolve: {
-      extensions: ['', '.js', '.jsx']
-    },
     devServer: {
       historyApiFallback: true,
       port: 4200
     }
-  // eslint: {
-  //     fix: true
-  // }
   }
 }

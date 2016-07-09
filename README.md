@@ -48,11 +48,12 @@ apm install seti-ui seti-syntax
 
 - go-plus
 - git-plus
-- react
 - atom-beautify
 - atom-typescript
 - language-docker
 - linter-eslint
+- language-vue
+- react
 - standard-formatter
 - autosave: enabled is true
 
