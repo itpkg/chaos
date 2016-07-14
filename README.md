@@ -13,8 +13,9 @@ ssh -p 2222 root@localhost # password is "root"
 ### Install go
 ```
 zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-gvm install go1.4.3
-gvm use go1.4.3
+gvm install go1.4 -B
+gvm use go1.4
+
 GOROOT_BOOTSTRAP=$GOROOT gvm install go1.7rc1
 gvm use go1.7rc1 --default
 ```
