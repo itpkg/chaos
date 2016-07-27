@@ -1,10 +1,10 @@
 hash: 297ee1781c2cb9d0b64636b5fb0dc6cf907294edf3e7373f3326f7fb2030526e
-updated: 2016-07-09T09:43:27.964386832-07:00
+updated: 2016-07-27T16:33:51.91829429-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
 - name: github.com/BurntSushi/toml
-  version: ffaa107fbd880f6d18cd6fec9b511668dcad8639
+  version: 99064174e013895bbd9b025c31100bd1d9b590ca
 - name: github.com/facebookgo/inject
   version: 643b7206b487b04fbea325cf6e8d06a66f8db772
 - name: github.com/facebookgo/structtag
@@ -30,7 +30,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/hashicorp/hcl
-  version: 364df430845abef160a0bfb3a59979f746bf4956
+  version: d8c773c4cba11b11539e3d45f93daeaa5dcf1fa1
   subpackages:
   - hcl/ast
   - hcl/parser
@@ -43,7 +43,7 @@ imports:
 - name: github.com/itpkg/epub
   version: d1c3c09da16cfd4fd7fd78ee2eb49592e0274ab3
 - name: github.com/jinzhu/gorm
-  version: 3324ab20633e8c7ec6d6b1f7a714a1a6e06fec08
+  version: a646b13548ec0aa812fe805b2780f460dd2771b6
   subpackages:
   - dialects/mysql
   - dialects/postgres
@@ -57,11 +57,11 @@ imports:
   - hstore
   - oid
 - name: github.com/magiconair/properties
-  version: e2f061ecfdaca9f35b2e2c12346ffc526f138137
+  version: b3f6dd549956e8a61ea4a686a1c02a33d5bdda4b
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mitchellh/mapstructure
-  version: d2dd0262208475919e1a362f675cfc0e7c10e905
+  version: 21a35fb16463dfb7c8eee579c65d995d95e64d1e
 - name: github.com/op/go-logging
   version: 970db520ece77730c7e4724c61121037378659d9
 - name: github.com/rs/cors
@@ -69,7 +69,7 @@ imports:
 - name: github.com/rs/xhandler
   version: ed27b6fd65218132ee50cd95f38474a3d8a2cd12
 - name: github.com/satori/go.uuid
-  version: 879c5887cd475cd7864858769793b2ceb0d44feb
+  version: 0aa62d5ddceb50dbcb909d790b5345affd3669b6
 - name: github.com/SermoDigital/jose
   version: fa74c9f8b6a7bf513e12d9447b1669f68991198c
   subpackages:
@@ -81,29 +81,29 @@ imports:
 - name: github.com/spf13/jwalterweatherman
   version: 33c24e77fb80341fe7130ee7c594256ff08ccc46
 - name: github.com/spf13/pflag
-  version: 367864438f1b1a3c7db4da06a2f55b144e6784e0
+  version: 1560c1005499d61b80f865c04d39ca7505bf7f0b
 - name: github.com/spf13/viper
-  version: c1ccc378a054ea8d4e38d8c67f6938d4760b53dd
+  version: b53595fb56a492ecef90ee0457595a999eb6ec15
 - name: github.com/urfave/cli
-  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
+  version: d9021faab69f92295ef7061bd39e4a76dcbdef32
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
   - context
   - context/ctxhttp
 - name: golang.org/x/oauth2
-  version: 7357e96168422ba1e6e7f21075713b72d58764e7
+  version: 1364adb2c63445016c5ed4518fc71f6a3cda6169
   subpackages:
   - google
   - internal
   - jws
   - jwt
 - name: golang.org/x/sys
-  version: a408501be4d17ee978c04a618e7a1b22af058c0e
+  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: ce78b075c2fbd48520f4995b173eb9fe18b56ef3
+  version: 2910a502d2bf9e43193af9d68ca516529614eed3
   subpackages:
   - language
   - internal/tag
@@ -121,16 +121,16 @@ imports:
   - internal/log
   - internal/remote_api
 - name: google.golang.org/cloud
-  version: 83ee71d0fec26977bad1662134fa1e8c91268025
+  version: 1da7ac3d5f2b6a48521b20a6ed80569f506b87ce
   subpackages:
   - compute/metadata
   - internal
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/vmihailenco/msgpack.v2
-  version: 585b09497e708217121c79a5aa185647b757605a
+  version: 3e4e2bdfed29cc4ebf72d9b7523c7c91e9eb829e
   subpackages:
   - codes
 - name: gopkg.in/yaml.v2
-  version: a83829b6f1293c91addabc89d0571c246397bbf4
+  version: e4d366fc3c7938e2958e662b4258c7a89e1f0e3e
 testImports: []
