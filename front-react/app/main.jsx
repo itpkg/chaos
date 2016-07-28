@@ -12,8 +12,7 @@ injectTapEventPlugin()
 
 console.log('jquery version: ' + $().jquery)
 console.log('react version: ' + React.version)
-// console.log('chaos version: ' + process.env.CHAOS.version)
-console.log(process.env.CHAOS)
+console.log('chaos version: ' + process.env.CHAOS.version)
 
 import root from './engines'
 import Layout from './components/Layout'

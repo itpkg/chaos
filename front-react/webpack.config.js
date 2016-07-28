@@ -52,9 +52,8 @@ module.exports = function (options) {
   }]
 
   var env = {
-    CHAOS: JSON.stringify({
+    'process.env.CHAOS': JSON.stringify({
       backend: options.backend,
-      engines: options.engines,
       version: '2016.7.27'
     })
   }
