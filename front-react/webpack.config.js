@@ -55,7 +55,7 @@ module.exports = function (options) {
     CHAOS: JSON.stringify({
       backend: options.backend,
       engines: options.engines,
-      version: '2016.6.9'
+      version: '2016.7.27'
     })
   }
   var output = {

@@ -6,12 +6,14 @@ import { Provider } from 'react-redux'
 import { Router, Route, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
+// FIXME This dependency is temporary and will eventually go away.
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
 console.log('jquery version: ' + $().jquery)
 console.log('react version: ' + React.version)
-console.log('chaos version: ' + process.env.CHAOS.version)
+// console.log('chaos version: ' + process.env.CHAOS.version)
+console.log(process.env.CHAOS)
 
 import root from './engines'
 import Layout from './components/Layout'

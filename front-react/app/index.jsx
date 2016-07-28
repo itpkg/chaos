@@ -1,6 +1,4 @@
-require("bootstrap/dist/css/bootstrap.css")
-require("bootstrap/dist/css/bootstrap-theme.css")
-require("./main.css")
+require('./main.css')
 
 import i18next from 'i18next'
 import XHR from 'i18next-xhr-backend'
@@ -13,22 +11,22 @@ i18next
     .use(XHR)
     .use(LanguageDetector)
     .init({
-            backend: {
-                loadPath: CHAOS_ENV.backend + '/locales/{{lng}}',
-                crossDomain: true
-            },
-            detection: {
-                order: ['querystring', 'localStorage', 'cookie', 'navigator'],
-                lookupQuerystring: LOCALE,
-                lookupCookie: LOCALE,
-                lookupLocalStorage: LOCALE,
+      backend: {
+        loadPath: process.env.CHAOS_ENV.backend + '/locales/{{lng}}',
+        crossDomain: true
+      },
+      detection: {
+        order: ['querystring', 'localStorage', 'cookie', 'navigator'],
+        lookupQuerystring: LOCALE,
+        lookupCookie: LOCALE,
+        lookupLocalStorage: LOCALE,
 
-                caches: ['localStorage', 'cookie'],
-                cookieMinutes: 365 * 24 * 60
-            }
-        },
-        (err, t) => {
-            console.log("lang: " + i18next.language)
-            main('root')
-        }
-    );
+        caches: ['localStorage', 'cookie'],
+        cookieMinutes: 365 * 24 * 60
+      }
+    },
+    (e, t) => {
+      console.log('lang: ' + i18next.language)
+      main('root')
+    }
+      )

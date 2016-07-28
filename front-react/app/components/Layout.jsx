@@ -1,46 +1,34 @@
-import React, { PropTypes } from 'react'
+import { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import i18next from 'i18next'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import Header from './Header'
 import Footer from './Footer'
-import {refresh} from '../engines/platform/actions'
-import {ajax} from '../utils'
+// import {refresh} from '../engines/platform/actions'
 
-const Widget = React.createClass({
-  componentDidMount: function(){
-    const {onRefresh} = this.props;
-    onRefresh();
-  },
-  render() {
-    return (
-      <div>
-        <Header/>
-        <div className="container">
-          <div className="row">
-              {this.props.children}
-          </div>
-          <hr/>
-          <Footer/>
-        </div>
-      </div>
-    )
-  }
-})
+const Widget = ({onRefresh, children}) => (
+  <MuiThemeProvider>
+    <Header/>
+    {this.props.children}
+    <Footer/>
+  </MuiThemeProvider>
+)
 
 Widget.propTypes = {
-    onRefresh: PropTypes.func.isRequired
-};
+  onRefresh: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+}
 
 export default connect(
-  state=>({info:state.siteInfo}),
+  state => ({info: state.siteInfo}),
   dispatch => ({
-    onRefresh: function(){
-      ajax("get", "/site/info", null, function(ifo){
-        dispatch(refresh(ifo));
-        document.documentElement.lang = ifo.lang;
-        document.title = ifo.title;
-      });
+    onRefresh () {
+      // TODO 刷新页面
+      // ajax('get', "/site/info", null, function(ifo){
+      //   dispatch(refresh(ifo));
+      //   document.documentElement.lang = ifo.lang;
+      //   document.title = ifo.title;
+      // });
     }
   })
-)(Widget);
+)(Widget)

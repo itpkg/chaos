@@ -10,30 +10,30 @@ import {
 
 import {TOKEN} from '../../constants'
 
-function parse(tkn) {
-    try {
-        return jwtDecode(tkn);
-    } catch (e) {
-        return {}
-    }
+function parse (tkn) {
+  try {
+    return jwtDecode(tkn)
+  } catch (e) {
+    return {}
+  }
 }
 
-const initCurrentUserState = parse(sessionStorage.getItem(TOKEN));
+const initCurrentUserState = parse(window.sessionStorage.getItem(TOKEN))
 
-function currentUser(state = initCurrentUserState, action){
+function currentUser (state = initCurrentUserState, action) {
   switch (action.type) {
     case AUTH_SIGN_IN:
-      sessionStorage.setItem(TOKEN, action.token)
-      return parse(action.token);
+      window.sessionStorage.setItem(TOKEN, action.token)
+      return parse(action.token)
     case AUTH_SIGN_OUT:
-      sessionStorage.removeItem(TOKEN)
+      window.sessionStorage.removeItem(TOKEN)
       return {}
     default:
       return state
   }
 }
 
-function siteInfo(state = {aboutUs:'',navLinks:[], oauth2:[]}, action){
+function siteInfo (state = {aboutUs: '', navLinks: [], oauth2: []}, action) {
   switch (action.type) {
     case SITE_REFRESH:
       return action.info
@@ -42,10 +42,10 @@ function siteInfo(state = {aboutUs:'',navLinks:[], oauth2:[]}, action){
   }
 }
 
-function dashboard(state = {site:{author:{}, navLinks:[]}, logs:[], user:{}}, action){
+function dashboard (state = {site: {author: {}, navLinks: []}, logs: [], user: {}}, action) {
   switch (action.type) {
     case ADMIN_SITE_INFO:
-      return Object.assign({}, state, {site:action.info})
+      return Object.assign({}, state, {site: action.info})
     case USER_INFO:
       return Object.assign({}, state, {user: action.info})
     case USER_LOGS:
@@ -55,7 +55,7 @@ function dashboard(state = {site:{author:{}, navLinks:[]}, logs:[], user:{}}, ac
   }
 }
 
-function notices(state=[], action){
+function notices (state = [], action) {
   switch (action.type) {
     case NOTICE_LIST:
       return action.notices
@@ -63,16 +63,15 @@ function notices(state=[], action){
       state.unshift(action.notice)
       return state.slice(0)
     case NOTICE_DEL:
-      for(var i=0; i<state.length; i++){
-        if(state[i].id===action.id){
-          state.splice(i, 1);
+      for (var i = 0; i < state.length; i++) {
+        if (state[i].id === action.id) {
+          state.splice(i, 1)
           break
         }
       }
-      return state.slice(0);
+      return state.slice(0)
     default:
       return state
-
   }
 }
 
