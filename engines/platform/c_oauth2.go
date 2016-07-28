@@ -3,20 +3,24 @@ package platform
 import (
 	"encoding/json"
 	"errors"
+	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/schema"
 	"golang.org/x/oauth2"
 )
 
 //OauthFm oauth2 model
 type OauthFm struct {
-	Code  string `form:"code"`
-	State string `form:"state"`
+	Code  string `schema:"code"`
+	State string `schema:"state"`
 }
 
-func (p *Engine) postOauth2Callback(c *gin.Context) (interface{}, error) {
+func (p *Engine) postOauth2Callback(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
 	var fm OauthFm
-	if err := c.Bind(&fm); err != nil {
+	req.ParseForm()
+
+	dec := schema.NewDecoder()
+	if err := dec.Decode(&fm, req.PostForm); err != nil {
 		return nil, err
 	}
 	//p.Logger.Debugf("%+v", fm)
@@ -34,7 +38,7 @@ func (p *Engine) postOauth2Callback(c *gin.Context) (interface{}, error) {
 		p.Dao.Log(u.ID, "sign in")
 		tk, e = p.Jwt.Sum(p.Dao.UserClaims(u), 7) //TODO days
 	}
-	return gin.H{"token": string(tk)}, e
+	return map[string]interface{}{"token": string(tk)}, e
 
 }
 

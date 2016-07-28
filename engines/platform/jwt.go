@@ -1,6 +1,7 @@
 package platform
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -9,13 +10,14 @@ import (
 	"github.com/SermoDigital/jose/jws"
 	"github.com/SermoDigital/jose/jwt"
 	"github.com/garyburd/redigo/redis"
-	"github.com/gin-gonic/gin"
 	"github.com/op/go-logging"
 	"github.com/satori/go.uuid"
+	"github.com/unrolled/render"
 )
 
 //Jwt jwt helper
 type Jwt struct {
+	Render *render.Render       `inject:""`
 	Key    []byte               `inject:"jwt.key"`
 	Method crypto.SigningMethod `inject:"jwt.method"`
 	Logger *logging.Logger      `inject:""`
@@ -33,63 +35,54 @@ func (p *Jwt) Validate(buf []byte) (jwt.Claims, error) {
 	return tk.Claims(), err
 }
 
+//MustAdmin check must have admin role
+func (p *Jwt) MustAdmin(req *http.Request, fn http.HandlerFunc) http.HandlerFunc {
+	if p.IsAdmin(req) {
+		fn
+	}
+	return errors.New("must have admin role")
+}
+
 //MustAdminHandler check must have admin role
-func (p *Jwt) MustAdminHandler() gin.HandlerFunc {
-	return p.MustRolesHandler("admin")
+func (p *Jwt) IsAdmin(req *http.Request) bool {
+	return p.HasRoles(req, "admin")
 }
 
 //MustRolesHandler check must have one roles at least
-func (p *Jwt) MustRolesHandler(roles ...string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		u := c.MustGet("user").(*User)
+func (p *Jwt) HasRoles(req *http.Request, roles ...string) bool {
+	u, e := p.CurrentUser(req)
+	if e == nil {
 		for _, a := range p.Dao.Authority(u.ID, "-", 0) {
 			for _, r := range roles {
 				if a == r {
-					return
+					return true
 				}
 			}
 		}
-		c.String(http.StatusForbidden, "don't have roles %s", roles)
 	}
+	return false
+
 }
 
 //CurrentUserHandler inject current user
-func (p *Jwt) CurrentUserHandler(must bool) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		tkn, err := jws.ParseFromRequest(c.Request, jws.Compact)
-		if err != nil {
-			if must {
-				c.String(http.StatusInternalServerError, err.Error())
-				c.Abort()
-			}
-			return
-		}
-
-		if err := tkn.Verify(p.Key, p.Method); err != nil {
-			if must {
-				c.String(http.StatusUnauthorized, err.Error())
-				c.Abort()
-			}
-			return
-		}
-		var user User
-		data := tkn.Payload().(map[string]interface{})
-		if err := p.Dao.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
-			if must {
-				c.String(http.StatusUnauthorized, err.Error())
-				c.Abort()
-			}
-			return
-		}
-		if !user.IsAvailable() {
-			if must {
-				c.String(http.StatusForbidden, "bad user status")
-				c.Abort()
-			}
-			return
-		}
-		c.Set("user", &user)
+func (p *Jwt) CurrentUser(req *http.Request) (*User, error) {
+	tkn, err := jws.ParseFromRequest(req, jws.Compact)
+	if err != nil {
+		return nil, err
 	}
+
+	if err = tkn.Verify(p.Key, p.Method); err != nil {
+		return nil, err
+	}
+	var user User
+	data := tkn.Payload().(map[string]interface{})
+	if err = p.Dao.Db.Where("uid = ?", data["uid"]).First(&user).Error; err != nil {
+		return nil, err
+	}
+	if !user.IsAvailable() {
+		return nil, errors.New("bad user status")
+	}
+	return &user, nil
 }
 
 func (p *Jwt) key(kid string) string {

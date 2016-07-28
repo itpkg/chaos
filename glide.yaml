@@ -31,3 +31,5 @@ import:
 - package: gopkg.in/vmihailenco/msgpack.v2
 - package: github.com/gorilla/mux
 - package: github.com/unrolled/render
+- package: gopkg.in/go-playground/validator.v8
+- package: github.com/gorilla/schema

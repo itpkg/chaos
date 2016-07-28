@@ -1,5 +1,5 @@
-hash: 3f3763f146c7778a7cbe025b686b8f32621f787d73fa6ded6554ae699770b483
-updated: 2016-07-27T19:37:51.672076837-07:00
+hash: 890e3d001ac7a95dd75cc8fdd9d2dc1c4adf0f68244cb87e0b43a70f826a6e45
+updated: 2016-07-27T20:32:26.863376597-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -33,6 +33,8 @@ imports:
   version: aed02d124ae4a0e94fea4541c8effd05bf0c8296
 - name: github.com/gorilla/mux
   version: a49d62f618e6dc4a7a7d1f0ad69744a158c21f23
+- name: github.com/gorilla/schema
+  version: d68043406bea8bd90f7b38e9c54fab18d903ea25
 - name: github.com/hashicorp/hcl
   version: d8c773c4cba11b11539e3d45f93daeaa5dcf1fa1
   subpackages:

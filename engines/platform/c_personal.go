@@ -1,20 +1,22 @@
 package platform
 
-import (
-	"net/http"
+import "net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/itpkg/chaos/web"
-)
+func (p *Engine) deleteSignOut(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
 
-func (p *Engine) deleteSignOut(c *gin.Context) {
-	u := c.MustGet("user").(*User)
+	u, e := p.Jwt.CurrentUser(req)
+	if e != nil {
+		return nil, e
+	}
 	p.Dao.Log(u.ID, "sign out")
-	c.JSON(http.StatusOK, web.OK)
+	return p.Ok(), nil
 }
 
-func (p *Engine) getPersonalLogs(c *gin.Context) (interface{}, error) {
-	u := c.MustGet("user").(*User)
+func (p *Engine) getPersonalLogs(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
+	u, e := p.Jwt.CurrentUser(req)
+	if e != nil {
+		return nil, e
+	}
 	var logs []Log
 	err := p.Dao.Db.
 		Select([]string{"created_at", "message"}).
@@ -24,6 +26,6 @@ func (p *Engine) getPersonalLogs(c *gin.Context) (interface{}, error) {
 	return logs, err
 }
 
-func (p *Engine) getPersonalSelf(c *gin.Context) (interface{}, error) {
-	return c.MustGet("user").(*User), nil
+func (p *Engine) getPersonalSelf(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
+	return p.Jwt.CurrentUser(req)
 }

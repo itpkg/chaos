@@ -1,16 +1,18 @@
 package platform
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/itpkg/chaos/web"
+	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/gorilla/schema"
 )
 
 //NoticeFm form for notice
 type NoticeFm struct {
-	Content string `form:"content" binding:"required"`
+	Content string `schema:"content" validate:"required"`
 }
 
-func (p *Engine) getNotices(c *gin.Context) (interface{}, error) {
+func (p *Engine) getNotices(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
 	var ns []Notice
 	err := p.Dao.Db.
 		Select([]string{"id", "content", "created_at"}).
@@ -18,19 +20,22 @@ func (p *Engine) getNotices(c *gin.Context) (interface{}, error) {
 	return ns, err
 }
 
-func (p *Engine) postNotices(c *gin.Context) (interface{}, error) {
-	lng := c.MustGet("locale").(string)
+func (p *Engine) postNotices(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
+	lng := p.Locale(req)
+	req.ParseForm()
+
 	var fm NoticeFm
-	if err := c.Bind(&fm); err != nil {
+	dec := schema.NewDecoder()
+	if err := dec.Decode(&fm, req.PostForm); err != nil {
 		return nil, err
 	}
-	n := Notice{Content: fm.Content, Lang: lng}
+	n := Notice{Content: fm.Content, Lang: lng.String()}
 	err := p.Dao.Db.Create(&n).Error
 	return n, err
 }
 
-func (p *Engine) deleteNotice(c *gin.Context) (interface{}, error) {
-	id := c.Param("id")
+func (p *Engine) deleteNotice(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
+	id := mux.Vars(req)["id"]
 	err := p.Dao.Db.Where("id = ?", id).Delete(&Notice{}).Error
-	return web.OK, err
+	return p.Ok(), err
 }

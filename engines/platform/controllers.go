@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"github.com/itpkg/chaos/i18n"
 	"github.com/itpkg/chaos/web"
 	"golang.org/x/oauth2"
+	"golang.org/x/text/language"
 )
 
-func (p *Engine) getSiteInfo(c *gin.Context) {
-	lng := c.MustGet("locale").(string)
-	ifo := p._siteInfoMap(lng)
+func (p *Engine) getSiteInfo(wrt http.ResponseWriter, req *http.Request) (interface{}, error) {
+
+	ifo := p._siteInfoMap(p.Locale(req))
 
 	var gcf oauth2.Config
 	if err := p.Dao.Get("google.oauth", &gcf); err != nil {
@@ -22,22 +21,19 @@ func (p *Engine) getSiteInfo(c *gin.Context) {
 		"google": gcf.AuthCodeURL(p.Oauth2GoogleState),
 	}
 
-	c.JSON(http.StatusOK, ifo)
+	return ifo, nil
 }
 
-func (p *Engine) getLocale(c *gin.Context) {
-	lng := i18n.Match(c.Param("lang"))
-	c.JSON(http.StatusOK, p.I18n.Items(lng.String()))
-}
+//=============================================================================
 
-func (p *Engine) _siteKey(lng, key string) string {
+func (p *Engine) _siteKey(lng *language.Tag, key string) string {
 	return fmt.Sprintf("%s://site/%s", lng, key)
 }
 func (p *Engine) _siteAuthorKey(key string) string {
-	return p._siteKey("", "author/"+key)
+	return p._siteKey(nil, "author/"+key)
 }
 
-func (p *Engine) _siteInfoMap(lng string) map[string]interface{} {
+func (p *Engine) _siteInfoMap(lng *language.Tag) map[string]interface{} {
 	ifo := make(map[string]interface{})
 	for _, k := range []string{
 		"title", "subTitle", "keywords",
@@ -64,7 +60,7 @@ func (p *Engine) _siteInfoMap(lng string) map[string]interface{} {
 	ifo["author"] = author
 
 	var links []web.Link
-	if err := p.Dao.Get(p._siteKey("", "navLinks"), &links); err != nil {
+	if err := p.Dao.Get(p._siteKey(nil, "navLinks"), &links); err != nil {
 		p.Logger.Error(err)
 		links = append(
 			links,

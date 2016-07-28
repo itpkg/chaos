@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"reflect"
+	"runtime"
 
 	"github.com/BurntSushi/toml"
 	"github.com/facebookgo/inject"
@@ -144,6 +146,26 @@ func Run() error {
 				return http.ListenAndServe(adr, hnd)
 
 			}),
+		},
+		{
+			Name:    "routes",
+			Aliases: []string{"rt"},
+			Usage:   "list http routes",
+			Action: func(*cli.Context) error {
+				rt := mux.NewRouter()
+				Loop(func(en Engine) error {
+					en.Mount(rt)
+					return nil
+				})
+
+				fmt.Println("HOST\tPATH\tFUNC")
+				return rt.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+					hst, _ := route.GetHostTemplate()
+					pth, _ := route.GetPathTemplate()
+					fmt.Printf("%s\t%s\t%s\n", hst, pth, runtime.FuncForPC(reflect.ValueOf(route.GetHandler).Pointer()).Name())
+					return nil
+				})
+			},
 		},
 		{
 			Name:    "worker",

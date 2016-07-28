@@ -11,7 +11,8 @@ import (
 
 //Engine platform engine
 type Engine struct {
-	I18n              *i18n.I18n      `inject:""`
+	web.Controller
+
 	Dao               *Dao            `inject:""`
 	Jwt               *Jwt            `inject:""`
 	Logger            *logging.Logger `inject:""`
