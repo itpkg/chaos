@@ -5,14 +5,14 @@
 // import team from './team'
 import platform from './platform'
 
-const engines = {
+const engines = [
   // cms,
   // hr,
   // ops,
   // reading,
   // team,
   platform
-}
+]
 
 export default {
   routes () {

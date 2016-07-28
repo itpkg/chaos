@@ -12,7 +12,7 @@ i18next
     .use(LanguageDetector)
     .init({
       backend: {
-        loadPath: process.env.CHAOS_ENV.backend + '/locales/{{lng}}',
+        loadPath: process.env.CHAOS.backend + '/locales/{{lng}}',
         crossDomain: true
       },
       detection: {
