@@ -72,7 +72,7 @@ docker rmi $(docker images -q) # Delete ALL images
 ## Thanks
 
 - <https://docs.docker.com/>
-- <https://github.com/gin-gonic/gin>
+- <https://github.com/gorilla/mux>
 - <https://github.com/jinzhu/gorm>
 - <https://github.com/urfave/cli>
 - <https://github.com/facebookgo/inject>

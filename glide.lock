@@ -1,5 +1,5 @@
-hash: 297ee1781c2cb9d0b64636b5fb0dc6cf907294edf3e7373f3326f7fb2030526e
-updated: 2016-07-27T16:33:51.91829429-07:00
+hash: 3f3763f146c7778a7cbe025b686b8f32621f787d73fa6ded6554ae699770b483
+updated: 2016-07-27T19:37:51.672076837-07:00
 imports:
 - name: github.com/bitly/go-simplejson
   version: aabad6e819789e569bd6aabf444c935aa9ba1e44
@@ -29,6 +29,10 @@ imports:
   version: 2402d76f3d41f928c7902a765dfc872356dd3aad
   subpackages:
   - proto
+- name: github.com/gorilla/context
+  version: aed02d124ae4a0e94fea4541c8effd05bf0c8296
+- name: github.com/gorilla/mux
+  version: a49d62f618e6dc4a7a7d1f0ad69744a158c21f23
 - name: github.com/hashicorp/hcl
   version: d8c773c4cba11b11539e3d45f93daeaa5dcf1fa1
   subpackages:
@@ -84,6 +88,8 @@ imports:
   version: 1560c1005499d61b80f865c04d39ca7505bf7f0b
 - name: github.com/spf13/viper
   version: b53595fb56a492ecef90ee0457595a999eb6ec15
+- name: github.com/unrolled/render
+  version: 198ad4d8b8a4612176b804ca10555b222a086b40
 - name: github.com/urfave/cli
   version: d9021faab69f92295ef7061bd39e4a76dcbdef32
 - name: golang.org/x/net

@@ -2,7 +2,7 @@ package web
 
 import (
 	"github.com/facebookgo/inject"
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/urfave/cli"
 )
@@ -10,7 +10,7 @@ import (
 //Engine web engine
 type Engine interface {
 	Map(*inject.Graph) error
-	Mount(*gin.Engine)
+	Mount(*mux.Router)
 	Migrate(*gorm.DB)
 	Seed()
 	Worker()

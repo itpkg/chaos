@@ -11,7 +11,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/facebookgo/inject"
 	"github.com/fvbock/endless"
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 	"github.com/itpkg/chaos/i18n"
 	"github.com/jrallison/go-workers"
 	"github.com/rs/cors"
@@ -124,12 +124,7 @@ func Run() error {
 			Aliases: []string{"s"},
 			Usage:   "start the app server",
 			Action: IocAction(func(*cli.Context, *inject.Graph) error {
-				if IsProduction() {
-					gin.SetMode(gin.ReleaseMode)
-				}
-				rt := gin.Default()
-				rt.Use(i18n.LocaleHandler)
-
+				rt := mux.NewRouter()
 				Loop(func(en Engine) error {
 					en.Mount(rt)
 					return nil
