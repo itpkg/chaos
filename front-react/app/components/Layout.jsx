@@ -14,6 +14,7 @@ const Widget = ({onRefresh, children}) => (
     <div>
       <Header/>
       {children}
+      <hr />
       <Footer/>
     </div>
   </MuiThemeProvider>

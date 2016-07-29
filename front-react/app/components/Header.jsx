@@ -9,7 +9,8 @@ import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import NavigationClose from 'material-ui/svg-icons/navigation/close'
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu'
+import Divider from 'material-ui/Divider'
 
 // import LangBar from './LangBar'
 // import PersonalBar from './PersonalBar'
@@ -17,7 +18,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close'
 const Widget = ({info}) => (
   <AppBar
     title="Title"
-    iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+    iconElementLeft={<IconButton><NavigationMenu /></IconButton>}
     iconElementRight={
      <IconMenu
        iconButtonElement={
@@ -28,6 +29,7 @@ const Widget = ({info}) => (
      >
        <MenuItem primaryText="Refresh" />
        <MenuItem primaryText="Help" />
+       <Divider />
        <MenuItem primaryText="Sign out" />
      </IconMenu>
    }
