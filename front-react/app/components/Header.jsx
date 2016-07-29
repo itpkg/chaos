@@ -1,10 +1,15 @@
-import {PropTypes} from 'react'
+import React from 'react'
 // import {Link} from 'react-router'
 import { connect } from 'react-redux'
 // import i18next from 'i18next'
 // import {Navbar, Nav, NavItem} from 'react-bootstrap'
 // import {IndexLinkContainer} from 'react-router-bootstrap'
 import AppBar from 'material-ui/AppBar'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import NavigationClose from 'material-ui/svg-icons/navigation/close'
 
 // import LangBar from './LangBar'
 // import PersonalBar from './PersonalBar'
@@ -56,7 +61,7 @@ const Widget = ({info}) => (
 // })
 
 Widget.propTypes = {
-  info: PropTypes.object.isRequired
+  info: React.PropTypes.object.isRequired
 }
 
 export default connect(

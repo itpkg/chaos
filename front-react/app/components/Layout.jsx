@@ -1,22 +1,27 @@
-import { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import Header from './Header'
 import Footer from './Footer'
 // import {refresh} from '../engines/platform/actions'
 
 const Widget = ({onRefresh, children}) => (
-  <MuiThemeProvider>
-    <Header/>
-    {this.props.children}
-    <Footer/>
+  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+    <div>
+      <Header/>
+      {children}
+      <Footer/>
+    </div>
   </MuiThemeProvider>
 )
 
 Widget.propTypes = {
-  onRefresh: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
+  onRefresh: React.PropTypes.func.isRequired
+  // children: PropTypes.node.isRequired
 }
 
 export default connect(

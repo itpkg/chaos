@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown'
 // import i18next from 'i18next'
 
 const IndexW = ({info}) => (
-  <ReactMarkdown source={info.aboutUs} />
+  <div>index page</div>
 )
 
 IndexW.propTypes = {

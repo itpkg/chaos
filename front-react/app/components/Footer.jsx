@@ -1,4 +1,4 @@
-import {PropTypes} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import i18next from 'i18next'
 
@@ -22,7 +22,7 @@ const Widget = ({info}) => (
 )
 
 Widget.propTypes = {
-  info: PropTypes.object.isRequired
+  info: React.PropTypes.object.isRequired
 }
 
 export default connect(
