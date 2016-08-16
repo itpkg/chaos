@@ -12,18 +12,14 @@ ssh -p 2222 root@localhost # password is "root"
 ## Devel
 ### Install go
 ```
-zsh < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
-gvm install go1.4 -B
-gvm use go1.4
-
-GOROOT_BOOTSTRAP=$GOROOT gvm install go1.7rc1
-gvm use go1.7rc1 --default
+sudo pacman -S go go-tools
+echo "GOPATH=/opt/go\nPATH=\$GOPATH/bin:\$PATH\nexport GOPATH PATH" >> ~/.zshrc
 ```
+NEED RE-LOGIN FIRST
 ### Clone code
 
 ```
 go get -u github.com/nsf/gocode
-go get -u golang.org/x/tools/cmd/goimports
 go get -u github.com/alecthomas/gometalinter
 go get -u github.com/golang/lint/golint
 go get -u github.com/rogpeppe/godef

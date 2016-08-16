@@ -79,10 +79,10 @@ func Action(f cli.ActionFunc) cli.ActionFunc {
 }
 
 //Run main entry
-func Run() error {
+func Run(ver string) error {
 	app := cli.NewApp()
 	app.Name = "chaos"
-	app.Version = "v20160606"
+	app.Version = ver
 	app.Usage = "it-package web application."
 	app.EnableBashCompletion = true
 	app.Commands = []cli.Command{

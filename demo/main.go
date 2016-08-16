@@ -15,8 +15,11 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+var (
+	version string
+)
 func main() {
-	if err := web.Run(); err != nil {
+	if err := web.Run(version); err != nil {
 		log.Fatal(err)
 	}
 }

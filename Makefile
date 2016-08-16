@@ -8,7 +8,7 @@ build:
 
 
 $(dst)/chaos:
-	go build -ldflags "-s" -o $@.1 demo/main.go
+	go build -ldflags "-s -X main.version=`git describe --long --tags`" -o $@.1 demo/main.go
 	upx -o $@ $@.1
 	-rm -v $@.1
 	-cp -rv demo/locales $(dst)
