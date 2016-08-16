@@ -24,5 +24,10 @@ export default {
     return engines.reduce(function (obj, en) {
       return Object.assign(obj, en.reducers)
     }, {})
+  },
+  locales () {
+    return engines.reduce(function (obj, en) {
+      return Object.assign(obj, en.locales)
+    }, {})
   }
 }

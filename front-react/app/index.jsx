@@ -1,20 +1,22 @@
 require('./main.css')
 
 import i18next from 'i18next'
-import XHR from 'i18next-xhr-backend'
+// import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 import main from './main'
 import {LOCALE} from './constants'
+import root from './engines'
 
 i18next
-    .use(XHR)
+    // .use(XHR)
     .use(LanguageDetector)
     .init({
-      backend: {
-        loadPath: process.env.CHAOS.backend + '/locales/{{lng}}',
-        crossDomain: true
-      },
+      resources: root.locales(),
+      // backend: {
+      //   loadPath: process.env.CHAOS.backend + '/locales/{{lng}}',
+      //   crossDomain: true
+      // },
       detection: {
         order: ['querystring', 'localStorage', 'cookie', 'navigator'],
         lookupQuerystring: LOCALE,
